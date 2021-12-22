@@ -1,0 +1,1 @@
+Si se realizan pruebas dejar aquí todos los casos de prueba con su descripción, resultado esperado y otros.

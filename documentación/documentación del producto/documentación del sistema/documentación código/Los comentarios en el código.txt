@@ -1,0 +1,1 @@
+Vigilar bien que el código esté bien documentado mediante comentarios.
