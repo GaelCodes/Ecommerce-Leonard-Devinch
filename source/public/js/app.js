@@ -78,20 +78,37 @@ class ArtworkView {
 
     static init() {
         ArtworkView.cardPrototype = document.createElement('div');
-        ArtworkView.cardPrototype.classList.add('card');
+        ArtworkView.cardPrototype.classList.add('card', 'col-12', 'col-md-6', 'col-lg-4', 'my-4', 'border-0');
 
         $(ArtworkView.cardPrototype).html(`
         <img src="..." class="artworkImage" alt="...">
-        <div class="card-body">
-          <h5 class="card-title artworkTitle">Card title</h5>
-          <p class="card-text artworkFullNameArtist">Some text</p>
-          <p class="card-text artworkArtistEmail">Some text</p>
-          <p class="card-text artworkStartDate">Some text</p>
-          <p class="card-text artworkEndDate">Some text</p>
-          <p class="card-text artworkAvailableStock">Some text</p>
-          <p class="card-text artworkCreatedQuantity">Some text</p>
-          <p class="card-text artworkPrice">Some text</p>
-          <a href="#" class="btn btn-primary artworkViewButton">View artwork</a>
+        <div class="card-body row">
+
+            <p class="card-text col-7 text-start m-0 dimensions">
+                <span class="artworkDimensionX"></span> cm
+                X
+                <span class="artworkDimensionY"></span> cm
+            </p>
+
+            <div class="col-5 text-end addCartButton">
+                <button type="button" class="btn btn-outline-primary">
+                <span class="artworkPrice"></span> €
+                <i class="bi bi-cart"></i>
+                <p class="d-none d-xl-inline-block m-0"> Añadir</p>
+                </button>
+            </div>
+
+            <p class="col-8 card-text text-start m-0 artworkDate">
+                Fecha: <span class="artworkEndDate"></span>
+            </p>
+          
+            <p class="col-4 card-text text-end m-0 availableAndCreatedQuantity">
+                <span class="artworkAvailableStock"></span>
+                /
+                <span class="artworkCreatedQuantity"></span>
+            </p>
+          <h5 class="card-title artworkTitle text-center my-4">Card title</h5>
+          <p class="card-text artworkFullNameArtist text-center">Some text</p>
         </div>     
         `);
 
@@ -101,6 +118,8 @@ class ArtworkView {
         $(this.card).find('.artworkImage')[0].src = artworkData.url;
         $(this.card).find('.artworkImage')[0].width = artworkData.dimensionX;
         $(this.card).find('.artworkImage')[0].heigth = artworkData.dimensionY;
+        $(this.card).find('.artworkDimensionX').text(artworkData.dimensionX);
+        $(this.card).find('.artworkDimensionY').text(artworkData.dimensionY);
         $(this.card).find('.artworkTitle').text(artworkData.title);
         $(this.card).find('.artworkFullNameArtist').text(artworkData.fullNameArtist);
         $(this.card).find('.artworkArtistEmail').text(artworkData.artistEmail);
@@ -144,7 +163,7 @@ class Catalogue {
         Catalogue.filteredArtworks = [];
         Catalogue.filter = Filter;
 
-        $.get("https://my.api.mockaroo.com/artworks.json?key=8e5d2ab0", function(artworks) {
+        $.get("http://127.0.0.1:5500/source/public/falseBackend/artworks.json", function(artworks) {
 
             artworks.forEach(
                 (artworkData) => {
