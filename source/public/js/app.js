@@ -81,34 +81,31 @@ class ArtworkView {
         ArtworkView.cardPrototype.classList.add('card', 'col-12', 'col-md-6', 'col-lg-4', 'my-4', 'border-0');
 
         $(ArtworkView.cardPrototype).html(`
-        <img src="..." class="artworkImage" alt="...">
-        <div class="card-body row">
+        <img src="..." class="artworkImage" alt="Cuadro no encontrado">
+        <div class="card-body artworkBody">
 
-            <p class="card-text col-7 text-start m-0 dimensions">
-                <span class="artworkDimensionX"></span> cm
-                X
-                <span class="artworkDimensionY"></span> cm
-            </p>
+        <div class="artworkDimensions">
+            <p>ancho: <span class="dimensionX"></span> </p>
+            <p>alto: <span class="dimensionY"></span> </p>
+        </div>
 
-            <div class="col-5 text-end addCartButton">
-                <button type="button" class="btn btn-outline-primary">
-                <span class="artworkPrice"></span> €
+        <div class="artworkDate">
+            <p> Fecha: <span class="date"></span></p>
+        </div>
+
+        <div class="artworkStockAndCartButton">
+            <button type="button" class="artworkCartButton btn btn-outline-primary">
+                <p> <span class="price"></span>€</p>
                 <i class="bi bi-cart"></i>
-                <p class="d-none d-xl-inline-block m-0"> Añadir</p>
-                </button>
-            </div>
+            </button>
+            <div class="artworkStock">
+                <p>stock: <span class="availableStock"></span> / <span class="createdQuantity"></span></p>
+            </div>      
+        </div>
 
-            <p class="col-8 card-text text-start m-0 artworkDate">
-                Fecha: <span class="artworkEndDate"></span>
-            </p>
-          
-            <p class="col-4 card-text text-end m-0 availableAndCreatedQuantity">
-                <span class="artworkAvailableStock"></span>
-                /
-                <span class="artworkCreatedQuantity"></span>
-            </p>
-          <h5 class="card-title artworkTitle text-center my-4">Card title</h5>
-          <p class="card-text artworkFullNameArtist text-center">Some text</p>
+
+        <div class="artworkTitle"></div>
+        <div class="artworkArtist"></div>
         </div>     
         `);
 
@@ -118,27 +115,30 @@ class ArtworkView {
         $(this.card).find('.artworkImage')[0].src = artworkData.url;
         $(this.card).find('.artworkImage')[0].width = artworkData.dimensionX;
         $(this.card).find('.artworkImage')[0].heigth = artworkData.dimensionY;
-        $(this.card).find('.artworkDimensionX').text(artworkData.dimensionX);
-        $(this.card).find('.artworkDimensionY').text(artworkData.dimensionY);
+        $(this.card).find('.dimensionX').text(artworkData.dimensionX + "cm");
+        $(this.card).find('.dimensionY').text(artworkData.dimensionY + "cm");
         $(this.card).find('.artworkTitle').text(artworkData.title);
-        $(this.card).find('.artworkFullNameArtist').text(artworkData.fullNameArtist);
+        $(this.card).find('.artworkArtist').text(artworkData.fullNameArtist);
         $(this.card).find('.artworkArtistEmail').text(artworkData.artistEmail);
         $(this.card).find('.artworkStartDate').text(artworkData.startDate);
-        $(this.card).find('.artworkEndDate').text(artworkData.endDate);
-        $(this.card).find('.artworkAvailableStock').text(artworkData.availableStock);
-        $(this.card).find('.artworkCreatedQuantity').text(artworkData.createdQuantity);
-        $(this.card).find('.artworkPrice').text(artworkData.price);
+        $(this.card).find('.date').text(artworkData.endDate);
+        $(this.card).find('.availableStock').text(artworkData.availableStock);
+        $(this.card).find('.createdQuantity').text(artworkData.createdQuantity);
+        $(this.card).find('.price').text(artworkData.price);
     }
 
     update(artworkData) {
         $(this.card).find('.artworkTitle').text(artworkData.title);
-        $(this.card).find('.artworkFullNameArtist').text(artworkData.fullNameArtist);
-        $(this.card).find('.artworkArtistEmail').text(artworkData.artistEmail);
-        $(this.card).find('.artworkStartDate').text(artworkData.startDate);
-        $(this.card).find('.artworkEndDate').text(artworkData.endDate);
-        $(this.card).find('.artworkAvailableStock').text(artworkData.availableStock);
-        $(this.card).find('.artworkCreatedQuantity').text(artworkData.createdQuantity);
-        $(this.card).find('.artworkPrice').text(artworkData.price);
+        $(this.card).find('.artworkArtist').text(artworkData.fullNameArtist);
+        $(this.card).find('.date').text(artworkData.endDate);
+        $(this.card).find('.availableStock').text(artworkData.availableStock);
+        $(this.card).find('.createdQuantity').text(artworkData.createdQuantity);
+        $(this.card).find('.artworkImage')[0].src = artworkData.url;
+        $(this.card).find('.artworkImage')[0].width = artworkData.dimensionX;
+        $(this.card).find('.artworkImage')[0].heigth = artworkData.dimensionY;
+        $(this.card).find('.dimensionX').text(artworkData.dimensionX + "cm");
+        $(this.card).find('.dimensionY').text(artworkData.dimensionY + "cm");
+        $(this.card).find('.price').text(artworkData.price);
     }
 }
 
