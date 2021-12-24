@@ -1,7 +1,4 @@
-* {
-    padding: 0;
-    margin: 0;
-}
+/* Inicio screens < 576px */
 
 
 /* Inicio body */
@@ -14,6 +11,44 @@
 
 
 /* Inicio main */
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: "searcher searcher" "filter orderBy" "artworks artworks";
+}
+
+.searcher {
+    grid-area: searcher;
+    margin: 1em 0;
+}
+
+.filter {
+    grid-area: filter;
+    position: relative;
+}
+
+#filterSidebar {
+    display: none;
+    position: absolute;
+    top: 3em;
+    left: -1em;
+    max-width: 80vw;
+    width: 100%;
+    min-width: 50vw !important;
+}
+
+.orderBy {
+    grid-area: orderBy;
+    max-width: max-content;
+}
+
+.artworks {
+    grid-area: artworks;
+}
 
 
 /* Inicio artworkCard */
@@ -129,3 +164,108 @@ footer {
 
 
 /* Fin body */
+
+
+/* Fin screens < 576px */
+
+
+/* Inicio screens > 768px */
+
+@media only screen and (min-width:768px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        grid-template-areas: "searcher searcher searcher" "filter orderBy orderBy" "artworks artworks artworks";
+    }
+    .searcher {
+        grid-area: searcher;
+        margin: 1em 0;
+    }
+    .searcher .input-group {
+        width: max-content;
+        margin: auto;
+    }
+    .searcher input[type="search"] {
+        min-width: 500px;
+        max-width: 700px;
+    }
+    .filter {
+        grid-area: filter;
+        justify-self: center;
+    }
+    #filterSidebar {
+        display: none;
+        position: absolute;
+        top: 3em;
+        left: -12vw;
+        max-width: 80vw;
+        width: 100%;
+        min-width: 50vw !important;
+    }
+    .orderBy {
+        grid-area: orderBy;
+        max-width: max-content;
+        justify-self: start;
+    }
+    .artworks {
+        grid-area: artworks;
+    }
+}
+
+
+/* Fin screens > 1200px */
+
+
+/* Inicio screens > 1200px */
+
+@media only screen and (min-width:1200px) {
+    /* Inicio body */
+    /* Inicio header */
+    /* Fin header */
+    /* Inicio main */
+    main {
+        display: grid;
+        grid-template-columns: 20% auto 40% 30%;
+        grid-template-rows: 1fr 1fr;
+        gap: 0px 0px;
+        grid-template-areas: "filter orderBy searcher searcher" "filter artworks artworks artworks";
+    }
+    .searcher {
+        grid-area: searcher;
+        padding: 0 2em;
+    }
+    .searcher .input-group {
+        width: max-content;
+        margin: 0px;
+    }
+    .filter {
+        grid-area: filter;
+        margin: 1em 0;
+    }
+    #filterSidebar {
+        display: block;
+        position: relative;
+        top: 0;
+        left: 0;
+        max-width: none;
+        min-width: 100% !important;
+    }
+    .orderBy {
+        grid-area: orderBy;
+        margin: 1em 0;
+        justify-self: end;
+    }
+    .artworks {
+        grid-area: artworks;
+    }
+    /* Fin main */
+    /* Inicio footer */
+    /* Fin footer */
+    /* Fin body */
+}
+
+
+/* Fin screens > 1200px */

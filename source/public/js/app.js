@@ -161,7 +161,7 @@ class Catalogue {
         Catalogue.artworksSection = $('#artworksSection');
         Catalogue.artworks = [];
         Catalogue.filteredArtworks = [];
-        Catalogue.filter = Filter;
+        Catalogue.filter = FilterController;
 
         $.get("http://127.0.0.1:5500/source/public/falseBackend/artworks.json", function(artworks) {
 
@@ -199,9 +199,24 @@ class Catalogue {
     }
 }
 
-class Filter {
+class FilterController {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
+    }
+}
+
+class FilterView {
+    constructor() {
+        throw new Error("Can't instantiate abstract class!");
+    }
+
+    static toggleFilterSidebar() {
+        $('#filterSidebar').slideToggle("slow");
+    }
+
+
+    static init() {
+        $('#expandFilterButton').click(FilterView.toggleFilterSidebar);
     }
 }
 
@@ -223,10 +238,8 @@ class PaymentManagerForStripe {
     }
 }
 
-
-
-
 $(document).ready(function() {
     ArtworkView.init();
+    FilterView.init();
     Catalogue.init();
 });

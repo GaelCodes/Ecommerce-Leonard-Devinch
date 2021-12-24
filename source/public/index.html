@@ -27,85 +27,123 @@
                 <i class="col-2 bi bi-cart"></i>
                 <p class="d-none d-md-inline-block m-0"> Carrito</p>
             </button>
-
-
         </div>
     </nav>
-
-    <main class="row justify-content-around p-2">
-        <section id="filterSection" class="col-3 col-md-2 col-lg-2 row my-2">
-            <button class="btn btn-secondary d-lg-none">
-                <i class="bi bi-funnel-fill"></i>
-            </button>
-            <div class="d-none d-lg-flex">
-                <!-- TODO: Create all other filters -->
-                <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-                    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-                        <span class="fs-5 fw-semibold">Filtro</span>
-                    </a>
-                    <ul class="list-unstyled ps-0">
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-                          Home
-                        </button>
-                            <div class="collapse" id="home-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
-                                    <li><a href="#" class="link-dark rounded">Updates</a></li>
-                                    <li><a href="#" class="link-dark rounded">Reports</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                          Dashboard
-                        </button>
-                            <div class="collapse" id="dashboard-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
-                                    <li><a href="#" class="link-dark rounded">Weekly</a></li>
-                                    <li><a href="#" class="link-dark rounded">Monthly</a></li>
-                                    <li><a href="#" class="link-dark rounded">Annually</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                          Orders
-                        </button>
-                            <div class="collapse" id="orders-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">New</a></li>
-                                    <li><a href="#" class="link-dark rounded">Processed</a></li>
-                                    <li><a href="#" class="link-dark rounded">Shipped</a></li>
-                                    <li><a href="#" class="link-dark rounded">Returned</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="border-top my-3"></li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                          Account
-                        </button>
-                            <div class="collapse" id="account-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">New...</a></li>
-                                    <li><a href="#" class="link-dark rounded">Profile</a></li>
-                                    <li><a href="#" class="link-dark rounded">Settings</a></li>
-                                    <li><a href="#" class="link-dark rounded">Sign out</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+    <main>
+        <section class="searcher">
+            <div class="input-group rounded">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                <span class="input-group-text border-0" id="search-addon">
+                    <i class="bi bi-search"></i>
+                </span>
             </div>
         </section>
-        <section id="orderSection" class="col-7 col-md-5 d-lg-none row my-2">
+        <section class="filter">
+
+            <button id="expandFilterButton" type="button" class="d-xl-none btn btn-outline-primary">
+                <i class="bi bi-funnel-fill"></i>
+                <p class=" d-inline-block m-0"> Filtrar</p>
+            </button>
+            <div id="filterSidebar" class="d-xl-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                <a href="/" class="d-flex align-items-center flex-shrink-0 pb-3 link-dark text-decoration-none border-bottom">
+                    <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    <span class="fs-5 fw-semibold">Filtros</span>
+                </a>
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                    <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small>Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Wed</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Tues</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">List group item heading</strong>
+                            <small class="text-muted">Mon</small>
+                        </div>
+                        <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                </div>
+            </div>
+
+        </section>
+        <section class="orderBy">
             <div class="dropdown w-100">
-                <button class="btn btn-primary w-100 dropdown-toggle" id="orderByDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Ordenar por
-                </button>
+                <button class="btn btn-outline-primary w-100 dropdown-toggle" id="orderByDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Ordenar por
+            </button>
                 <ul class="dropdown-menu w-100" aria-labelledby="orderByDropdown">
                     <li><a class="dropdown-item" href="#">Antiguos primero</a></li>
                     <li><a class="dropdown-item" href="#">Recientes primero</a></li>
@@ -114,13 +152,7 @@
                 </ul>
             </div>
         </section>
-        <section id="searcherSection" class="col-12 d-lg-none col-md-10">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
-            </form>
-        </section>
-        <section id="artworksSection" class="col-12 col-lg-10 row py-4 justify-content-around"></section>
+        <section class="artworks"> Esto es el artworks</section>
     </main>
 
     <footer class="row justify-content-end text-center mt-5 pt-5">
