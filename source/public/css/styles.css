@@ -15,7 +15,7 @@
 main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas: "searcher searcher" "filter orderBy" "artworks artworks";
@@ -32,13 +32,24 @@ main {
 }
 
 #filterSidebar {
+    background-color: white;
     display: none;
     position: absolute;
     top: 3em;
     left: -1em;
     max-width: 80vw;
-    width: 100%;
-    min-width: 50vw !important;
+    z-index: 10;
+}
+
+#filterSidebar .scrollarea {
+    overflow-y: auto;
+    max-height: 60vh !important;
+    padding-bottom: 5em;
+}
+
+#filterSidebar .filterCard {
+    margin: 0 !important;
+    border-radius: 0 !important;
 }
 
 .orderBy {
@@ -175,7 +186,7 @@ footer {
     main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
         gap: 0px 0px;
         grid-auto-flow: row;
         grid-template-areas: "searcher searcher searcher" "filter orderBy orderBy" "artworks artworks artworks";
@@ -229,7 +240,7 @@ footer {
     main {
         display: grid;
         grid-template-columns: 20% auto 40% 30%;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto auto;
         gap: 0px 0px;
         grid-template-areas: "filter orderBy searcher searcher" "filter artworks artworks artworks";
     }
@@ -250,8 +261,10 @@ footer {
         position: relative;
         top: 0;
         left: 0;
-        max-width: none;
         min-width: 100% !important;
+    }
+    #filterSidebar .scrollarea {
+        max-height: 75vh !important;
     }
     .orderBy {
         grid-area: orderBy;

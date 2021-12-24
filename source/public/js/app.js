@@ -78,35 +78,39 @@ class ArtworkView {
 
     static init() {
         ArtworkView.cardPrototype = document.createElement('div');
-        ArtworkView.cardPrototype.classList.add('card', 'col-12', 'col-md-6', 'col-lg-4', 'my-4', 'border-0');
+        ArtworkView.cardPrototype.classList.add('card', 'd-inline-flex', 'col-12', 'col-md-6', 'col-lg-4', 'my-4', 'border-0', 'p-3');
 
         $(ArtworkView.cardPrototype).html(`
+
         <img src="..." class="artworkImage" alt="Cuadro no encontrado">
+
         <div class="card-body artworkBody">
 
-        <div class="artworkDimensions">
-            <p>ancho: <span class="dimensionX"></span> </p>
-            <p>alto: <span class="dimensionY"></span> </p>
-        </div>
+            <div class="artworkDimensions">
+                <p>ancho: <span class="dimensionX"></span> </p>
+                <p>alto: <span class="dimensionY"></span> </p>
+            </div>
 
-        <div class="artworkDate">
-            <p> Fecha: <span class="date"></span></p>
-        </div>
+            <div class="artworkDate">
+                <p> Fecha: <span class="date"></span></p>
+            </div>
 
-        <div class="artworkStockAndCartButton">
-            <button type="button" class="artworkCartButton btn btn-outline-primary">
-                <p> <span class="price"></span>€</p>
-                <i class="bi bi-cart"></i>
-            </button>
-            <div class="artworkStock">
-                <p>stock: <span class="availableStock"></span> / <span class="createdQuantity"></span></p>
-            </div>      
-        </div>
+            <div class="artworkStockAndCartButton">
+                <button type="button" class="artworkCartButton btn btn-outline-primary">
+                    <p> <span class="price"></span>€</p>
+                    <i class="bi bi-cart"></i>
+                </button>
+                <div class="artworkStock">
+                    <p>stock: <span class="availableStock"></span> / <span class="createdQuantity"></span></p>
+                </div>      
+            </div>
 
+            <div class="artworkTitle"></div>
 
-        <div class="artworkTitle"></div>
-        <div class="artworkArtist"></div>
+            <div class="artworkArtist"></div>
+
         </div>     
+
         `);
 
     }
@@ -158,7 +162,7 @@ class Catalogue {
     }
 
     static init() {
-        Catalogue.artworksSection = $('#artworksSection');
+        Catalogue.artworksSection = $('section.artworks');
         Catalogue.artworks = [];
         Catalogue.filteredArtworks = [];
         Catalogue.filter = FilterController;
