@@ -1,0 +1,11 @@
+
+Backend Server Adress: backend.ecommerce-leonard-devinch.abigaelheredia.es
+Resultant urls to consume apis:
+    artworks-api:
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1
+    clients-api:
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/clients-api/v1
+    artists-api:
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/artists-api/v1
+    orders-api:
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/orders-api/v1

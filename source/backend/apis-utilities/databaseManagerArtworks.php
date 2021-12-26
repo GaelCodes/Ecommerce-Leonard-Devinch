@@ -1,29 +1,12 @@
 <?php
+include_once('databaseManager.php');
 
-class databaseManager {
-    private $mysqli;
-    private $dbUrl;
-    private $dbUser;
-    private $dbPassword;
-    private $dbSchema;
+class databaseManagerArtworks extends databaseManager {
+
 
     function __construct(){
-        $this->dbServer = "localhost";
-        $this->dbUser = "ecommerce-leonard-devinch";
-        $this->dbPassword = "I.B5n9viAD78Z2K(";      
-        $this->db = "testing_ecommerce_leonard_devinch";
-        $this->port = 3306;
-        
-        $this->mysqli = new mysqli($this->dbServer,$this->dbUser,$this->dbPassword,$this->db,$this->port);
-
-        // Only for debugging database connection
-        // 
-        // if ($this->mysqli->connect_errno) {
-        //     echo "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-        // }
-        // echo $this->mysqli->host_info . "\n";
+        parent::__construct();
     }
-
     function selectAllArtworks() {
         $consultResult = $this->mysqli->query('SELECT * FROM obras');
 
@@ -48,5 +31,7 @@ class databaseManager {
         }
         return $artworksArray;
     }
+
+
 
 }
