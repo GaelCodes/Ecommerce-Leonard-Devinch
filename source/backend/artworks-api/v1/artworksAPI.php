@@ -1,49 +1,48 @@
 <?php
 
-require_once('artworks.php');
-require_once('databaseManager.php');
+require_once('../../apis-utilities/v1/artworkClass.php');
+require_once('../../apis-utilities/v1/artworksDatabaseManagerClass.php');
+require_once('../../apis-utilities/v1/responseClass.php');
 
 abstract class ArtworksApi {
     private static $parameters;
-    private static $databaseManager;
+    private static $artworksDatabaseManager;
 
     public static function init($filters = null) {
-        ArtworksApi::$databaseManager = new databaseManager();
+        ArtworksApi::$artworksDatabaseManager = new artworksDatabaseManager();
         
 
         if ($filters) {
-            // Return filtered artworks
+            //TODO: Return filtered artworks
+
+            // $parameters['filters']
+            // artworksApi.getFilteredArtworks();
+            // } else {
+            //     ArtworksApi::$databaseManager->selectAllArtworks();
+            // }
         } else {
             // Return all artworks
-            $artworksArray = ArtworksApi::$databaseManager->selectAllArtworks();
-            $artworksJson = json_encode($artworksArray);
-            echo $artworksJson;
+            ArtworksApi::getAllArtworks();
         }
  
-        // if ($_POST['filters']) {
-        //     // $parameters['filters'] = $_POST['filters'];
-        //     // artworksApi.getFilteredArtworks();
-        // } else {
-        //     ArtworksApi::$databaseManager->selectAllArtworks();
-        // }
+
   
     }
     
     private static function getAllArtworks() {
-        $artworks = artworksApi.makeUnfilteredConsult();
+        $artworksArray = ArtworksApi::$artworksDatabaseManager->selectAllArtworks();
+        $artworksJson = json_encode($artworksArray);
+        
+        
+        $response = new Response();
+        $response->setContent($artworksJson);
+        $response->setHeader('Content-Type: application/json; charset=utf-8');
+        $response->send();
 
     }
 
     private static function getFilteredArtworks() {
         // artworksApi.makeFilteredConsult();
-    }
-
-    private static function makeFilteredConsult() {
-        // TODO: Implement Consult to DDBB where obra == filters
-    }
-
-    private static function makeUnfilteredConsult() {
-        // TODO: Implement Consult to DDBB where obra == filters
     }
 }
 ArtworksApi::init();

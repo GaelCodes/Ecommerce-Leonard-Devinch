@@ -1,6 +1,6 @@
 <?php
 
-abstract class databaseManager {
+abstract class DatabaseManager {
     protected $mysqli;
     protected $dbUrl;
     protected $dbUser;
@@ -20,11 +20,11 @@ abstract class databaseManager {
 
         // Development DB Configuration
         // 
-        // $this->dbServer = "localhost";
-        // $this->dbUser = "ecommerce-leonard-devinch";
-        // $this->dbPassword = "I.B5n9viAD78Z2K(";      
-        // $this->db = "testing_ecommerce_leonard_devinch";
-        // $this->port = 3306;
+        $this->dbServer = "localhost";
+        $this->dbUser = "ecommerce-leonard-devinch";
+        $this->dbPassword = "I.B5n9viAD78Z2K(";      
+        $this->db = "testing_ecommerce_leonard_devinch";
+        $this->port = 3306;
         
         $this->mysqli = new mysqli($this->dbServer,$this->dbUser,$this->dbPassword,$this->db,$this->port);
 
