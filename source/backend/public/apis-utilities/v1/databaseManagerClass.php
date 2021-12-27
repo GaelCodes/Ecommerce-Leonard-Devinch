@@ -8,6 +8,7 @@ abstract class DatabaseManager {
     protected $dbSchema;
 
     function __construct(){
+        // TODO: Implement .ENV library
         
         // Production DB Configuration
         // 

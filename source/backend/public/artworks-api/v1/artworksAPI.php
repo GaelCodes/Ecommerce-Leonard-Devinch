@@ -24,7 +24,7 @@ abstract class ArtworksApi {
             // Return all artworks
             ArtworksApi::getAllArtworks();
         }
- 
+        
 
   
     }
@@ -35,8 +35,10 @@ abstract class ArtworksApi {
         
         
         $response = new Response();
-        $response->setContent($artworksJson);
         $response->setHeader('Content-Type: application/json; charset=utf-8');
+        // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+        $response->setHeader('Access-Control-Allow-Origin: *');
+        $response->setContent($artworksJson);
         $response->send();
 
     }

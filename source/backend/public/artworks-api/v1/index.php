@@ -1,6 +1,6 @@
 <?php
 // Production headers configuration
-header('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app/');
+// header('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app/');
 
 // Development headers configuration
 // 

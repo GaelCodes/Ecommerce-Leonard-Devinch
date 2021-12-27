@@ -169,6 +169,7 @@ class Catalogue {
 
         $.get("https://backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1/", function(artworks) {
             // artworks = JSON.parse(artworks);
+            console.log(artworks);
             artworks.forEach(
                 (artworkData) => {
                     let artwork = new Artwork(artworkData);
@@ -183,8 +184,9 @@ class Catalogue {
                 Catalogue.showAllArtworks();
             }
         ).fail(
-            function() {
+            function(failError) {
                 console.log('Something were wrong while recovering artworks');
+                console.log(failError);
             }
         ).always(
             function() {
