@@ -167,8 +167,8 @@ class Catalogue {
         Catalogue.filteredArtworks = [];
         Catalogue.filter = FilterController;
 
-        $.get("http://backend.ecommerce-leonard-devinch.com/artworks/api/v1/", function(artworks) {
-            artworks = JSON.parse(artworks);
+        $.get("http://backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1/", function(artworks) {
+            // artworks = JSON.parse(artworks);
             artworks.forEach(
                 (artworkData) => {
                     let artwork = new Artwork(artworkData);

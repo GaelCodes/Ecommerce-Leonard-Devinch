@@ -9,7 +9,7 @@ abstract class ArtworksApi {
     private static $artworksDatabaseManager;
 
     public static function init($filters = null) {
-        ArtworksApi::$artworksDatabaseManager = new artworksDatabaseManager();
+        ArtworksApi::$artworksDatabaseManager = new ArtworksDatabaseManager();
         
 
         if ($filters) {

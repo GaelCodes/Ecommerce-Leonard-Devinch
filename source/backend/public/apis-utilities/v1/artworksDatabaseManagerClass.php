@@ -12,7 +12,7 @@ class ArtworksDatabaseManager extends DatabaseManager {
     }
 
     function selectAllArtworks() {
-        $consultResult = $this->mysqli->query('SELECT * FROM obras');
+        $consultResult = $this->mysqli->query('SELECT * FROM OBRAS');
 
         
         for($num_row = 0; $num_row < $consultResult->num_rows ; $num_row++) {

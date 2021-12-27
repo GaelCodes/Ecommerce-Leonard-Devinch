@@ -8,7 +8,7 @@ class ArtistsDatabaseManager extends DatabaseManager {
     }
 
     function selectArtistByEmail($artistEmail) {
-        $sqlQuery = "SELECT * FROM pintores WHERE CORREO = '".$artistEmail."'";
+        $sqlQuery = "SELECT * FROM PINTORES WHERE CORREO = '".$artistEmail."'";
         $consultResult = $this->mysqli->query($sqlQuery);
         $consultResult->data_seek(0);
         $row = $consultResult->fetch_assoc();
