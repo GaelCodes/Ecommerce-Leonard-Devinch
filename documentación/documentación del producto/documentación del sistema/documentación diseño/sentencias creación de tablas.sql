@@ -48,7 +48,7 @@ order_id INT(5),
 price_by_unit DECIMAL(6,2),
 units DECIMAL(2),
 CONSTRAINT PK_PurchasedArtworks PRIMARY KEY (artwork_title,artist_email,order_id),
-CONSTRAINT FK_PurchasedArtworks_Title FOREIGN KEY (artwork_title) REFERENCES ARTWORKS(TITULO),
+CONSTRAINT FK_PurchasedArtworks_Title FOREIGN KEY (artwork_title) REFERENCES ARTWORKS(title),
 CONSTRAINT FK_PurchasedArtworks_OrderId FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
 CONSTRAINT FK_PurchasedArtworks_ArtistEmail FOREIGN KEY (artist_email) REFERENCES ARTWORKS(artist_email)
 );

@@ -2,21 +2,26 @@
 
 abstract class DatabaseManager {
     protected $mysqli;
-    protected $dbUrl;
-    protected $dbUser;
-    protected $dbPassword;
-    protected $dbSchema;
+    protected $DB_SERVER_FQDN;
+    protected $DB_PORT;
+    protected $DB;
+    protected $DB_USER;
+    protected $DB_PASSWORD;
 
     function __construct(){
+
+
+        
         // Enviroment variables
-        $this->dbServer =  $_ENV['DB_SERVER_FQDN'];
-        $this->dbUser = $_ENV['DB_USER'];
-        $this->dbPassword = $_ENV['DB_PASSWORD'];
-        $this->db = $_ENV['DB_NAME'];
-        $this->port = $_ENV['DB_PORT'];
+        $this->DB_SERVER_FQDN =  $_ENV['DB_SERVER_FQDN'];
+        $this->DB_PORT = $_ENV['DB_PORT'];
+        $this->DB = $_ENV['DB_NAME'];
+        $this->DB_USER = $_ENV['DB_USER'];
+        $this->DB_PASSWORD = $_ENV['DB_PASSWORD'];
+        var_dump($this);
         
         // Open DDBB connection
-        $this->mysqli = new mysqli($this->dbServer,$this->dbUser,$this->dbPassword,$this->db,$this->port);
+        $this->mysqli = new mysqli($this->DB_SERVER_FQDN,$this->DB_USER,$this->DB_PASSWORD,$this->DB,$this->DB_PORT);
 
         // Only for debugging database connection
         // 
