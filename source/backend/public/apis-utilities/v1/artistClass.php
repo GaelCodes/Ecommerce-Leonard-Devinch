@@ -1,79 +1,79 @@
 <?php
 
 class Artist {
-    private $correo;
+    private $artist_email;
     private $password;
-    private $nombre_completo;
-    private $cantidad_de_obras;
-    private $fecha_de_nacimiento;
-    private $estilo;
+    private $full_name;
+    private $total_created_artworks;
+    private $date_of_birth;
+    private $style;
 
-    function __construct($correo,$password=null,$nombre_completo,$cantidad_de_obras,$fecha_de_nacimiento,$estilo) {
-        $this->correo = $correo;
+    function __construct($artist_email,$password=null,$full_name,$total_created_artworks,$date_of_birth,$style) {
+        $this->artist_email = $artist_email;
         $this->password = $password;
-        $this->nombre_completo = $nombre_completo;
-        $this->cantidad_de_obras = $cantidad_de_obras;
-        $this->fecha_de_nacimiento = $fecha_de_nacimiento;
-        $this->estilo = $estilo;
+        $this->full_name = $full_name;
+        $this->total_created_artworks = $total_created_artworks;
+        $this->date_of_birth = $date_of_birth;
+        $this->style = $style;
     }
 
-    public function set_correo($correo) {
-        $this->correo = $correo;
+    public function set_artist_email($artist_email) {
+        $this->artist_email = $artist_email;
     }
 
-    public function get_correo() {
-        return $this->correo;
+    public function get_artist_email() {
+        return $this->artist_email;
     }
 
-    public function set_nombre_completo($nombre_completo) {
-        $this->nombre_completo = $nombre_completo;
+    public function set_full_name($full_name) {
+        $this->full_name = $full_name;
     }
 
-    public function get_nombre_completo() {
-        return $this->nombre_completo;
+    public function get_full_name() {
+        return $this->full_name;
     }
 
-    public function set_cantidad_de_obras($cantidad_de_obras) {
-        $this->cantidad_de_obras = $cantidad_de_obras;
+    public function set_total_created_artworks($total_created_artworks) {
+        $this->total_created_artworks = $total_created_artworks;
     }
 
-    public function get_cantidad_de_obras() {
-        return $this->cantidad_de_obras;
+    public function get_total_created_artworks() {
+        return $this->total_created_artworks;
     }
 
-    public function set_fecha_de_nacimiento($fecha_de_nacimiento) {
-        $this->fecha_de_nacimiento = $fecha_de_nacimiento;
+    public function set_date_of_birth($date_of_birth) {
+        $this->date_of_birth = $date_of_birth;
     }
 
-    public function get_fecha_de_nacimiento() {
-        return $this->fecha_de_nacimiento;
+    public function get_date_of_birth() {
+        return $this->date_of_birth;
     }
 
-    public function set_estilo($estilo) {
-        $this->estilo = $estilo;
+    public function set_style($style) {
+        $this->style = $style;
     }
 
-    public function get_estilo() {
-        return $this->estilo;
+    public function get_style() {
+        return $this->style;
     }
 
     public function __toString() {
         return "[
-            correo => ".$this->correo.",
-            nombre_completo => ".$this->nombre_completo.",
-            cantidad_de_obras => ".$this->cantidad_de_obras.",
-            fecha_de_nacimiento => ".$this->fecha_de_nacimiento.",
-            estilo => ".$this->estilo."
+            artist_email => ".$this->artist_email.",
+            full_name => ".$this->full_name.",
+            total_created_artworks => ".$this->total_created_artworks.",
+            date_of_birth => ".$this->date_of_birth.",
+            style => ".$this->style."
         ]";
     }
 
     public function toArray() {
         return [
-            "correo" => $this->correo,
-            "nombre_completo" => $this->nombre_completo,
-            "cantidad_de_obras" => $this->cantidad_de_obras,
-            "fecha_de_nacimiento" => $this->fecha_de_nacimiento,
-            "estilo" => $this->estilo
+            "artist_email" => $this->artist_email,
+            "full_name" => $this->full_name,
+            "total_created_artworks" => $this->total_created_artworks,
+            "date_of_birth" => $this->date_of_birth,
+            "style" => $this->style
         ];
     }
 }

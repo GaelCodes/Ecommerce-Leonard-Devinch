@@ -12,28 +12,28 @@ class ArtworksDatabaseManager extends DatabaseManager {
     }
 
     function selectAllArtworks() {
-        $consultResult = $this->mysqli->query('SELECT * FROM OBRAS');
+        $consultResult = $this->mysqli->query('SELECT * FROM ARTWORKS');
 
         
         for($num_row = 0; $num_row < $consultResult->num_rows ; $num_row++) {
             $consultResult->data_seek($num_row);
             $row = $consultResult->fetch_assoc();
             
-            $artworkArtist = $this->artistsDatabaseManager->selectArtistByEmail($row['CORREO_AUTOR']);
+            $artworkArtist = $this->artistsDatabaseManager->selectArtistByEmail($row['artist_email']);
             $artworkArtist = $artworkArtist->toArray();
             
             $artwork = new Artwork(
-                $row['TITULO'],
-                $row['URL'],
+                $row['title'],
+                $row['url'],
                 $artworkArtist,
-                $row['TEMATICA'],
-                $row['FECHA_INICIO'],
-                $row['FECHA_FIN'],
-                $row['CANTIDAD_DISPONIBLE'],
-                $row['CANTIDAD_CREADA'],
-                $row['DIMENSION_X'],
-                $row['DIMENSION_Y'],
-                $row['PRECIO']
+                $row['topics'],
+                $row['starting_date'],
+                $row['ending_date'],
+                $row['available_quantity'],
+                $row['created_quantity'],
+                $row['dimension_x'],
+                $row['dimension_y'],
+                $row['price']
             );
 
             $artworksArray[$num_row] = $artwork->toArray();
