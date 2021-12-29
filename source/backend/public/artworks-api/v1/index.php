@@ -12,5 +12,5 @@
 // if($method == "OPTIONS") {
 //     die();
 // }
-
+require_once(__DIR__.'\..\..\..\loadDependencies.php');
 require_once('artworksAPI.php');

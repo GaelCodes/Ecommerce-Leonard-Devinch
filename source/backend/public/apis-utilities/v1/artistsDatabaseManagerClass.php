@@ -7,18 +7,18 @@ class ArtistsDatabaseManager extends DatabaseManager {
         parent::__construct();
     }
 
-    function selectArtistByEmail($artistEmail) {
-        $sqlQuery = "SELECT * FROM PINTORES WHERE CORREO = '".$artistEmail."'";
+    function selectArtistByEmail($artist_email) {
+        $sqlQuery = "SELECT * FROM ARTISTS WHERE artist_email = '".$artist_email."'";
         $consultResult = $this->mysqli->query($sqlQuery);
         $consultResult->data_seek(0);
         $row = $consultResult->fetch_assoc();
         $artist = new Artist(
-            $row['CORREO'],
+            $row['artist_email'],
             null,
-            $row['NOMBRE_COMPLETO'],
-            $row['CANTIDAD_DE_OBRAS'],
-            $row['FECHA_DE_NACIMIENTO'],
-            $row['ESTILO']
+            $row['full_name'],
+            $row['total_created_artworks'],
+            $row['date_of_birth'],
+            $row['style']
         );       
         return $artist;
     }

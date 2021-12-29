@@ -2,32 +2,26 @@
 
 abstract class DatabaseManager {
     protected $mysqli;
-    protected $dbUrl;
-    protected $dbUser;
-    protected $dbPassword;
-    protected $dbSchema;
+    protected $DB_SERVER_FQDN;
+    protected $DB_PORT;
+    protected $DB;
+    protected $DB_USER;
+    protected $DB_PASSWORD;
 
     function __construct(){
-        // TODO: Implement .ENV library
-        
-        // Production DB Configuration
-        // 
-        // $this->dbServer = "localhost";
-        // $this->dbUser = "ecommerce-leonard-devinch";
-        // $this->dbPassword = "I.B5n9viAD78Z2K(";      
-        // $this->db = "testing_ecommerce_leonard_devinch";
-        // $this->port = 3306;
 
 
-        // Development DB Configuration
-        // 
-        // $this->dbServer = "localhost";
-        // $this->dbUser = "ecommerce-leonard-devinch";
-        // $this->dbPassword = "I.B5n9viAD78Z2K(";      
-        // $this->db = "testing_ecommerce_leonard_devinch";
-        // $this->port = 3306;
         
-        $this->mysqli = new mysqli($this->dbServer,$this->dbUser,$this->dbPassword,$this->db,$this->port);
+        // Enviroment variables
+        $this->DB_SERVER_FQDN =  $_ENV['DB_SERVER_FQDN'];
+        $this->DB_PORT = $_ENV['DB_PORT'];
+        $this->DB = $_ENV['DB_NAME'];
+        $this->DB_USER = $_ENV['DB_USER'];
+        $this->DB_PASSWORD = $_ENV['DB_PASSWORD'];
+        var_dump($this);
+        
+        // Open DDBB connection
+        $this->mysqli = new mysqli($this->DB_SERVER_FQDN,$this->DB_USER,$this->DB_PASSWORD,$this->DB,$this->DB_PORT);
 
         // Only for debugging database connection
         // 
