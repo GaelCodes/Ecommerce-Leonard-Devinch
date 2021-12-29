@@ -14,4 +14,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ECOMMERCE_LEONARD_DEVINCH }}'
           projectId: ecommerce-leonard-devinch
-          entryPoint: "./source"
+          entryPoint: "./source/frontend"
