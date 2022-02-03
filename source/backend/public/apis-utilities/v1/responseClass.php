@@ -1,25 +1,25 @@
 <?php
 
-class Response {
+class Response
+{
+  private $content;
 
-    private $content;
+  function __construct()
+  {
+  }
 
-    function __construct(){
-        
-    }
+  public function setHeader($header)
+  {
+    header($header);
+  }
 
-    public function setHeader($header){
-        header($header);
-    }
+  public function setContent($content)
+  {
+    $this->content = $content;
+  }
 
-    public function setContent($content) {
-        $this->content = $content;
-    }
-
-    public function send() {
-        echo($this->content);
-    }
-
-
-
+  public function send()
+  {
+    echo $this->content;
+  }
 }

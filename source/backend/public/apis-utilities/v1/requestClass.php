@@ -1,14 +1,8 @@
 <?php
 
-class Request {
-
-    function __construct(){
-        
-    }
-
-
-
-
-
-
+class Request
+{
+  function __construct()
+  {
+  }
 }

@@ -1,9 +1,10 @@
 <?php
-include_once('databaseManager.php');
+include_once "databaseManager.php";
 
-class ordersDatabaseManager extends databaseManager {
-    function __construct(){
-        parent::__construct();
-    }
-
+class ordersDatabaseManager extends databaseManager
+{
+  function __construct()
+  {
+    parent::__construct();
+  }
 }
