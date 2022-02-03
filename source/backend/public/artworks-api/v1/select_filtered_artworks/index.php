@@ -15,4 +15,5 @@
 
 require_once __DIR__ . "\..\..\..\loadDependencies.php";
 require_once "..\artworksAPI.php";
-ArtworksApi::selectFilteredArtworks();
+ArtworksApi::init();
+ArtworksApi::getFilteredArtworks();

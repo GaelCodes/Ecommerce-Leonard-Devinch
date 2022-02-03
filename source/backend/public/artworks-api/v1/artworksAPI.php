@@ -7,42 +7,47 @@ require_once "../../apis-utilities/v1/responseClass.php";
 abstract class ArtworksApi
 {
   private static $parameters;
-  private static $artworksDatabaseManager;
+  private static $artworksDBM;
 
-  public static function init($filters = null)
+  public static function init()
   {
-    ArtworksApi::$artworksDatabaseManager = new ArtworksDatabaseManager();
-
-    if ($filters) {
-      //TODO: Return filtered artworks
-
-      // $parameters['filters']
-      // artworksApi.getFilteredArtworks();
-      // } else {
-      //     ArtworksApi::$databaseManager->selectAllArtworks();
-      // }
-    } else {
-      // Return all artworks
-      ArtworksApi::getAllArtworks();
-    }
+    ArtworksApi::$artworksDBM = new ArtworksDatabaseManager();
   }
 
-  private static function getAllArtworks()
+  public static function getAllArtworks()
   {
-    $artworksArray = ArtworksApi::$artworksDatabaseManager->selectAllArtworks();
+    $artworksArray = ArtworksApi::$artworksDBM->selectAllArtworks();
     $artworksJson = json_encode($artworksArray);
 
     $response = new Response();
     $response->setHeader("Content-Type: application/json; charset=utf-8");
+    // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
     $response->setHeader("Access-Control-Allow-Origin: *");
     $response->setContent($artworksJson);
     $response->send();
   }
 
-  private static function getFilteredArtworks()
+  public static function getFilteredArtworks()
   {
-    // artworksApi.makeFilteredConsult();
+    $filters = [
+      "author" => "hola",
+      "starting_date" => "",
+      "ending_date" => "",
+    ];
+
+    $artworksArray = ArtworksApi::$artworksDBM->selectFilteredArtworks(
+      $filters
+    );
+
+    $artworksJson = json_encode($artworksArray);
+
+    $response = new Response();
+    $response->setHeader("Content-Type: application/json; charset=utf-8");
+    // Production Configuration
+    // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setContent($artworksJson);
+    $response->send();
   }
 }
-ArtworksApi::init();
