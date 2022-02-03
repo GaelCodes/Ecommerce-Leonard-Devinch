@@ -17,7 +17,7 @@ abstract class DatabaseManager
     $this->DB = $_ENV["DB_NAME"];
     $this->DB_USER = $_ENV["DB_USER"];
     $this->DB_PASSWORD = $_ENV["DB_PASSWORD"];
-    var_dump($this);
+    //var_dump($this);
 
     // Open DDBB connection
     $this->mysqli = new mysqli(
