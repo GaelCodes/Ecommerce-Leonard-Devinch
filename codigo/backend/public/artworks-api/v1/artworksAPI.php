@@ -1,8 +1,9 @@
 <?php
 
-require_once "../../apis-utilities/v1/artworkClass.php";
-require_once "../../apis-utilities/v1/artworksDatabaseManagerClass.php";
-require_once "../../apis-utilities/v1/responseClass.php";
+require_once __ROOT__ . "/public/apis-utilities/v1/artworkClass.php";
+require_once __ROOT__ .
+  "/public/apis-utilities/v1/artworksDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/apis-utilities/v1/responseClass.php";
 
 abstract class ArtworksApi
 {

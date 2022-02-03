@@ -1,7 +1,8 @@
 <?php
-include_once "databaseManagerClass.php";
-include_once "artistsDatabaseManagerClass.php";
-include_once "artworkClass.php";
+require_once __ROOT__ . "/public/apis-utilities/v1/databaseManagerClass.php";
+require_once __ROOT__ .
+  "/public/apis-utilities/v1/artistsDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/apis-utilities/v1/artworkClass.php";
 
 class ArtworksDatabaseManager extends DatabaseManager
 {
@@ -9,7 +10,7 @@ class ArtworksDatabaseManager extends DatabaseManager
   // al DBM de los artistas para recuperar
   // los datos de los artista de las obras de arte.
 
-  private $artistsDatabaseManager;
+  private $artistsDBM;
 
   function __construct()
   {
@@ -25,7 +26,7 @@ class ArtworksDatabaseManager extends DatabaseManager
       $consultResult->data_seek($num_row);
       $row = $consultResult->fetch_assoc();
 
-      $artworkArtist = $this->artistsDatabaseManager->selectArtistByEmail(
+      $artworkArtist = $this->artistsDBM->selectArtistByEmail(
         $row["artist_email"]
       );
       $artworkArtist = $artworkArtist->toArray();
