@@ -18,6 +18,11 @@ class Response
     $this->content = $content;
   }
 
+  public function setCode($code)
+  {
+    http_response_code($code);
+  }
+
   public function send()
   {
     echo $this->content;
