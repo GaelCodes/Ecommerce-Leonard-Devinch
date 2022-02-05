@@ -1,8 +1,9 @@
 CREATE TABLE CLIENTS(
 client_email VARCHAR(100),
-password VARCHAR(150),
+password VARCHAR(255),
 full_name VARCHAR(100),
 telephone_number DECIMAL(9),
+shipping_address VARCHAR(255),
 CONSTRAINT PK_ClientEmail PRIMARY KEY (client_email)
 );
 
