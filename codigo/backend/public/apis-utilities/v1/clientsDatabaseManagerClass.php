@@ -36,4 +36,40 @@ class ClientsDatabaseManager extends DatabaseManager
 
     return $result;
   }
+
+  public function get_password_hash(string $client_email)
+  {
+    $query =
+      "SELECT password FROM CLIENTS where client_email = '" .
+      $client_email .
+      "'";
+    $consultResult = $this->mysqli->query($query);
+
+    if ($consultResult) {
+      # code...
+      $passwordHash = $consultResult->fetch_array(MYSQLI_ASSOC);
+      $passwordHash = $passwordHash["password"];
+      return $passwordHash;
+    }
+
+    return false;
+  }
+
+  public function get_client_id(string $client_email)
+  {
+    $query =
+      "SELECT client_id FROM CLIENTS where client_email = '" .
+      $client_email .
+      "'";
+    $consultResult = $this->mysqli->query($query);
+
+    if ($consultResult) {
+      $client_id = $consultResult->fetch_array(MYSQLI_ASSOC);
+      $client_id = $client_id["client_id"];
+
+      return $client_id;
+    }
+
+    return false;
+  }
 }

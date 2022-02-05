@@ -54,12 +54,42 @@ abstract class ClientsAPI
 
   public static function login()
   {
+    $request = new Request();
+
+    $clientData = json_decode($request->getContent(), true);
+    $password = $clientData["password"];
+    $client_email = $clientData["client_email"];
+
+    $client = new Client($client_email);
+    $authenticated = $client->validate_credentials($password);
+
+    if ($authenticated) {
+      $JWT = $client->generateJWT();
+      setcookie("jwt-cookie", $JWT);
+
+      $code = 200;
+      $message = '{ "message":  "Logged succeessfully"}';
+    } else {
+      $code = 401;
+      $message = '{ "message":  "Invalid credentials"}';
+    }
+
+    $response = new Response();
+    $response->setHeader("Content-Type: application/json; charset=utf-8");
+    // Production Configuration
+    // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setCode($code);
+    $response->setContent($message);
+    $response->send();
   }
   public static function make_order()
   {
+    // Authentication required
   }
 
-  public static function consult_order()
+  public static function consult_orders()
   {
+    // Authentication required
   }
 }
