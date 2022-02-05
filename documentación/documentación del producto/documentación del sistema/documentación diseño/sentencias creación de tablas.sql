@@ -1,4 +1,5 @@
 CREATE TABLE CLIENTS(
+client_id INT AUTO_INCREMENT UNIQUE,
 client_email VARCHAR(100),
 password VARCHAR(255),
 full_name VARCHAR(100),
