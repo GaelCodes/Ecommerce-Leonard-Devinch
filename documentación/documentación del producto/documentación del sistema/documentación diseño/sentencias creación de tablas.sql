@@ -18,6 +18,7 @@ CONSTRAINT PK_ArtistEmail PRIMARY KEY (artist_email)
 );
 
 CREATE TABLE ARTWORKS(
+id INT AUTO_INCREMENT UNIQUE,
 title VARCHAR(100),
 artist_email VARCHAR(100),
 url VARCHAR(255),
@@ -39,6 +40,7 @@ client_email VARCHAR(100),
 total_charge DECIMAL(8,2),
 order_date DATE,
 total_artworks_adquired DECIMAL(2),
+status VARCHAR(100),
 CONSTRAINT PK_Orders PRIMARY KEY (order_id),
 CONSTRAINT FK_Orders_ClientEmail FOREIGN KEY (client_email) REFERENCES CLIENTS(client_email)
 );
