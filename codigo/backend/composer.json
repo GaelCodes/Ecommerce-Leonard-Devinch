@@ -1,6 +1,7 @@
 {
     "require": {
         "monolog/monolog": "2.1.*",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "stripe/stripe-php": "^7.113"
     }
 }
