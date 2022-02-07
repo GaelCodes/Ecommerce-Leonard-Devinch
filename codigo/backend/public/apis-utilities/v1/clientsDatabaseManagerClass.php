@@ -10,8 +10,6 @@ class ClientsDatabaseManager extends DatabaseManager
 
   public function insert_client(Client $client)
   {
-    var_dump($client);
-
     $stmt = $this->mysqli->prepare(
       "INSERT INTO CLIENTS(client_email,full_name,password,telephone_number,shipping_address) VALUES(?,?,?,?,?)"
     );
@@ -26,6 +24,38 @@ class ClientsDatabaseManager extends DatabaseManager
     );
 
     $client_email = $client->get_email();
+    $full_name = $client->get_full_name();
+    $password = $client->get_password();
+    $telephone_number = $client->get_telephone_number();
+    $shipping_address = $client->get_shipping_address();
+
+    $result = $stmt->execute();
+    $stmt->close();
+
+    if ($result == false) {
+      throw new Exception("Error inserting new client to database", 1);
+    }
+  }
+
+  public function update_client(Client $client)
+  {
+    $stmt = $this->mysqli->prepare(
+      "UPDATE CLIENTS SET client_email = ?, stripe_customer_id = ?, full_name = ?, password = ?, telephone_number = ?, shipping_address = ? WHERE client_email = ?"
+    );
+
+    $stmt->bind_param(
+      "ssssdss",
+      $client_email,
+      $stripe_customer_id,
+      $full_name,
+      $password,
+      $telephone_number,
+      $shipping_address,
+      $client_email
+    );
+
+    $client_email = $client->get_email();
+    $stripe_customer_id = $client->get_stripe_customer_id();
     $full_name = $client->get_full_name();
     $password = $client->get_password();
     $telephone_number = $client->get_telephone_number();
@@ -68,6 +98,21 @@ class ClientsDatabaseManager extends DatabaseManager
       $client_id = $client_id["client_id"];
 
       return $client_id;
+    }
+
+    return false;
+  }
+
+  public function get_client_email(string $client_id)
+  {
+    $query = "SELECT client_email FROM CLIENTS where client_id = " . $client_id;
+    $consultResult = $this->mysqli->query($query);
+
+    if ($consultResult) {
+      $client_email = $consultResult->fetch_array(MYSQLI_ASSOC);
+      $client_email = $client_email["client_email"];
+
+      return $client_email;
     }
 
     return false;
