@@ -30,6 +30,29 @@ abstract class ArtworksApi
     $response->send();
   }
 
+  // Esta función obtiene el contenido del body
+  // que es el objeto filters y tiene la siguiente forma:
+  // filters =
+  /*
+  {
+      "title": "Holiday",
+      "ids" : [
+        0 => 1,
+        1 => 2,
+        ...
+      ],
+      "author": "Nathalie",
+      "topics": "Glass",
+      "starting_date": "2021-01-24",
+      "ending_date": "2021-04-15",
+      "available": true,
+      "dimension_x": 60,
+      "dimension_y": 25,
+      "price": {
+      "minimum": 0,
+      "maximum": 2000
+    }
+  */
   public static function getFilteredArtworks()
   {
     $request = new Request();
