@@ -51,7 +51,7 @@ class ArtworksDatabaseManager extends DatabaseManager
     return $artworksArray;
   }
 
-  function selectFilteredArtworks($filters)
+  function selectFilteredArtworks($filters): array
   {
     $query = $this->prepareFilteredQuery($filters);
 
@@ -95,18 +95,18 @@ class ArtworksDatabaseManager extends DatabaseManager
   {
     $query = "SELECT * FROM ARTWORKS WHERE ";
 
-    if ($filters["title"]) {
+    if (isset($filters["title"])) {
       $query .= " title LIKE '%" . $filters["title"] . "%' AND";
     }
 
-    if ($filters["author"]) {
+    if (isset($filters["author"])) {
       $query .=
         " artist_email IN (SELECT artist_email FROM ARTISTS WHERE full_name LIKE '%" .
         $filters["author"] .
         "%' ) AND ";
     }
 
-    if ($filters["ids"]) {
+    if (isset($filters["ids"])) {
       // Objective: "id IN ( 0, 1, 2...) AND "
       $total_ids = count($filters["ids"]);
       $query .= " id IN (";
@@ -123,7 +123,7 @@ class ArtworksDatabaseManager extends DatabaseManager
       $query .= ") AND ";
     }
 
-    if ($filters["topics"]) {
+    if (isset($filters["topics"])) {
       $query .= " topics LIKE '%" . $filters["topics"] . "%' AND ";
     }
 
@@ -131,27 +131,27 @@ class ArtworksDatabaseManager extends DatabaseManager
     // compondrán un intervalo de tiempo,
     // se seleccionarán las obras creadas dentro de este intervalo de tiempo.
 
-    if ($filters["starting_date"]) {
+    if (isset($filters["starting_date"])) {
       $query .= " starting_date >= '" . $filters["starting_date"] . "' AND ";
     }
 
-    if ($filters["ending_date"]) {
+    if (isset($filters["ending_date"])) {
       $query .= " ending_date <= '" . $filters["ending_date"] . "' AND ";
     }
 
-    if ($filters["available"]) {
+    if (isset($filters["available"])) {
       $query .= " available_quantity < created_quantity AND ";
     }
 
-    if ($filters["dimension_x"]) {
+    if (isset($filters["dimension_x"])) {
       $query .= " dimension_x = " . $filters["dimension_x"] . " AND ";
     }
 
-    if ($filters["dimension_y"]) {
+    if (isset($filters["dimension_y"])) {
       $query .= " dimension_y = " . $filters["dimension_y"] . " AND ";
     }
 
-    if ($filters["price"]) {
+    if (isset($filters["price"])) {
       $query .= " price >= " . $filters["price"]["minimum"] . " AND ";
 
       $query .= " price <= " . $filters["price"]["maximum"];
