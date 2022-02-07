@@ -12,4 +12,9 @@ class Request
   {
     return $this->content;
   }
+
+  public function getCookie(string $name)
+  {
+    return isset($_COOKIE[$name]) ? $_COOKIE[$name] : false;
+  }
 }

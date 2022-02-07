@@ -26,5 +26,6 @@ class Response
   public function send()
   {
     echo $this->content;
+    exit();
   }
 }
