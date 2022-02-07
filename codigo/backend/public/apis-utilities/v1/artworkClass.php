@@ -15,17 +15,17 @@ class Artwork
   private $price;
 
   function __construct(
-    $title,
-    $url,
-    $artist,
-    $topics,
-    $starting_date,
-    $ending_date,
-    $available_quantity,
-    $created_quantity,
-    $dimension_x,
-    $dimension_y,
-    $price
+    string $title,
+    string $url,
+    array $artist,
+    string $topics,
+    string $starting_date,
+    string $ending_date,
+    int $available_quantity,
+    int $created_quantity,
+    float $dimension_x,
+    float $dimension_y,
+    float $price
   ) {
     $this->title = $title;
     $this->url = $url;
@@ -120,12 +120,12 @@ class Artwork
     return $this->dimension_y;
   }
 
-  function set_price($price)
+  function set_price(float $price)
   {
     $this->price = $price;
   }
 
-  function get_price()
+  function get_price(): float
   {
     return $this->price;
   }
@@ -171,7 +171,7 @@ class Artwork
 
   public function toArray()
   {
-    return [
+    $artworkArray = [
       "title" => $this->title,
       "url" => $this->url,
       "artist" => $this->artist,
@@ -184,5 +184,7 @@ class Artwork
       "dimension_y" => $this->dimension_y,
       "price" => $this->price,
     ];
+
+    return $artworkArray;
   }
 }
