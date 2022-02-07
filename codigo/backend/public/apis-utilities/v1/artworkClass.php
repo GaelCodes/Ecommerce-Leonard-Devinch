@@ -2,102 +2,102 @@
 
 class Artwork
 {
-  private $tituto;
+  private $title;
   private $url;
-  private $artista;
-  private $tematica;
-  private $fecha_inicio;
-  private $fecha_fin;
-  private $cantidad_disponible;
-  private $cantidad_creada;
+  private $artist;
+  private $topics;
+  private $starting_date;
+  private $ending_date;
+  private $available_quantity;
+  private $created_quantity;
   private $dimension_x;
   private $dimension_y;
-  private $precio;
+  private $price;
 
   function __construct(
-    $tituto,
+    $title,
     $url,
-    $artista,
-    $tematica,
-    $fecha_inicio,
-    $fecha_fin,
-    $cantidad_disponible,
-    $cantidad_creada,
+    $artist,
+    $topics,
+    $starting_date,
+    $ending_date,
+    $available_quantity,
+    $created_quantity,
     $dimension_x,
     $dimension_y,
-    $precio
+    $price
   ) {
-    $this->tituto = $tituto;
+    $this->title = $title;
     $this->url = $url;
-    $this->artista = $artista;
-    $this->tematica = $tematica;
-    $this->fecha_inicio = $fecha_inicio;
-    $this->fecha_fin = $fecha_fin;
-    $this->cantidad_disponible = $cantidad_disponible;
-    $this->cantidad_creada = $cantidad_creada;
+    $this->artist = $artist;
+    $this->topics = $topics;
+    $this->starting_date = $starting_date;
+    $this->ending_date = $ending_date;
+    $this->available_quantity = $available_quantity;
+    $this->created_quantity = $created_quantity;
     $this->dimension_x = $dimension_x;
     $this->dimension_y = $dimension_y;
-    $this->precio = $precio;
+    $this->price = $price;
   }
 
-  function set_titulo($titulo)
+  function set_title($title)
   {
-    $this->titulo = $titulo;
+    $this->title = $title;
   }
 
-  function get_titulo()
+  function get_title()
   {
-    return $this->titulo;
+    return $this->title;
   }
 
-  function set_tematica($tematica)
+  function set_topics($topics)
   {
-    $this->tematica = $tematica;
+    $this->topics = $topics;
   }
 
-  function get_tematica()
+  function get_topics()
   {
-    return $this->tematica;
+    return $this->topics;
   }
 
-  function set_fecha_inicio($fecha_inicio)
+  function set_starting_date($starting_date)
   {
-    $this->fecha_inicio = $fecha_inicio;
+    $this->starting_date = $starting_date;
   }
 
-  function get_fecha_inicio()
+  function get_starting_date()
   {
-    return $this->fecha_inicio;
+    return $this->starting_date;
   }
 
-  function set_fecha_fin($fecha_fin)
+  function set_ending_date($ending_date)
   {
-    $this->fecha_fin = $fecha_fin;
+    $this->ending_date = $ending_date;
   }
 
-  function get_fecha_fin()
+  function get_ending_date()
   {
-    return $this->fecha_fin;
+    return $this->ending_date;
   }
 
-  function set_cantidad_disponible($cantidad_disponible)
+  function set_available_quantity($available_quantity)
   {
-    $this->cantidad_disponible = $cantidad_disponible;
+    $this->available_quantity = $available_quantity;
   }
 
-  function get_cantidad_disponible()
+  function get_available_quantity()
   {
-    return $this->cantidad_disponible;
+    return $this->available_quantity;
   }
 
-  function set_cantidad_creada($cantidad_creada)
+  function set_created_quantity($created_quantity)
   {
-    $this->cantidad_creada = $cantidad_creada;
+    $this->created_quantity = $created_quantity;
   }
 
-  function get_cantidad_creada()
+  function get_created_quantity()
   {
-    return $this->cantidad_creada;
+    return $this->created_quantity;
   }
 
   function set_dimension_x($dimension_x)
@@ -120,42 +120,42 @@ class Artwork
     return $this->dimension_y;
   }
 
-  function set_precio($precio)
+  function set_price($price)
   {
-    $this->precio = $precio;
+    $this->price = $price;
   }
 
-  function get_precio()
+  function get_price()
   {
-    return $this->precio;
+    return $this->price;
   }
 
   public function __toString()
   {
     return "[
-            tituto => " .
-      $this->tituto .
+            title => " .
+      $this->title .
       ",
             url => " .
       $this->url .
       ",
-            artista => " .
-      $this->artista .
+            artist => " .
+      $this->artist .
       ",
-            tematica => " .
-      $this->tematica .
+            topics => " .
+      $this->topics .
       ",
-            fecha_inicio => " .
-      $this->fecha_inicio .
+            starting_date => " .
+      $this->starting_date .
       ",
-            fecha_fin => " .
-      $this->fecha_fin .
+            ending_date => " .
+      $this->ending_date .
       ",
-            cantidad_disponible => " .
-      $this->cantidad_disponible .
+            available_quantity => " .
+      $this->available_quantity .
       ",
-            cantidad_creada => " .
-      $this->cantidad_creada .
+            created_quantity => " .
+      $this->created_quantity .
       ",
             dimension_x => " .
       $this->dimension_x .
@@ -163,8 +163,8 @@ class Artwork
             dimension_y => " .
       $this->dimension_y .
       ",
-            precio => " .
-      $this->precio .
+            price => " .
+      $this->price .
       "
         ]";
   }
@@ -172,17 +172,17 @@ class Artwork
   public function toArray()
   {
     return [
-      "tituto" => $this->tituto,
+      "title" => $this->title,
       "url" => $this->url,
-      "artista" => $this->artista,
-      "tematica" => $this->tematica,
-      "fecha_inicio" => $this->fecha_inicio,
-      "fecha_fin" => $this->fecha_fin,
-      "cantidad_disponible" => $this->cantidad_disponible,
-      "cantidad_creada" => $this->cantidad_creada,
+      "artist" => $this->artist,
+      "topics" => $this->topics,
+      "starting_date" => $this->starting_date,
+      "ending_date" => $this->ending_date,
+      "available_quantity" => $this->available_quantity,
+      "created_quantity" => $this->created_quantity,
       "dimension_x" => $this->dimension_x,
       "dimension_y" => $this->dimension_y,
-      "precio" => $this->precio,
+      "price" => $this->price,
     ];
   }
 }
