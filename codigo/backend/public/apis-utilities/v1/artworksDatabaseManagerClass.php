@@ -106,6 +106,23 @@ class ArtworksDatabaseManager extends DatabaseManager
         "%' ) AND ";
     }
 
+    if ($filters["ids"]) {
+      // Objective: "id IN ( 0, 1, 2...) AND "
+      $total_ids = count($filters["ids"]);
+      $query .= " id IN (";
+
+      for ($i = 0; $i < $total_ids; $i++) {
+        $query .= $filters["ids"][$i];
+
+        $last = $total_ids - $i == 1;
+        if (!$last) {
+          $query .= ",";
+        }
+      }
+
+      $query .= ") AND ";
+    }
+
     if ($filters["topics"]) {
       $query .= " topics LIKE '%" . $filters["topics"] . "%' AND ";
     }
@@ -142,6 +159,7 @@ class ArtworksDatabaseManager extends DatabaseManager
 
     // Eliminación del último AND
     $query = preg_replace("/AND $/", "", $query);
+
     return $query;
   }
 }
