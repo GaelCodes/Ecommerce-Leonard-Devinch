@@ -50,6 +50,16 @@ class Artwork
     return $this->title;
   }
 
+  function set_artist(array $artist)
+  {
+    $this->artist = $artist;
+  }
+
+  function get_artist(): array
+  {
+    return $this->artist;
+  }
+
   function set_topics($topics)
   {
     $this->topics = $topics;
@@ -128,6 +138,16 @@ class Artwork
   function get_price(): float
   {
     return $this->price;
+  }
+
+  function set_url(string $url)
+  {
+    $this->url = $url;
+  }
+
+  function get_url(): string
+  {
+    return $this->url;
   }
 
   public function __toString()

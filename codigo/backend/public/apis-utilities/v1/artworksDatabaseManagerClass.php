@@ -162,4 +162,86 @@ class ArtworksDatabaseManager extends DatabaseManager
 
     return $query;
   }
+
+  function selectArtworkByPK(string $title, string $artist_email): Artwork
+  {
+    $query =
+      "SELECT * FROM ARTWORKS where title = '" .
+      $title .
+      "' AND artist_email = '" .
+      $artist_email .
+      "'";
+    $row = $this->mysqli->query($query);
+
+    if ($row) {
+      $data = $row->fetch_array(MYSQLI_ASSOC);
+
+      $data["artist"] = ["artist_email" => $data["artist_email"]];
+
+      $artwork = new Artwork(
+        $data["title"],
+        $data["url"],
+        $data["artist"],
+        $data["topics"],
+        $data["starting_date"],
+        $data["ending_date"],
+        $data["available_quantity"],
+        $data["created_quantity"],
+        $data["dimension_x"],
+        $data["dimension_y"],
+        $data["price"]
+      );
+    } else {
+      throw new Exception("Error selecting artwork by PK", 1);
+    }
+
+    return $artwork;
+  }
+
+  public function updateArtwork(Artwork $artwork)
+  {
+    $stmt = $this->mysqli->prepare(
+      "UPDATE ARTWORKS SET title = ?, url = ?, artist_email = ?, topics = ?, starting_date = ?, ending_date = ?, available_quantity = ?, created_quantity = ?, dimension_x = ?, dimension_y = ?, price = ? WHERE  title = '" .
+        $artwork->get_title() .
+        "' AND artist_email = '" .
+        $artwork->get_artist()["artist_email"] .
+        "'"
+    );
+
+    $stmt->bind_param(
+      "ssssssiiddd",
+      $title,
+      $url,
+      $artist_email,
+      $topics,
+      $starting_date,
+      $ending_date,
+      $available_quantity,
+      $created_quantity,
+      $dimension_x,
+      $dimension_y,
+      $price
+    );
+
+    $title = $artwork->get_title();
+    $url = $artwork->get_url();
+    $artist_email = $artwork->get_artist()["artist_email"];
+    $topics = $artwork->get_topics();
+    $starting_date = $artwork->get_starting_date();
+    $ending_date = $artwork->get_ending_date();
+    $available_quantity = $artwork->get_available_quantity();
+    $created_quantity = $artwork->get_created_quantity();
+    $dimension_x = $artwork->get_dimension_x();
+    $dimension_y = $artwork->get_dimension_y();
+    $price = $artwork->get_price();
+
+    $result = $stmt->execute();
+    $stmt->close();
+
+    if ($result) {
+      return true;
+    } else {
+      throw new Exception("Error trying to update an artwork", 1);
+    }
+  }
 }
