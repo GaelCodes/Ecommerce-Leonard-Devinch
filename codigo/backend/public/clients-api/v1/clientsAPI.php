@@ -40,7 +40,9 @@ abstract class ClientsAPI
     );
 
     $client = new Client(
+      null,
       $clientData["client_email"],
+      null,
       $clientData["password"],
       $clientData["full_name"],
       $clientData["shipping_address"],
@@ -86,11 +88,10 @@ abstract class ClientsAPI
     $password = $clientData["password"];
     $client_email = $clientData["client_email"];
 
-    $client = new Client($client_email);
-    $authenticated = $client->validate_credentials($password);
+    $client = Client::validate_credentials($client_email, $password);
 
-    if ($authenticated) {
-      $JWT = $client->generateJWT();
+    if ($client) {
+      $JWT = Client::generateJWT($client);
       setcookie("jwt-cookie", $JWT);
 
       $code = 200;
@@ -153,12 +154,11 @@ abstract class ClientsAPI
     $client_id = $JWT["payload"]["client_id"];
 
     $clientsDBM = new ClientsDatabaseManager();
-    $client_email = $clientsDBM->get_client_email($client_id);
-
-    // Insertion to DB
-    $order = new Order($client_email, $purchasedArtworks);
+    $client = $clientsDBM->select_client_by_id($client_id);
 
     try {
+      // Insertion to DB
+      $order = new Order($client, $purchasedArtworks);
       $ordersDBM = new OrdersDatabaseManager();
       $order = $ordersDBM->insert_order($order);
 
@@ -167,19 +167,14 @@ abstract class ClientsAPI
         $purchasedArtworks[$i]->set_order_id($order->get_order_id());
         $purchasedArtworksDBM->insert_purchased_artwork($purchasedArtworks[$i]);
       }
+
+      // PaymentIntent Generation
+      $paymentManager = new PaymentManager();
+      $paymentManager->create_payment_intent($client, $order);
+      $client_secret = $paymentManager->get_client_secret();
     } catch (\Throwable $th) {
       throw $th;
       //throw new Exception("Error Inserting Order To Database", 1);
-    }
-
-    // PaymentIntent Generation
-    try {
-      //$paymentManager->create_payment_intent($client,$order);
-      //$client_secret = $paymentManager->get_client_secret();
-      $client_secret = "Esto no es un secreto del cliente";
-    } catch (\Throwable $th) {
-      throw $th;
-      //throw new Exception("Error Processing Payment", 1);
     }
 
     // Response generation
