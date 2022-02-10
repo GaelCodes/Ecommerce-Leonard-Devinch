@@ -8,15 +8,23 @@ class Order
   private $total_charge;
   private $order_date;
   private $order_id;
+  private $status;
 
-  public function __construct(string $client_email, array $purchasedArtworks)
-  {
-    $this->client_email = $client_email;
+  public function __construct(
+    Client $client,
+    array $purchasedArtworks,
+    int $order_id = null,
+    string $status = null
+  ) {
+    $this->client_email = $client->get_client_email();
     $this->purchasedArtworks = $purchasedArtworks;
     $this->order_date = date("Y-m-d");
     $this->total_artworks_adquired = count($purchasedArtworks);
 
     $this->calculate_total_charge($purchasedArtworks);
+
+    $this->order_id = $order_id;
+    $this->status = $status;
   }
 
   private function calculate_total_charge(array $purchasedArtworks)
@@ -41,6 +49,16 @@ class Order
     $this->order_id = $order_id;
   }
 
+  public function get_status(): string
+  {
+    return $this->status;
+  }
+
+  public function set_status(string $status)
+  {
+    $this->status = $status;
+  }
+
   public function get_client_email(): string
   {
     return $this->client_email;
@@ -49,6 +67,11 @@ class Order
   public function get_total_charge(): float
   {
     return $this->total_charge;
+  }
+
+  public function get_total_charge_in_cents(): int
+  {
+    return intval($this->total_charge * 100);
   }
 
   public function get_order_date(): string

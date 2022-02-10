@@ -1,5 +1,6 @@
 <?php
 require_once __ROOT__ . "/public/apis-utilities/v1/databaseManagerClass.php";
+require_once __ROOT__ . "/public/apis-utilities/v1/purchasedArtworkClass.php";
 
 class PurchasedArtworksDatabaseManager extends DatabaseManager
 {
@@ -33,5 +34,69 @@ class PurchasedArtworksDatabaseManager extends DatabaseManager
     $stmt->close();
 
     return $result;
+  }
+
+  function select_filtered_purchased_artworks($filters): array
+  {
+    $query = $this->prepare_filtered_query($filters);
+
+    $rows = $this->mysqli->query($query);
+
+    if ($rows) {
+      $purchased_artworks_array = [];
+
+      for ($num_row = 0; $num_row < $rows->num_rows; $num_row++) {
+        $rows->data_seek($num_row);
+        $data = $rows->fetch_assoc();
+
+        /**
+         * Uncoment following lines if want to get artist data too
+         * change $data["artist_email"] to $purchased_artwork_artist
+         * change PurchasedArtwork constructor
+         */
+
+        // $purchased_artwork_artist = $this->artistsDBM->selectArtistByEmail(
+        //   $data["artist_email"]
+        // );
+
+        // $purchased_artwork_artist = $purchased_artwork_artist->toArray();
+
+        $purchased_artwork = new PurchasedArtwork(
+          $data["artwork_title"],
+          $data["artist_email"],
+          floatval($data["price_by_unit"]),
+          intval($data["units"]),
+          intval($data["order_id"])
+        );
+
+        $purchased_artworks_array[$num_row] = $purchased_artwork;
+      }
+
+      return $purchased_artworks_array;
+    } else {
+      throw new Exception("Error selecting filtered purchased artworks", 1);
+    }
+  }
+
+  private function prepare_filtered_query($filters)
+  {
+    $query = "SELECT * FROM PURCHASED_ARTWORKS WHERE ";
+
+    if (isset($filters["artwork_title"])) {
+      $query .= " artwork_title = '" . $filters["artwork_title"] . "' AND";
+    }
+
+    if (isset($filters["artist_email"])) {
+      $query .= " artist_email = '" . $filters["artist_email"] . "' AND";
+    }
+
+    if (isset($filters["order_id"])) {
+      $query .= " order_id = " . $filters["order_id"] . " AND ";
+    }
+
+    // Eliminación del último AND
+    $query = preg_replace("/AND $/", "", $query);
+
+    return $query;
   }
 }

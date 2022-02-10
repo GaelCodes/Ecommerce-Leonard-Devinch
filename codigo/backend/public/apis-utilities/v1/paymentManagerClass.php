@@ -8,6 +8,7 @@ class PaymentManager
   private $client_secret;
   public function __construct()
   {
+    //$this->payment_intent = null;
     $this->stripe = new StripeClient($_ENV["STRIPE_TEST_KEY"]);
   }
 
@@ -22,12 +23,15 @@ class PaymentManager
     return $customer;
   }
 
-  public function create_payment_intent(Order $order)
+  public function create_payment_intent(Client $client, Order $order)
   {
     $this->$payment_intent = $this->stripe->paymentIntents->create([
-      "customer" => $client_id,
+      "customer" => $client->get_stripe_customer_id(),
       "currency" => "eur",
-      "amount" => 10,
+      "amount" => $order->get_total_charge_in_cents(),
+      "description" =>
+        "Intento de pago para la orden con id: " . $order->get_order_id(),
+      "metadata" => ["order_id" => $order->get_order_id()],
     ]);
 
     $this->client_secret = $this->$payment_intent["client_secret"];
