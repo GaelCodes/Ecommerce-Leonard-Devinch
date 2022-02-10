@@ -48,7 +48,12 @@ class PaymentSucceedManager
     $this->dbm->update_available_quantity($purchasedArtworks);
 
     // Create PDF Day 10/02/2022
-    $this->pdfsManager->create_pdf($client, $order, $purchasedArtworks);
+    $this->pdfsManager->create_pdf(
+      $client,
+      $order,
+      $purchasedArtworks,
+      $this->paymentIntent
+    );
 
     // Upload PDF 10/02/2022
     //$pdf = $this->pdfsManager->get_pdf();

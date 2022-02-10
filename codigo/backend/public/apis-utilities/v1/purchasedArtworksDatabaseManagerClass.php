@@ -1,6 +1,8 @@
 <?php
 require_once __ROOT__ . "/public/apis-utilities/v1/databaseManagerClass.php";
 require_once __ROOT__ . "/public/apis-utilities/v1/purchasedArtworkClass.php";
+require_once __ROOT__ .
+  "/public/apis-utilities/v1/artistsDatabaseManagerClass.php";
 
 class PurchasedArtworksDatabaseManager extends DatabaseManager
 {
@@ -43,6 +45,7 @@ class PurchasedArtworksDatabaseManager extends DatabaseManager
     $rows = $this->mysqli->query($query);
 
     if ($rows) {
+      $this->artistsDBM = new ArtistsDatabaseManager();
       $purchased_artworks_array = [];
 
       for ($num_row = 0; $num_row < $rows->num_rows; $num_row++) {
@@ -55,18 +58,15 @@ class PurchasedArtworksDatabaseManager extends DatabaseManager
          * change PurchasedArtwork constructor
          */
 
-        // $purchased_artwork_artist = $this->artistsDBM->selectArtistByEmail(
-        //   $data["artist_email"]
-        // );
-
-        // $purchased_artwork_artist = $purchased_artwork_artist->toArray();
+        $artist = $this->artistsDBM->selectArtistByEmail($data["artist_email"]);
 
         $purchased_artwork = new PurchasedArtwork(
           $data["artwork_title"],
           $data["artist_email"],
           floatval($data["price_by_unit"]),
           intval($data["units"]),
-          intval($data["order_id"])
+          intval($data["order_id"]),
+          $artist
         );
 
         $purchased_artworks_array[$num_row] = $purchased_artwork;

@@ -11,7 +11,8 @@ class PdfsManager
   public function create_pdf(
     Client $client,
     Order $order,
-    array $purchasedArtworks
+    array $purchasedArtworks,
+    \Stripe\PaymentIntent $payment_intent
   ) {
     // Generación del nombre (el id de la order)
     $this->output_file_name = $order->get_order_id();
@@ -51,8 +52,7 @@ class PdfsManager
       realpath(__DIR__) .
       "/tmp-files/generated-orders/{$this->output_file_name}.pdf" .
       "\" ";
-    error_log("COMANDO QUE INTENTO EJECUTAR");
-    error_log($cmd);
+
     /*
      Objective:
     

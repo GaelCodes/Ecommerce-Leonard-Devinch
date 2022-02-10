@@ -19,8 +19,8 @@
             <p class="entreprise-postal-code">55641 Pronvicia, Y Ciudad Inventada</p>
         </div>
         <div class="order-info">
-            <p>Número de factura: 52</p>
-            <p>Fecha de factura: 10/02/2022</p>
+            <p>Número de factura: <?php echo $order->get_order_id(); ?></p>
+            <p>Fecha de factura: <?php echo $order->get_order_date(); ?></p>
         </div>
     </header>
 
@@ -29,17 +29,29 @@
         <div class="send-to-And-charge-to">
             <div class="send-to">
                 <p class="send-to-title">Enviar A</p>
-                <p class="client-name">Jack Thomson</p>
-                <p class="client-shipping_adress">24 Dummy Street Area, Ciudad Inventada, Provincia</p>
-                <p class="client-telephone_number">móvil: +34 648916165</p>
+                <p class="client-name"><?php echo $client->get_full_name(); ?></p>
+                <p class="client-shipping_adress"><?php echo $client->get_shipping_address(); ?></p>
+                <p class="client-telephone_number">móvil: <?php echo $client->get_telephone_number(); ?></p>
             </div>
 
             <div class="charge-to">
                 <p class="charge-to-title">Facturar A </p>
-                <p class="payer-name">Jack Thomson</p>
-                <p class="payer-address">24 Dummy Street Area, Ciudad Inventada, Provincia</p>
-                <p class="pay-method">Método de pago: Credit Card</p>
-                <p class="card-info">Card number: *************4485</p>
+                <p class="payer-name"><?php echo $client->get_full_name(); ?></p>
+                <p class="payer-address"><?php echo $client->get_shipping_address(); ?></p>
+                <p class="pay-method">
+                    <?php echo $payment_intent->charges->data[0]
+                      ->payment_method_details->type; ?>
+                  
+                </p>
+                <p class="card-info">
+                    <?php echo $payment_intent->charges->data[0]
+                      ->payment_method_details->card->brand .
+                      ":  ************" .
+                      $payment_intent->charges->data[0]->payment_method_details
+                        ->card->last4; ?>
+                      
+                  
+                </p>
             </div>
         </div>
 
@@ -64,20 +76,40 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>A.I. Artificial Intelligence</td>
-                    <td>Rosalia Brownbill</td>
-                    <td>1,65€</td>
-                    <td>5</td>
-                    <td>8,25€</td>
-                </tr>
-                <tr>
-                    <td>3 Holiday Tails (Golden Christmas 2: The Second Tail, A) </td>
-                    <td>Nathalie Lynock</td>
-                    <td>63,02€</td>
-                    <td>10</td>
-                    <td>630,20€</td>
-                </tr>
+
+            <?php for ($i = 0; $i < count($purchasedArtworks); $i++) {
+              $purchased_artwork = $purchasedArtworks[$i];
+
+              $title = $purchased_artwork->get_artwork_title();
+              $artist_full_name = $purchased_artwork
+                ->get_artist()
+                ->get_full_name();
+
+              $price_by_unit = number_format(
+                $purchased_artwork->get_price_by_unit(),
+                2,
+                ","
+              );
+              $units = $purchased_artwork->get_units();
+
+              $total_by_artwork =
+                $purchased_artwork->get_units() *
+                $purchased_artwork->get_price_by_unit();
+
+              $total_by_artwork = number_format($total_by_artwork, 2, ",");
+
+              echo "           
+            <tr>
+                <td>$title</td>
+                <td>$artist_full_name</td>
+                <td>$price_by_unit €</td>
+                <td>$units</td>
+                <td>$total_by_artwork €</td>
+            </tr>
+            
+            
+            ";
+            } ?>
 
             </tbody>
 
@@ -92,15 +124,23 @@
                         <table class="summary-table">
                             <tr>
                                 <td>SUBTOTAL:</td>
-                                <td>147,00€</td>
+                                <td><?php echo number_format(
+                                  $order->get_total_charge(),
+                                  2,
+                                  ","
+                                ) . " €"; ?></td>
                             </tr>
                             <tr>
                                 <td>IVA:</td>
-                                <td>21%</td>
+                                <td>0%</td>
                             </tr>
                             <tr>
                                 <td>TOTAL:</td>
-                                <td>147.48€</td>
+                                <td><?php echo number_format(
+                                  $order->get_total_charge(),
+                                  2,
+                                  ","
+                                ) . " €"; ?></td>
                             </tr>
 
                         </table>

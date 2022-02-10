@@ -13,13 +13,15 @@ class PurchasedArtwork
     string $artist_email,
     float $price_by_unit,
     int $units,
-    int $order_id = null
+    int $order_id = null,
+    Artist $artist = null
   ) {
     $this->artwork_title = $artwork_title;
     $this->artist_email = $artist_email;
     $this->price_by_unit = $price_by_unit;
     $this->units = $units;
     $this->order_id = $order_id;
+    $this->artist = $artist;
   }
 
   public function get_artwork_title(): string
@@ -30,6 +32,16 @@ class PurchasedArtwork
   public function get_artist_email(): string
   {
     return $this->artist_email;
+  }
+
+  public function set_artist(Artist $artist): Artist
+  {
+    $this->artist = $artist;
+  }
+
+  public function get_artist(): Artist
+  {
+    return $this->artist;
   }
 
   public function get_units(): int
