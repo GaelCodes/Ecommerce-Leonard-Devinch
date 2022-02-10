@@ -1,0 +1,156 @@
+/* Inicio header */
+
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+header {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 2em 6em;
+}
+
+header .entreprise-info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+header .order-info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+header .logo {
+    width: 14%;
+    border-radius: 50%;
+}
+
+
+/* Fin header */
+
+
+/* Inicio main */
+
+main {
+    padding: 2em 6em;
+}
+
+main .send-to-And-charge-to {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+    padding: 5em 0;
+}
+
+.send-to-And-charge-to .send-to {
+    width: 50%;
+}
+
+.send-to .send-to-title {
+    font-size: 1.5em;
+}
+
+.send-to-And-charge-to .charge-to {
+    width: 50%;
+}
+
+.charge-to .charge-to-title {
+    font-size: 1.5em;
+}
+
+main .articles-table {
+    width: 100%;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    border-collapse: collapse;
+    border: none;
+}
+
+.articles-table thead {
+    background-color: rgba(2, 23, 117, 0.658);
+}
+
+.articles-table th {
+    text-align: center;
+    padding: 1em;
+    font-size: 1.2em;
+}
+
+.articles-table td {
+    padding: 0.5em;
+}
+
+.articles-table td:nth-child(3),
+.articles-table td:nth-child(4),
+.articles-table td:nth-child(5) {
+    text-align: center;
+}
+
+.articles-table .thanks {
+    text-align: center;
+}
+
+.articles-table .summary-list {
+    list-style: none;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.summary-table tr:last-child {
+    background-color: rgba(2, 23, 117, 0.418);
+}
+
+.summary-table tr td:nth-child(2) {
+    text-align: end;
+}
+
+
+/*
+.summary-list li {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.summary-list li div:nth-child(2) {
+    margin-left: auto;
+}
+
+.summary-list li:last-child {
+    background-color: rgba(2, 23, 117, 0.418);
+    padding: 0.8em;
+}
+*/
+
+
+/* Fin main */
+
+
+/* Inicio footer */
+
+footer {
+    background-color: #ccc;
+    padding: 2em 6em;
+}
+
+
+/* Fin footer */
