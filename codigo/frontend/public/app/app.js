@@ -1,24 +1,10 @@
-class User {
-    constructor() {
+export class User {
+    constructor() {}
 
-    }
-
-    logIn() {
-
-    }
+    logIn() {}
 }
 
-class LoggedUser {
-    constructor() {
-        this.username = username;
-        this.userId = userId;
-        // TODO: crear la cookie de carrito de la compra en el inicio
-        // de session si no existe
-        this.shoppingCart = new ShoppingCart(cookies.shoppingCart);
-    }
-}
-
-class Artwork {
+export class Artwork {
     constructor(artworkData) {
         this.title = artworkData.title;
         this.url = artworkData.url;
@@ -66,19 +52,28 @@ class Artwork {
             createdQuantity: this.createdQuantity,
             dimensionX: this.dimensionX,
             dimensionY: this.dimensionY,
-            price: this.price
-        }
+            price: this.price,
+        };
     }
 }
 
-class ArtworkView {
+export class ArtworkView {
     constructor() {
         this.card = ArtworkView.cardPrototype.cloneNode(true);
     }
 
     static init() {
-        ArtworkView.cardPrototype = document.createElement('div');
-        ArtworkView.cardPrototype.classList.add('card', 'd-inline-flex', 'col-12', 'col-md-6', 'col-lg-4', 'my-4', 'border-0', 'p-3');
+        ArtworkView.cardPrototype = document.createElement("div");
+        ArtworkView.cardPrototype.classList.add(
+            "card",
+            "d-inline-flex",
+            "col-12",
+            "col-md-6",
+            "col-lg-4",
+            "my-4",
+            "border-0",
+            "p-3"
+        );
 
         $(ArtworkView.cardPrototype).html(`
 
@@ -112,41 +107,48 @@ class ArtworkView {
         </div>     
 
         `);
-
     }
 
     populate(artworkData) {
-        $(this.card).find('.artworkImage')[0].src = artworkData.url;
-        $(this.card).find('.artworkImage')[0].width = artworkData.dimensionX;
-        $(this.card).find('.artworkImage')[0].heigth = artworkData.dimensionY;
-        $(this.card).find('.dimensionX').text(artworkData.dimensionX + "cm");
-        $(this.card).find('.dimensionY').text(artworkData.dimensionY + "cm");
-        $(this.card).find('.artworkTitle').text(artworkData.title);
-        $(this.card).find('.artworkArtist').text(artworkData.fullNameArtist);
-        $(this.card).find('.artworkArtistEmail').text(artworkData.artistEmail);
-        $(this.card).find('.artworkStartDate').text(artworkData.startDate);
-        $(this.card).find('.date').text(artworkData.endDate);
-        $(this.card).find('.availableStock').text(artworkData.availableStock);
-        $(this.card).find('.createdQuantity').text(artworkData.createdQuantity);
-        $(this.card).find('.price').text(artworkData.price);
+        $(this.card).find(".artworkImage")[0].src = artworkData.url;
+        $(this.card).find(".artworkImage")[0].width = artworkData.dimensionX;
+        $(this.card).find(".artworkImage")[0].heigth = artworkData.dimensionY;
+        $(this.card)
+            .find(".dimensionX")
+            .text(artworkData.dimensionX + "cm");
+        $(this.card)
+            .find(".dimensionY")
+            .text(artworkData.dimensionY + "cm");
+        $(this.card).find(".artworkTitle").text(artworkData.title);
+        $(this.card).find(".artworkArtist").text(artworkData.fullNameArtist);
+        $(this.card).find(".artworkArtistEmail").text(artworkData.artistEmail);
+        $(this.card).find(".artworkStartDate").text(artworkData.startDate);
+        $(this.card).find(".date").text(artworkData.endDate);
+        $(this.card).find(".availableStock").text(artworkData.availableStock);
+        $(this.card).find(".createdQuantity").text(artworkData.createdQuantity);
+        $(this.card).find(".price").text(artworkData.price);
     }
 
     update(artworkData) {
-        $(this.card).find('.artworkTitle').text(artworkData.title);
-        $(this.card).find('.artworkArtist').text(artworkData.fullNameArtist);
-        $(this.card).find('.date').text(artworkData.endDate);
-        $(this.card).find('.availableStock').text(artworkData.availableStock);
-        $(this.card).find('.createdQuantity').text(artworkData.createdQuantity);
-        $(this.card).find('.artworkImage')[0].src = artworkData.url;
-        $(this.card).find('.artworkImage')[0].width = artworkData.dimensionX;
-        $(this.card).find('.artworkImage')[0].heigth = artworkData.dimensionY;
-        $(this.card).find('.dimensionX').text(artworkData.dimensionX + "cm");
-        $(this.card).find('.dimensionY').text(artworkData.dimensionY + "cm");
-        $(this.card).find('.price').text(artworkData.price);
+        $(this.card).find(".artworkTitle").text(artworkData.title);
+        $(this.card).find(".artworkArtist").text(artworkData.fullNameArtist);
+        $(this.card).find(".date").text(artworkData.endDate);
+        $(this.card).find(".availableStock").text(artworkData.availableStock);
+        $(this.card).find(".createdQuantity").text(artworkData.createdQuantity);
+        $(this.card).find(".artworkImage")[0].src = artworkData.url;
+        $(this.card).find(".artworkImage")[0].width = artworkData.dimensionX;
+        $(this.card).find(".artworkImage")[0].heigth = artworkData.dimensionY;
+        $(this.card)
+            .find(".dimensionX")
+            .text(artworkData.dimensionX + "cm");
+        $(this.card)
+            .find(".dimensionY")
+            .text(artworkData.dimensionY + "cm");
+        $(this.card).find(".price").text(artworkData.price);
     }
 }
 
-class ArtworkController {
+export class ArtworkController {
     constructor(artwork, artworkView) {
         this.artwork = artwork;
         this.artworkView = artworkView;
@@ -156,96 +158,82 @@ class ArtworkController {
     }
 }
 
-class Catalogue {
+export class Catalogue {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
     }
 
     static init() {
-        Catalogue.artworksSection = $('section.artworks');
+        Catalogue.artworksSection = $("section.artworks");
         Catalogue.artworks = [];
         Catalogue.filteredArtworks = [];
         Catalogue.filter = FilterController;
 
-        $.get("https://backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1/", function(artworks) {
-            // artworks = JSON.parse(artworks);
-            console.log(artworks);
-            artworks.forEach(
-                (artworkData) => {
+        let falseBackend = "../falseBackend/artworks.json";
+        let realBackend =
+            "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1/";
+        $.get(falseBackend, function(artworks) {
+                // artworks = JSON.parse(artworks);
+                console.log(artworks);
+                artworks.forEach((artworkData) => {
                     let artwork = new Artwork(artworkData);
                     let artworkView = new ArtworkView();
                     let artworkController = new ArtworkController(artwork, artworkView);
-                    Catalogue.artworks.push({ "model": artwork, "view": artworkView, "controller": artworkController });
-                }
-            );
-        }).done(
-            function() {
-                console.log('Artworks recovered successfully');
+                    Catalogue.artworks.push({
+                        model: artwork,
+                        view: artworkView,
+                        controller: artworkController,
+                    });
+                });
+            })
+            .done(function() {
+                console.log("Artworks recovered successfully");
                 Catalogue.showAllArtworks();
-            }
-        ).fail(
-            function(failError) {
-                console.log('Something were wrong while recovering artworks');
+            })
+            .fail(function(failError) {
+                console.log("Something were wrong while recovering artworks");
                 console.log(failError);
-            }
-        ).always(
-            function() {
-                console.log('Get artworks finished');
-            }
-        );
-
+            })
+            .always(function() {
+                console.log("Get artworks finished");
+            });
     }
 
     static showAllArtworks() {
-        Catalogue.artworks.forEach(
-            (artwork) => {
-                Catalogue.artworksSection.append(artwork.view.card);
-            }
-        );
+        Catalogue.artworks.forEach((artwork) => {
+            Catalogue.artworksSection.append(artwork.view.card);
+        });
     }
 }
 
-class FilterController {
+export class FilterController {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
     }
 }
 
-class FilterView {
+export class FilterView {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
     }
 
     static toggleFilterSidebar() {
-        $('#filterSidebar').slideToggle("slow");
+        $("#filterSidebar").slideToggle("slow");
     }
-
 
     static init() {
-        $('#expandFilterButton').click(FilterView.toggleFilterSidebar);
+        $("#expandFilterButton").click(FilterView.toggleFilterSidebar);
     }
 }
 
-class ShoppingCart {
-    constructor() {
-
-    }
+export class ShoppingCart {
+    constructor() {}
 }
 
-class ShoppingCartItem {
-    constructor() {
-
-    }
+export class ShoppingCartItem {
+    constructor() {}
 }
 
-class PaymentManagerForStripe {
-    constructor() {
-
-    }
+export class PaymentManagerForStripe {
+    constructor() {}
 }
-
-$(document).ready(function() {
-    ArtworkView.init();
-    FilterView.init();
-    Catalogue.init();
-});
