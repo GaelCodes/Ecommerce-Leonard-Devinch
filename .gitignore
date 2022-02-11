@@ -66,3 +66,4 @@ node_modules/
 .env
 vendor
 codigo/backend/public/stripe-webhooks/webhooks-utilities/tmp-files/order-generator
+private
