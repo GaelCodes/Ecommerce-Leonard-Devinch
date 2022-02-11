@@ -1,8 +1,7 @@
 <?php
-require_once __ROOT__ . "/public/apis-utilities/v1/databaseManagerClass.php";
-require_once __ROOT__ . "/public/apis-utilities/v1/purchasedArtworkClass.php";
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/artistsDatabaseManagerClass.php";
+require_once "databaseManagerClass.php";
+require_once "purchasedArtworkClass.php";
+require_once "artistsDatabaseManagerClass.php";
 
 class PurchasedArtworksDatabaseManager extends DatabaseManager
 {

@@ -1,7 +1,6 @@
 <?php
 
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/clientsDatabaseManagerClass.php";
+require_once "clientsDatabaseManagerClass.php";
 
 class Client
 {

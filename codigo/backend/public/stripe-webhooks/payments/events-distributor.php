@@ -4,6 +4,9 @@
 //
 require_once "load_dependencies.php";
 
+use Stripe\Webhook;
+use Stripe\Exception\SignatureVerificationException;
+
 // Defino el directorio backend como la constante __ROOT__
 define("__ROOT__", dirname(dirname(dirname(dirname(__FILE__)))));
 
@@ -19,18 +22,18 @@ $sig_header = $_SERVER["HTTP_STRIPE_SIGNATURE"];
 $event = null;
 
 try {
-  $event = \Stripe\Webhook::constructEvent(
-    $payload,
-    $sig_header,
-    $endpoint_secret
-  );
+  $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
 } catch (\UnexpectedValueException $e) {
   // Invalid payload
+
   http_response_code(400);
+
   exit();
-} catch (\Stripe\Exception\SignatureVerificationException $e) {
+} catch (SignatureVerificationException $e) {
   // Invalid signature
+
   http_response_code(400);
+
   exit();
 }
 

@@ -1,15 +1,17 @@
 <?php
 
 require_once __ROOT__ .
-  "/public/apis-utilities/v1/clientsDatabaseManagerClass.php";
+  "/public/common-utilities/clientsDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/common-utilities/clientClass.php";
 require_once __ROOT__ .
-  "/public/apis-utilities/v1/ordersDatabaseManagerClass.php";
+  "/public/common-utilities/ordersDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/common-utilities/orderClass.php";
 require_once __ROOT__ .
-  "/public/apis-utilities/v1/purchasedArtworksDatabaseManagerClass.php";
+  "/public/common-utilities/purchasedArtworksDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/common-utilities/purchasedArtworkClass.php";
 require_once __ROOT__ .
-  "/public/apis-utilities/v1/artworksDatabaseManagerClass.php";
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/clientsDatabaseManagerClass.php";
+  "/public/common-utilities/artworksDatabaseManagerClass.php";
+require_once __ROOT__ . "/public/common-utilities/artworkClass.php";
 
 // Class Database Manager For Stripe's Webhooks
 

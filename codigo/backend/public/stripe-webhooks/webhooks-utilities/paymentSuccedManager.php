@@ -1,32 +1,28 @@
 <?php
 
 require_once __ROOT__ .
+  "/public/common-utilities/firebaseStorageManagerClass.php";
+require_once __ROOT__ . "/public/common-utilities/orderClass.php";
+require_once __ROOT__ .
   "/public/stripe-webhooks/webhooks-utilities/DBMForWebhooks.php";
 require_once __ROOT__ .
   "/public/stripe-webhooks/webhooks-utilities/pdfsManager.php";
-require_once __ROOT__ .
-  "/public/stripe-webhooks/webhooks-utilities/firestorageManager.php";
 
-require_once __ROOT__ .
-  "/public/stripe-webhooks/webhooks-utilities/notificationsManager.php";
-
-require_once __ROOT__ . "/public/apis-utilities/v1/orderClass.php";
+use Stripe\PaymentIntent;
 
 class PaymentSucceedManager
 {
-  private \Stripe\PaymentIntent $paymentIntent;
+  private PaymentIntent $paymentIntent;
   private DBMForWebhooks $dbm;
   private PdfsManager $pdfsManager;
-  private FirestorageManager $firestorageManager;
-  private NotificationsManager $notifier;
+  private FirebaseStorageManager $firebaseStorageManager;
 
-  public function __construct(\Stripe\PaymentIntent $paymentIntent)
+  public function __construct(PaymentIntent $paymentIntent)
   {
     $this->paymentIntent = $paymentIntent;
     $this->dbm = new DBMForWebhooks();
     $this->pdfsManager = new PdfsManager();
-    $this->firestorageManager = new FirestorageManager();
-    $this->notifier = new NotificationsManager();
+    $this->firebaseStorageManager = new FirebaseStorageManager();
   }
 
   public function start()
@@ -47,7 +43,7 @@ class PaymentSucceedManager
     $this->dbm->update_order_status($order);
     $this->dbm->update_available_quantity($purchasedArtworks);
 
-    // Create PDF Day 10/02/2022
+    // Create PDF
     $this->pdfsManager->create_pdf(
       $client,
       $order,
@@ -55,11 +51,12 @@ class PaymentSucceedManager
       $this->paymentIntent
     );
 
-    // Upload PDF 10/02/2022
-    //$pdf = $this->pdfsManager->get_pdf();
-    //$this->firestorageManager->uploadPDF($client, $pdf);
+    // Upload PDF
+    $pdf_path = $this->pdfsManager->get_pdf_path();
+    $this->firebaseStorageManager->upload_pdf($client, $order, $pdf_path);
 
-    // TODO: Send email with PDF 10/02/2022
-    //$this->notifier->send_order_succeed_email($pdf);
+    // No se enviarán las factura de los clientes por correo.
+    // No aprenderé nada que no sepa ya, el tema del envío por correo
+    // se trató bastante en el proyecto "My Anime"
   }
 }
