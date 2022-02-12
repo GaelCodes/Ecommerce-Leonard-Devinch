@@ -27,7 +27,8 @@ export class UserController {
         });
 
         // Send register form
-        $("#registerForm").submit(() => {
+        $("#registerForm").submit((event) => {
+            event.preventDefault();
             // Retrieve inputs data
             let email = $("#registerInputEmail").val();
             let password1 = $("#registerInputPassword1").val();
@@ -64,7 +65,7 @@ export class UserController {
         }
     }
 
-    static sendRegisterForm(email, password1, fullName = "Full Name") {
+    static sendRegisterForm(email, password1, fullName = null) {
         let userData = {
             client_email: email,
             password: password1,
@@ -74,18 +75,31 @@ export class UserController {
         var request = $.ajax({
             url: "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/register/",
             method: "POST",
-            data: userData,
+            // Type of data send to the server
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(userData),
+            // Expected type of data received from server response
             dataType: "json",
         });
 
-        request.done(() => {
+        request.done((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-            console.log("Esto me manda el backend que hago con ello???", data);
+            console.log(
+                "HOLA DESDE DONE Esto me manda el backend que hago con ello???",
+                data,
+                "ESTE ES EL TEXTO",
+                textStatus
+            );
         });
 
-        request.fail(() => {
+        request.fail((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-            console.log("Esto me manda el backend que hago con ello???", data);
+            console.log(
+                "HOLA DESDE FAIL Esto me manda el backend que hago con ello???",
+                data,
+                "ESTE ES EL TEXTO",
+                textStatus
+            );
         });
     }
 
