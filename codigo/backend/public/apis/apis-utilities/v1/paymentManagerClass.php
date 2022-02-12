@@ -15,7 +15,7 @@ class PaymentManager
   public function create_customer(Client $client)
   {
     $customer = $this->stripe->customers->create([
-      "email" => $client->get_email(),
+      "email" => $client->get_client_email(),
       "description" => "My First Test Customer",
       "name" => $client->get_full_name(),
     ]);

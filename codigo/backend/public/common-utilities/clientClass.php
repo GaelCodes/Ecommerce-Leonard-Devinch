@@ -4,7 +4,7 @@ require_once "clientsDatabaseManagerClass.php";
 
 class Client
 {
-  private int $client_id;
+  private ?int $client_id;
   private string $client_email;
   private string $password;
   private string $full_name;
