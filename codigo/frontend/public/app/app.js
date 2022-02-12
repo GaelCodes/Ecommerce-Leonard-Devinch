@@ -71,20 +71,22 @@ export class UserController {
             full_name: fullName,
         };
 
-        $.post(
-                "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/clients-api/v1/register",
-                userData,
-                null,
-                "json"
-            )
-            .done(() => {
-                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-                console.log("Esto me manda el backend que hago con ello???", data);
-            })
-            .fail(() => {
-                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-                console.log("Esto me manda el backend que hago con ello???", data);
-            });
+        var request = $.ajax({
+            url: "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/register/",
+            method: "POST",
+            data: userData,
+            dataType: "json",
+        });
+
+        request.done(() => {
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
+            console.log("Esto me manda el backend que hago con ello???", data);
+        });
+
+        request.fail(() => {
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
+            console.log("Esto me manda el backend que hago con ello???", data);
+        });
     }
 
     static validateLoginForm() {
@@ -191,7 +193,7 @@ export class ArtworkView {
 
         $(ArtworkView.cardPrototype).html(`
 
-        <img src="..." class="artworkImage" alt="Cuadro no encontrado">
+        <img src="https://dummyimage.com/176x100.png/dddddd/000000" class="artworkImage" alt="Cuadro no encontrado">
 
         <div class="card-body artworkBody">
 
