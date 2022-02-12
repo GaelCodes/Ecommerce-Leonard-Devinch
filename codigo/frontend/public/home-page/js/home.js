@@ -1,5 +1,6 @@
 import {
     User,
+    UserController,
     Artwork,
     ArtworkView,
     ArtworkController,
@@ -13,4 +14,5 @@ $(document).ready(function() {
     ArtworkView.init();
     FilterView.init();
     Catalogue.init();
+    UserController.init();
 });

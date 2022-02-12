@@ -4,6 +4,120 @@ export class User {
     logIn() {}
 }
 
+export class UserController {
+    constructor() {}
+
+    static init() {
+        // Register and login modals controls
+        $("#registerButtonLink").click((e) => {
+            $("#closeLoginModalButton").click();
+            $("#registerButton").click();
+        });
+
+        $("#loginButtonLink").click(() => {
+            $("#closeRegisterModalButton").click();
+            $("#loginButton").click();
+        });
+
+        // Send login form
+        $("#loginForm").submit(() => {
+            if (UserController.validateLoginForm()) {
+                UserController.sendLoginForm();
+            }
+        });
+
+        // Send register form
+        $("#registerForm").submit(() => {
+            // Retrieve inputs data
+            let email = $("#registerInputEmail").val();
+            let password1 = $("#registerInputPassword1").val();
+            let password2 = $("#registerInputPassword2").val();
+
+            if (UserController.validateRegisterForm(email, password1, password2)) {
+                // Send data
+                UserController.sendRegisterForm(email, password1);
+            }
+        });
+    }
+
+    static validateRegisterForm(email, password1, password2) {
+        // Patterns
+        let emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
+        let passwordPattern = /.{5,16}/;
+
+        if (
+            emailPattern.test(email) &&
+            passwordPattern.test(password1) &&
+            password1 === password2
+        ) {
+            // Valid input data
+
+            $("#registerErrorMessage").text("");
+            return true;
+        } else {
+            // Not valid input data
+
+            $("#registerErrorMessage").text(
+                "El email y la contraseña no cumplen con el patrón requerido."
+            );
+            return false;
+        }
+    }
+
+    static sendRegisterForm(email, password1, fullName = "Full Name") {
+        let userData = {
+            client_email: email,
+            password: password1,
+            full_name: fullName,
+        };
+
+        $.post(
+                "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/clients-api/v1/register",
+                userData,
+                null,
+                "json"
+            )
+            .done(() => {
+                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
+                console.log("Esto me manda el backend que hago con ello???", data);
+            })
+            .fail(() => {
+                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
+                console.log("Esto me manda el backend que hago con ello???", data);
+            });
+    }
+
+    static validateLoginForm() {
+        // Patterns
+        let emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
+        let passwordPattern = /.{5,16}/;
+
+        // Retrieve inputs data
+        let email = $("#loginInputEmail").val();
+        let password = $("#loginInputPassword").val();
+
+        // Validate inputs data
+        if (emailPattern.test(email) && passwordPattern.test(password)) {
+            $("#loginErrorMessage").text("");
+            return true;
+        } else {
+            $("#loginErrorMessage").text(
+                "El email y la contraseña no cumplen con el patrón requerido."
+            );
+            return false;
+        }
+    }
+
+    static sendLoginForm() {
+        $.post(
+            "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/clients-api/v1/login",
+            function(data) {
+                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Conectado en verde
+            }
+        );
+    }
+}
+
 export class Artwork {
     constructor(artworkData) {
         this.title = artworkData.title;
