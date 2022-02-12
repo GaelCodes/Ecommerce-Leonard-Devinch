@@ -7,9 +7,9 @@ class Client
   private ?int $client_id;
   private string $client_email;
   private string $password;
-  private string $full_name;
-  private string $shipping_address;
-  private float $telephone_number;
+  private ?string $full_name;
+  private ?string $shipping_address;
+  private ?float $telephone_number;
   private ?string $stripe_customer_id;
 
   public function __construct(
@@ -35,7 +35,7 @@ class Client
     return $this->client_email;
   }
 
-  public function get_full_name(): string
+  public function get_full_name(): ?string
   {
     return $this->full_name;
   }
@@ -45,12 +45,12 @@ class Client
     return $this->password;
   }
 
-  public function get_telephone_number(): float
+  public function get_telephone_number(): ?float
   {
     return $this->telephone_number;
   }
 
-  public function get_shipping_address(): string
+  public function get_shipping_address(): ?string
   {
     return $this->shipping_address;
   }
