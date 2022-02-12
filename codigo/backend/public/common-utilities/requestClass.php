@@ -17,4 +17,9 @@ class Request
   {
     return isset($_COOKIE[$name]) ? $_COOKIE[$name] : false;
   }
+
+  public function getMethod()
+  {
+    return $_SERVER["REQUEST_METHOD"];
+  }
 }

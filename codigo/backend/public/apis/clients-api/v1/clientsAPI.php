@@ -29,7 +29,28 @@ abstract class ClientsAPI
   {
     $request = new Request();
 
+    if ($request->getMethod() === "OPTIONS") {
+      $response = new Response();
+      //$response->setHeader("Content-Type: application/json");
+      // Production Configuration
+      // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      $response->setHeader("Access-Control-Allow-Origin: *");
+      $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+      $response->setHeader("Content-type: application/json; charset=utf-8");
+      $response->setCode(200);
+      $response->setContent('{"message" : "Message for preflights requests"}');
+      $response->send();
+    }
+
     $clientData = json_decode($request->getContent(), true);
+
+    //error_log("Hey! esto estoy recibiendo desde FRONTED CON SERVER");
+    //error_log(print_r($_SERVER, true));
+
+    //error_log("Hey! esto estoy recibiendo desde FRONTED CON PHPINPUT");
+    //error_log($clientData);
 
     $clientData["password"] = password_hash(
       $clientData["password"],
@@ -41,9 +62,9 @@ abstract class ClientsAPI
       $clientData["client_email"],
       null,
       $clientData["password"],
-      $clientData["full_name"],
-      $clientData["shipping_address"],
-      $clientData["telephone_number"]
+      @$clientData["full_name"],
+      null,
+      @$clientData["telephone_number"]
     );
 
     try {
@@ -68,10 +89,13 @@ abstract class ClientsAPI
     }
 
     $response = new Response();
-    $response->setHeader("Content-Type: application/json; charset=utf-8");
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
     $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
     $response->setCode($code);
     $response->setContent($message);
     $response->send();
