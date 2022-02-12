@@ -1,26 +1,23 @@
 <?php
 
-require_once __ROOT__ . "/public/apis-utilities/v1/clientClass.php";
+require_once __ROOT__ . "/common-utilities/clientClass.php";
+
+require_once __ROOT__ . "/common-utilities/clientsDatabaseManagerClass.php";
+
+require_once __ROOT__ . "/common-utilities/artworksDatabaseManagerClass.php";
+
+require_once __ROOT__ . "/common-utilities/orderClass.php";
+require_once __ROOT__ . "/common-utilities/ordersDatabaseManagerClass.php";
+
+require_once __ROOT__ . "/common-utilities/purchasedArtworkClass.php";
 
 require_once __ROOT__ .
-  "/public/apis-utilities/v1/clientsDatabaseManagerClass.php";
+  "/common-utilities/purchasedArtworksDatabaseManagerClass.php";
 
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/artworksDatabaseManagerClass.php";
+require_once __ROOT__ . "/apis/apis-utilities/v1/paymentManagerClass.php";
 
-require_once __ROOT__ . "/public/apis-utilities/v1/orderClass.php";
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/ordersDatabaseManagerClass.php";
-
-require_once __ROOT__ . "/public/apis-utilities/v1/purchasedArtworkClass.php";
-
-require_once __ROOT__ .
-  "/public/apis-utilities/v1/purchasedArtworksDatabaseManagerClass.php";
-
-require_once __ROOT__ . "/public/apis-utilities/v1/paymentManagerClass.php";
-
-require_once __ROOT__ . "/public/apis-utilities/v1/responseClass.php";
-require_once __ROOT__ . "/public/apis-utilities/v1/requestClass.php";
+require_once __ROOT__ . "/common-utilities/responseClass.php";
+require_once __ROOT__ . "/common-utilities/requestClass.php";
 
 abstract class ClientsAPI
 {

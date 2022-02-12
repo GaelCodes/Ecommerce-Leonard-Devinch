@@ -24,7 +24,7 @@ class ClientsDatabaseManager extends DatabaseManager
       $shipping_address
     );
 
-    $client_email = $client->get_email();
+    $client_email = $client->get_client_email();
     $full_name = $client->get_full_name();
     $password = $client->get_password();
     $telephone_number = $client->get_telephone_number();
@@ -82,7 +82,7 @@ class ClientsDatabaseManager extends DatabaseManager
       $client_email
     );
 
-    $client_email = $client->get_email();
+    $client_email = $client->get_client_email();
     $stripe_customer_id = $client->get_stripe_customer_id();
     $full_name = $client->get_full_name();
     $password = $client->get_password();
