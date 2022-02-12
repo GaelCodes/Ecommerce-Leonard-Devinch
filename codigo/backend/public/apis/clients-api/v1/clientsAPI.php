@@ -34,7 +34,9 @@ abstract class ClientsAPI
       //$response->setHeader("Content-Type: application/json");
       // Production Configuration
       // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-      $response->setHeader("Access-Control-Allow-Origin: *");
+      $response->setHeader(
+        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      );
       $response->setHeader("Access-Control-Allow-Headers: Content-Type");
       $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
 
@@ -91,7 +93,7 @@ abstract class ClientsAPI
     $response = new Response();
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
     $response->setHeader("Access-Control-Allow-Headers: Content-Type");
     $response->setHeader("Access-Control-Allow-Methods: POST");
 
@@ -105,28 +107,65 @@ abstract class ClientsAPI
   {
     $request = new Request();
 
+    if ($request->getMethod() === "OPTIONS") {
+      $response = new Response();
+
+      // Production Configuration
+      // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      $response->setHeader(
+        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      );
+      // Header for securized rutes
+      $response->setHeader("Access-Control-Allow-Credentials: true");
+      $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+      $response->setHeader("Content-type: application/json; charset=utf-8");
+      $response->setCode(200);
+      $response->setContent('{"message" : "Message for preflights requests"}');
+      $response->send();
+    }
+
     $clientData = json_decode($request->getContent(), true);
     $password = $clientData["password"];
     $client_email = $clientData["client_email"];
 
+    // Retrieve client from database if credentials are valid
     $client = Client::validate_credentials($client_email, $password);
 
     if ($client) {
       $JWT = Client::generateJWT($client);
-      setcookie("jwt-cookie", $JWT);
+      setcookie("jwt-cookie", $JWT, ["samesite" => "None", "secure" => true]);
 
       $code = 200;
-      $message = '{ "message":  "Logged succeessfully"}';
+      $message = [
+        "message" => "Logged succeessfully",
+        "userData" => [
+          "email" => $client->get_client_email(),
+          "fullName" => $client->get_full_name(),
+          "shippingAddress" => $client->get_shipping_address(),
+          "telephoneNumber" => $client->get_telephone_number(),
+        ],
+      ];
+
+      $message = json_encode($message);
     } else {
       $code = 401;
       $message = '{ "message":  "Invalid credentials"}';
     }
 
     $response = new Response();
-    $response->setHeader("Content-Type: application/json; charset=utf-8");
+
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // Headers for securized rutes
+    $response->setHeader("Access-Control-Allow-Credentials: true");
+
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
     $response->setCode($code);
     $response->setContent($message);
     $response->send();

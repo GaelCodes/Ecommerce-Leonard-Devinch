@@ -8,6 +8,10 @@ export class UserController {
     constructor() {}
 
     static init() {
+        // Patterns
+        UserController.emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
+        UserController.passwordPattern = /.{5,16}/;
+
         // Register and login modals controls
         $("#registerButtonLink").click((e) => {
             $("#closeLoginModalButton").click();
@@ -20,15 +24,18 @@ export class UserController {
         });
 
         // Send login form
-        $("#loginForm").submit(() => {
-            if (UserController.validateLoginForm()) {
-                UserController.sendLoginForm();
+        $("#loginForm").submit((e) => {
+            e.preventDefault();
+            let email = $("#loginInputEmail").val();
+            let password = $("#loginInputPassword").val();
+            if (UserController.validateLoginForm(email, password)) {
+                UserController.sendLoginForm(email, password);
             }
         });
 
         // Send register form
-        $("#registerForm").submit((event) => {
-            event.preventDefault();
+        $("#registerForm").submit((e) => {
+            e.preventDefault();
             // Retrieve inputs data
             let email = $("#registerInputEmail").val();
             let password1 = $("#registerInputPassword1").val();
@@ -42,13 +49,9 @@ export class UserController {
     }
 
     static validateRegisterForm(email, password1, password2) {
-        // Patterns
-        let emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
-        let passwordPattern = /.{5,16}/;
-
         if (
-            emailPattern.test(email) &&
-            passwordPattern.test(password1) &&
+            UserController.emailPattern.test(email) &&
+            UserController.passwordPattern.test(password1) &&
             password1 === password2
         ) {
             // Valid input data
@@ -73,7 +76,7 @@ export class UserController {
         };
 
         var request = $.ajax({
-            url: "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/register/",
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/register/",
             method: "POST",
             // Type of data send to the server
             contentType: "application/json; charset=UTF-8",
@@ -84,39 +87,29 @@ export class UserController {
 
         request.done((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-            console.log(
-                "HOLA DESDE DONE Esto me manda el backend que hago con ello???",
-                data,
-                "ESTE ES EL TEXTO",
-                textStatus
-            );
+            let messageSucceed = data.message;
+            $("#registerSucceedMessage").text(textStatus + " : " + messageSucceed);
         });
 
         request.fail((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Registrado en verde
-            console.log(
-                "HOLA DESDE FAIL Esto me manda el backend que hago con ello???",
-                data,
-                "ESTE ES EL TEXTO",
-                textStatus
-            );
+            let messageError = data.responseJSON.message;
+            $("#registerErrorMessage").text(textStatus + " : " + messageError);
         });
     }
 
-    static validateLoginForm() {
-        // Patterns
-        let emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
-        let passwordPattern = /.{5,16}/;
+    static validateLoginForm(email, password) {
+        if (
+            UserController.emailPattern.test(email) &&
+            UserController.passwordPattern.test(password)
+        ) {
+            // Valid input data
 
-        // Retrieve inputs data
-        let email = $("#loginInputEmail").val();
-        let password = $("#loginInputPassword").val();
-
-        // Validate inputs data
-        if (emailPattern.test(email) && passwordPattern.test(password)) {
             $("#loginErrorMessage").text("");
             return true;
         } else {
+            // Not Valid input data
+
             $("#loginErrorMessage").text(
                 "El email y la contraseña no cumplen con el patrón requerido."
             );
@@ -124,13 +117,38 @@ export class UserController {
         }
     }
 
-    static sendLoginForm() {
-        $.post(
-            "http://backend.ecommerce-leonard-devinch.abigaelheredia.es/clients-api/v1/login",
-            function(data) {
-                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Conectado en verde
-            }
-        );
+    static sendLoginForm(email, password) {
+        let userData = {
+            client_email: email,
+            password: password,
+        };
+
+        var request = $.ajax({
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/login/",
+            method: "POST",
+            // Type of data send to the server
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(userData),
+            // Expected type of data received from server response
+            dataType: "json",
+
+            // Uncomment this for securized requests
+            // xhrFields: {
+            //     withCredentials: true,
+            // },
+        });
+
+        request.done((data, textStatus) => {
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Logueado en verde
+            let messageSucceed = data.message;
+            $("#loginSucceedMessage").text(textStatus + " : " + messageSucceed);
+        });
+
+        request.fail((data, textStatus) => {
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Incorrecto en rojo
+            let messageError = data.responseJSON.message;
+            $("#loginErrorMessage").text(textStatus + " : " + messageError);
+        });
     }
 }
 
