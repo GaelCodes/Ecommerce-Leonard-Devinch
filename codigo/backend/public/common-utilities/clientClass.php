@@ -84,10 +84,7 @@ class Client
     if ($valid) {
       return $client;
     } else {
-      throw new Exception(
-        "Error invalid credentials in credentials validation",
-        1
-      );
+      return false;
     }
   }
 
