@@ -142,11 +142,6 @@ abstract class ClientsAPI
         // This parameter will depend if Remember me is set or not
         //"expires" => time() + 60 * 60 * 24 * 30,
       ]);
-      // [
-      //   "httponly" => false,
-      //   "samesite" => "None",
-      //   "secure" => true,
-      // ]
 
       $code = 200;
       $message = [
