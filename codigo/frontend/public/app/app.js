@@ -46,6 +46,11 @@ export class UserController {
                 UserController.sendRegisterForm(email, password1);
             }
         });
+
+        // Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
     }
 
     static validateRegisterForm(email, password1, password2) {
@@ -140,8 +145,18 @@ export class UserController {
 
         request.done((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Logueado en verde
+            // TODO: Después de ~1s de cambiar a logueado, Cerrar login modal
+            // Animation -> when end -> $("#closeLoginModalButton").click();
             let messageSucceed = data.message;
             $("#loginSucceedMessage").text(textStatus + " : " + messageSucceed);
+            $("#closeLoginModalButton").click();
+
+            // Save userData
+            let userData = data.userData;
+            UserController.saveUserData(userData);
+
+            // LoadLoggedUIHome
+            UserController.loadLoggedUIHome();
         });
 
         request.fail((data, textStatus) => {
@@ -149,6 +164,68 @@ export class UserController {
             let messageError = data.responseJSON.message;
             $("#loginErrorMessage").text(textStatus + " : " + messageError);
         });
+    }
+
+    static sendLogout() {
+        // TODO: Solicitar borrado de cookie al backend
+        var request = $.ajax({
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout/",
+            method: "POST",
+            // Expected type of data received from server response
+            dataType: "json",
+
+            // Uncomment this for securized requests
+            xhrFields: {
+                withCredentials: true,
+            },
+        });
+
+        request.done((data, textStatus) => {
+            // TODO: Borrar los datos del localStorage
+            localStorage.removeItem("userData");
+            alert("Sesión cerrada correctamente");
+
+            // LoadNotLoggedUIHome
+            UserController.loadNotLoggedUIHome();
+        });
+
+        request.fail((data, textStatus) => {
+            alert("No se ha podido cerrar sesión correctamente");
+        });
+    }
+
+    static saveUserData(userData) {
+        localStorage.setItem("userData", JSON.stringify(userData));
+    }
+
+    static loadLoggedUIHome() {
+        let userData = UserController.getUserData();
+
+        // Ocultar boton inicio de sesión
+        $("#loginButton").addClass("d-none");
+
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // Mostrar boton user email dropdown
+        $("#userDropdownMenu").parent().removeClass("d-none");
+    }
+
+    static loadNotLoggedUIHome() {
+        // Mostrar boton inicio de sesión
+        $("#loginButton").removeClass("d-none");
+
+        // Resetear botón user email dropdown
+        $("#userDropdownMenu").text("example@hotmail.com");
+
+        // Ocultar boton user email dropdown
+        $("#userDropdownMenu").parent().addClass("d-none");
+    }
+
+    static getUserData() {
+        let userData = localStorage.getItem("userData");
+        userData = JSON.parse(userData);
+        return userData;
     }
 }
 
@@ -321,8 +398,6 @@ export class Catalogue {
         let realBackend =
             "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/artworks-api/v1/";
         $.get(falseBackend, function(artworks) {
-                // artworks = JSON.parse(artworks);
-                console.log(artworks);
                 artworks.forEach((artworkData) => {
                     let artwork = new Artwork(artworkData);
                     let artworkView = new ArtworkView();
@@ -335,15 +410,11 @@ export class Catalogue {
                 });
             })
             .done(function() {
-                console.log("Artworks recovered successfully");
                 Catalogue.showAllArtworks();
             })
             .fail(function(failError) {
                 console.log("Something were wrong while recovering artworks");
                 console.log(failError);
-            })
-            .always(function() {
-                console.log("Get artworks finished");
             });
     }
 

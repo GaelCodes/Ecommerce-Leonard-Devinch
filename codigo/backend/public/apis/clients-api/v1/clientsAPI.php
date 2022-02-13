@@ -135,7 +135,18 @@ abstract class ClientsAPI
 
     if ($client) {
       $JWT = Client::generateJWT($client);
-      setcookie("jwt-cookie", $JWT, ["samesite" => "None", "secure" => true]);
+      setcookie("jwt-cookie", $JWT, [
+        "secure" => true,
+        "samesite" => "None",
+        "path" => "/",
+        // This parameter will depend if Remember me is set or not
+        //"expires" => time() + 60 * 60 * 24 * 30,
+      ]);
+      // [
+      //   "httponly" => false,
+      //   "samesite" => "None",
+      //   "secure" => true,
+      // ]
 
       $code = 200;
       $message = [
@@ -168,6 +179,48 @@ abstract class ClientsAPI
     $response->setHeader("Content-type: application/json; charset=utf-8");
     $response->setCode($code);
     $response->setContent($message);
+    $response->send();
+  }
+
+  public static function logout()
+  {
+    $request = new Request();
+
+    if ($request->getMethod() === "OPTIONS") {
+      $response = new Response();
+
+      // Production Configuration
+      // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      $response->setHeader(
+        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      );
+      // Header for securized rutes
+      $response->setHeader("Access-Control-Allow-Credentials: true");
+      $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+      $response->setHeader("Content-type: application/json; charset=utf-8");
+      $response->setCode(200);
+      $response->setContent('{"message" : "Message for preflights requests"}');
+      $response->send();
+    }
+
+    setcookie("jwt-cookie", "", time() - 3600);
+
+    $response = new Response();
+
+    // Production Configuration
+    // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // Headers for securized rutes
+    $response->setHeader("Access-Control-Allow-Credentials: true");
+
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
+    $response->setCode(200);
+    $response->setContent('{"message" : "Logged out succeessfully"}');
     $response->send();
   }
 
