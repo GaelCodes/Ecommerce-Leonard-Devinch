@@ -447,12 +447,97 @@ export class FilterView {
 
 export class ShoppingCart {
     constructor() {}
+
+    static init() {
+        $("#confirmOrderButton").click(() => {
+            // TODO: Retrieve cookie shopping-cart
+            // TODO: Sale carrito hacia la izquierda
+            $("#shoppingCartCard").toggle("slide");
+            // TODO: Entra Payment manager desde la derecha
+            $("#PaymentManagerCard").toggle("slide", { direction: "right" });
+            // TODO: Send form -> if succeed enable payment inputs
+
+            ShoppingCart.sendOrder();
+            //ShoppingCart.sendOrder(orderData);
+        });
+    }
+
+    static sendOrder(orderData = "") {
+        let succeed = true;
+        if (succeed) {
+            // TODO: if succeed enable payment inputs
+        } else {
+            // TODO: if not succeed inform error
+        }
+
+        // var request = $.ajax({
+        //     url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/make_order/",
+        //     method: "POST",
+        //     // Type of data send to the server
+        //     contentType: "application/json; charset=UTF-8",
+        //     data: JSON.stringify(orderData),
+        //     // Expected type of data received from server response
+        //     dataType: "json",
+        //     //Uncomment this for securized requests
+        //     xhrFields: {
+        //         withCredentials: true,
+        //     },
+        // });
+        // request.done((data, textStatus) => {
+        //     // TODO: if succeed enable payment inputs
+        // });
+        // request.fail((data, textStatus) => {
+        //     // TODO: if not succeed inform error
+        // });
+    }
 }
 
 export class ShoppingCartItem {
     constructor() {}
 }
 
-export class PaymentManagerForStripe {
+export class PaymentManager {
     constructor() {}
+
+    static init() {
+        // Set your publishable key: remember to change this to your live publishable key in production
+        // See your keys here: https://dashboard.stripe.com/apikeys
+        var stripe = Stripe(
+            "pk_test_51Jz75mCaANM1wgcDUugV3UxjJ8q2uwoygyEiV2eMZ357KYWytnXd6Pat0CrI2nbGYDyw7H5rPMy3it84kGC2Q3Op00H1iIkGfC"
+        );
+
+        // Set up Stripe.js and Elements to use in checkout form
+        var elements = stripe.elements();
+        var style = {
+            base: {
+                iconColor: "#c4f0ff",
+                color: "#0d6efd",
+                fontWeight: "500",
+                fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+                fontSize: "16px",
+                fontSmoothing: "antialiased",
+                ":-webkit-autofill": {
+                    color: "#fce883",
+                },
+                "::placeholder": {
+                    color: "#87BBFD",
+                },
+            },
+            invalid: {
+                iconColor: "#FFC7EE",
+                color: "#FFC7EE",
+            },
+        };
+
+        var card = elements.create("card", { style });
+        card.mount("#card-element");
+
+        $("#backToShoppingCartButton").click(() => {
+            // TODO: Entra carrito desde la derecha
+            $("#shoppingCartCard").toggle("slide");
+            // TODO: Sale Payment manager hacia la derecha
+            $("#PaymentManagerCard").toggle("slide", { direction: "right" });
+            // TODO: Send form -> if succeed enable payment inputs
+        });
+    }
 }
