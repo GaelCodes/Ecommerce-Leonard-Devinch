@@ -15,4 +15,12 @@ $(document).ready(function() {
     FilterView.init();
     Catalogue.init();
     UserController.init();
+
+    // Load UIHome
+    let userData = UserController.getUserData();
+    if (userData) {
+        UserController.loadLoggedUIHome(userData);
+    } else {
+        UserController.loadNotLoggedUIHome();
+    }
 });
