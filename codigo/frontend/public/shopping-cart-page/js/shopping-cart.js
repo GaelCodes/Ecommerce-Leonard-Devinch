@@ -9,9 +9,17 @@ import {
     FilterView,
     ShoppingCart,
     PaymentManager,
+    ShoppingCartController,
 } from "../../app/app.js";
 
 $(document).ready(function() {
-    ShoppingCart.init();
-    PaymentManager.init();
+    let userData = UserController.getUserData();
+
+    if (userData) {
+        UserController.loadLoggedUIShoppingCart(userData);
+        ShoppingCartController.init();
+        PaymentManager.init();
+    } else {
+        UserController.redirectHome();
+    }
 });
