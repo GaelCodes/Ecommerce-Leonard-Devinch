@@ -25,8 +25,12 @@
                     placeholder@hotmail.com
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdownMenu">
-                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/index.html"><i class="bi bi-person me-2"></i> Mi
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../home-page/home.html"><i
+                                class="bi bi-shop me-2"></i>Tienda</a></li>
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/profile.html"><i class="bi bi-person me-2"></i> Mi
                             perfil</a></li>
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../orders-page/orders.html"><i class="bi bi-list-ul me-2"></i> Mis
+                            pedidos</a></li>
                     <li><a id="logoutButton" class="btn btn-outline-primary w-100 border-0 text-start" role="button"><i
                                 class="bi bi-box-arrow-left me-2"></i>
                             Desconectar</a></li>
@@ -34,7 +38,7 @@
             </div>
 
             <!-- Cart button -->
-            <a href="../shopping-cart-page/index.html" class="btn btn-outline-primary me-2">
+            <a href="../shopping-cart-page/shopping-cart.html" class="btn btn-outline-primary me-2">
 
                 <i class="col-2 bi bi-cart"></i>
 
@@ -57,25 +61,26 @@
 
 
                     <form>
-                        <table></table>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" disabled>Correo</button>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="example@hotmail.com" disabled>
+                            <input id="inputUserEmail" type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="example@hotmail.com" disabled>
                         </div>
 
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" disabled>Nombre completo</button>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <input id="inputFullName" type="text" class="form-control" aria-label="Text input with dropdown button">
                         </div>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" disabled>Número de teléfono</button>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <input id="inputTelephoneNumber" type="text" class="form-control" aria-label="Text input with dropdown button">
                         </div>
                         <div class="input-group mb-3">
                             <button class="btn btn-outline-secondary" type="button" disabled>Dirección de envío</button>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            <input id="inputShippingAddress" type="text" class="form-control" aria-label="Text input with dropdown button">
                         </div>
                         <button type="submit" class="btn btn-primary mx-auto d-block">Actualizar Datos</button>
+                        <p id="updateSuccedMessage" class="form-text text-center text-success"></p>
+                        <p id="updateErrorMessage" class="form-text text-center text-danger"></p>
                     </form>
 
                 </div>
