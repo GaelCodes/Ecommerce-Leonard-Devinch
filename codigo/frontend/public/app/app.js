@@ -7,51 +7,7 @@ export class User {
 export class UserController {
     constructor() {}
 
-    static init() {
-        // Patterns
-        UserController.emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
-        UserController.passwordPattern = /.{5,16}/;
-
-        // Register and login modals controls
-        $("#registerButtonLink").click((e) => {
-            $("#closeLoginModalButton").click();
-            $("#registerButton").click();
-        });
-
-        $("#loginButtonLink").click(() => {
-            $("#closeRegisterModalButton").click();
-            $("#loginButton").click();
-        });
-
-        // Send login form
-        $("#loginForm").submit((e) => {
-            e.preventDefault();
-            let email = $("#loginInputEmail").val();
-            let password = $("#loginInputPassword").val();
-            if (UserController.validateLoginForm(email, password)) {
-                UserController.sendLoginForm(email, password);
-            }
-        });
-
-        // Send register form
-        $("#registerForm").submit((e) => {
-            e.preventDefault();
-            // Retrieve inputs data
-            let email = $("#registerInputEmail").val();
-            let password1 = $("#registerInputPassword1").val();
-            let password2 = $("#registerInputPassword2").val();
-
-            if (UserController.validateRegisterForm(email, password1, password2)) {
-                // Send data
-                UserController.sendRegisterForm(email, password1);
-            }
-        });
-
-        // Send logout request
-        $("#logoutButton").click(() => {
-            UserController.sendLogout();
-        });
-    }
+    static init() {}
 
     static validateRegisterForm(email, password1, password2) {
         if (
@@ -156,7 +112,7 @@ export class UserController {
             UserController.saveUserData(userData);
 
             // LoadLoggedUIHome
-            UserController.loadLoggedUIHome();
+            UserController.loadLoggedUIHome(userData);
         });
 
         request.fail((data, textStatus) => {
@@ -168,9 +124,166 @@ export class UserController {
 
     static sendLogout() {
         // TODO: Solicitar borrado de cookie al backend
+        // var request = $.ajax({
+        //     url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout/",
+        //     method: "POST",
+        //     // Expected type of data received from server response
+        //     dataType: "json",
+        //     // Uncomment this for securized requests
+        //     xhrFields: {
+        //         withCredentials: true,
+        //     },
+        // });
+        // request.done((data, textStatus) => {
+        //     // TODO: Borrar los datos del localStorage
+        //     localStorage.removeItem("userData");
+        //     alert("Sesión cerrada correctamente");
+        //     // LoadNotLoggedUIHome
+        //     UserController.loadNotLoggedUIHome();
+        // });
+        // request.fail((data, textStatus) => {
+        //     alert("No se ha podido cerrar sesión correctamente");
+        // });
+
+        UserController.redirectHome();
+    }
+
+    static saveUserData(userData) {
+        localStorage.setItem("userData", JSON.stringify(userData));
+    }
+
+    static loadNotLoggedUIHome() {
+        // Patterns
+        UserController.emailPattern = /[\w-]*@[\w-]*\.[\w]{2,6}/;
+        UserController.passwordPattern = /.{5,16}/;
+
+        // Mostrar boton inicio de sesión
+        $("#loginButton").removeClass("d-none");
+
+        // Resetear botón user email dropdown
+        $("#userDropdownMenu").text("example@hotmail.com");
+
+        // Ocultar boton user email dropdown
+        $("#userDropdownMenu").parent().addClass("d-none");
+
+        // EventListener Register and login modals controls link
+        $("#registerButtonLink").click((e) => {
+            $("#closeLoginModalButton").click();
+            $("#registerButton").click();
+        });
+
+        $("#loginButtonLink").click(() => {
+            $("#closeRegisterModalButton").click();
+            $("#loginButton").click();
+        });
+
+        // EventListener Send login form
+        $("#loginForm").submit((e) => {
+            e.preventDefault();
+            let email = $("#loginInputEmail").val();
+            let password = $("#loginInputPassword").val();
+            if (UserController.validateLoginForm(email, password)) {
+                UserController.sendLoginForm(email, password);
+            }
+        });
+
+        // EventListener Send register form
+        $("#registerForm").submit((e) => {
+            e.preventDefault();
+            // Retrieve inputs data
+            let email = $("#registerInputEmail").val();
+            let password1 = $("#registerInputPassword1").val();
+            let password2 = $("#registerInputPassword2").val();
+
+            if (UserController.validateRegisterForm(email, password1, password2)) {
+                // Send data
+                UserController.sendRegisterForm(email, password1);
+            }
+        });
+    }
+
+    static loadLoggedUIHome(userData) {
+        // Ocultar boton inicio de sesión
+        $("#loginButton").addClass("d-none");
+
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // Mostrar boton user email dropdown
+        $("#userDropdownMenu").parent().removeClass("d-none");
+
+        // EventListener Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
+    }
+
+    static loadLoggedUIProfile(userData) {
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // EventListener Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
+
+        // Mostrar datos del usuario
+        $("#inputUserEmail").val(userData.email);
+        $("#inputFullName").val(userData.fullName);
+        $("#inputTelephoneNumber").val(userData.telephoneNumber);
+        $("#inputShippingAddress").val(userData.shippingAddress);
+
+        // EventListener actualizar datos de usuario
+
+        $("#updateProfileButton").click(() => {
+            let profileData = {
+                fullName: $("#inputFullName").val(),
+                telephoneNumber: $("#inputTelephoneNumber").val(),
+                shippingAddress: $("#inputShippingAddress").val(),
+            };
+            UserController.validateProfileForm(profileData);
+            UserController.sendUpdateProfileForm(profileData);
+        });
+    }
+
+    static loadLoggedUIOrders(userData) {
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // EventListener Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
+
+        // TODO: Recuperar lista de pedidos
+        //let orders = OrdersController.getOrders();
+        // TODO: Mostrar Lista de pedidos
+        //OrdersController.showOrders(orders);
+    }
+
+    static loadLoggedUIShoppingCart(userData) {
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // EventListener Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
+    }
+
+    static getUserData() {
+        let userData = localStorage.getItem("userData");
+        userData = JSON.parse(userData);
+        return userData;
+    }
+
+    static sendUpdateProfileForm(profileData) {
         var request = $.ajax({
-            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout/",
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/update_profile/",
             method: "POST",
+            // Type of data send to the server
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify(profileData),
             // Expected type of data received from server response
             dataType: "json",
 
@@ -180,52 +293,35 @@ export class UserController {
             },
         });
 
-        request.done((data, textStatus) => {
-            // TODO: Borrar los datos del localStorage
-            localStorage.removeItem("userData");
-            alert("Sesión cerrada correctamente");
+        request.beforeSend(() => {
+            $("#updateSuccedMessage").val("");
+            $("#updateErrorMessage").val("");
+        });
 
-            // LoadNotLoggedUIHome
-            UserController.loadNotLoggedUIHome();
+        request.done((data, textStatus) => {
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Actualizado en verde
+            //
+
+            let messageSucceed = data.message;
+            $("#updateSuccedMessage").text(textStatus + " : " + messageSucceed);
+
+            // Save userData
+            let userData = data.userData;
+            UserController.saveUserData(userData);
         });
 
         request.fail((data, textStatus) => {
-            alert("No se ha podido cerrar sesión correctamente");
+            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a No actualizado en rojo
+            let messageError = data.responseJSON.message;
+            $("#updateErrorMessage").text(textStatus + " : " + messageError);
         });
     }
 
-    static saveUserData(userData) {
-        localStorage.setItem("userData", JSON.stringify(userData));
-    }
+    static validateProfileForm(profileData) {}
 
-    static loadLoggedUIHome() {
-        let userData = UserController.getUserData();
-
-        // Ocultar boton inicio de sesión
-        $("#loginButton").addClass("d-none");
-
-        // Rellenar botón user email dropdown
-        $("#userDropdownMenu").text(userData.email);
-
-        // Mostrar boton user email dropdown
-        $("#userDropdownMenu").parent().removeClass("d-none");
-    }
-
-    static loadNotLoggedUIHome() {
-        // Mostrar boton inicio de sesión
-        $("#loginButton").removeClass("d-none");
-
-        // Resetear botón user email dropdown
-        $("#userDropdownMenu").text("example@hotmail.com");
-
-        // Ocultar boton user email dropdown
-        $("#userDropdownMenu").parent().addClass("d-none");
-    }
-
-    static getUserData() {
-        let userData = localStorage.getItem("userData");
-        userData = JSON.parse(userData);
-        return userData;
+    static redirectHome() {
+        location = "../home-page/home.html";
+        //location = "https://ecommerce-leonard-devinch.web.app/home-page/home.html";
     }
 }
 
@@ -281,10 +377,10 @@ export class Artwork {
         };
     }
 }
-
 export class ArtworkView {
     constructor() {
         this.card = ArtworkView.cardPrototype.cloneNode(true);
+        this.addCartButton = $(this.card).find(".artworkCartButton");
     }
 
     static init() {
@@ -372,7 +468,6 @@ export class ArtworkView {
         $(this.card).find(".price").text(artworkData.price);
     }
 }
-
 export class ArtworkController {
     constructor(artwork, artworkView) {
         this.artwork = artwork;
@@ -380,6 +475,48 @@ export class ArtworkController {
 
         this.artwork.registerObserver(this.artworkView);
         this.artworkView.populate(this.artwork.copy());
+
+        // EventListeners
+
+        $(this.artworkView.addCartButton).click(() => {
+            this.addToShoppingCart();
+        });
+    }
+
+    addToShoppingCart() {
+        // TODO: ¿Seria más conveniente usar cookies o localstorage?
+        // Creo que sería mejor usar localStorage, más capacidad, y no se envían con cada petición
+
+        // Convertir la cookie actual a objeto
+
+        let shoppingCartCookie = getCookie("shoppingCart");
+        shoppingCartCookie =
+            shoppingCartCookie === "" ? [] : JSON.parse(shoppingCartCookie);
+
+        // ShoppingCartCookie is an array with data like this =
+        //
+        // [
+        //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
+        //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
+        // ];
+
+        // TODO: Comprobar si ya estaba añadida
+        let artworkIndex = shoppingCartCookie.findIndex((selectedArtwork) => {
+            return (
+                selectedArtwork.title == this.artwork.title &&
+                selectedArtwork.artistEmail == this.artwork.artistEmail
+            );
+        });
+
+        if (artworkIndex === -1) {
+            shoppingCartCookie.push({
+                artistEmail: this.artwork.artistEmail,
+                title: this.artwork.title,
+                units: 1,
+            });
+
+            setCookie("shoppingCart", JSON.stringify(shoppingCartCookie), 7);
+        }
     }
 }
 
@@ -425,12 +562,11 @@ export class Catalogue {
     }
 }
 
-export class FilterController {
+export class Filter {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
     }
 }
-
 export class FilterView {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
@@ -444,11 +580,78 @@ export class FilterView {
         $("#expandFilterButton").click(FilterView.toggleFilterSidebar);
     }
 }
+export class FilterController {
+    constructor() {
+        throw new Error("Can't instantiate abstract class!");
+    }
+}
 
 export class ShoppingCart {
     constructor() {}
 
+    static async init() {
+        ShoppingCart.items = [];
+
+        shoppingCartCookie = getCookie("shoppingCart");
+        shoppingCartCookie = JSON.parse(shoppingCartCookie);
+
+        // ShoppingCartCookie is an array with data like this =
+        //
+        // [
+        //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+        //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+        // ];
+
+        // Obtener la info de las obras de arte desde el backend
+        selection = shoppingCartCookie;
+        let artworks = await ShoppingCartController.retrieveShoppingCartArtworks(
+            selection
+        );
+
+        // Crear los shoppingCartItems
+        artworks.forEach((artworkData) => {
+            // Aquí busco y asocio obras de arte con unidades
+            let selectionIndex = selection.findIndex((selectedArtwork) => {
+                return (
+                    selectedArtwork.title == artworkData.title &&
+                    selectedArtwork.artistEmail == selectedArtwork.artistEmail
+                );
+            });
+
+            artworkData.units = selection[selectionIndex].units;
+
+            let shoppingCartItem = new ShoppingCartItem(
+                artworkData.title,
+                artworkData.units,
+                artworkData.url
+            );
+
+            let shoppingCartItemView = new ShoppingCartItemView();
+
+            // TODO: Mostrar shoppingCartItem en el populate del view
+            let shoppingCartItemController = new ShoppingCartItemController(
+                shoppingCartItem,
+                shoppingCartItemView
+            );
+
+            ShoppingCart.items.push({
+                model: shoppingCartItem,
+                view: shoppingCartItemView,
+                controller: shoppingCartItemController,
+            });
+        });
+    }
+}
+export class ShoppingCartController {
+    constructor() {}
+
     static init() {
+        // TODO: Recuperar carrito
+        //let shoppingCartItems = ShoppingCart.items;
+        // TODO: Mostrar Items del carrito
+        //ShoppingCartController.showItems(shoppingCartItems);
+
+        // Events Listeners
         $("#confirmOrderButton").click(() => {
             // TODO: Retrieve cookie shopping-cart
             // TODO: Sale carrito hacia la izquierda
@@ -457,7 +660,7 @@ export class ShoppingCart {
             $("#PaymentManagerCard").toggle("slide", { direction: "right" });
             // TODO: Send form -> if succeed enable payment inputs
 
-            ShoppingCart.sendOrder();
+            ShoppingCartController.sendOrder();
             //ShoppingCart.sendOrder(orderData);
         });
     }
@@ -490,9 +693,39 @@ export class ShoppingCart {
         //     // TODO: if not succeed inform error
         // });
     }
+
+    static async retrieveShoppingCartArtworks(selection) {
+        var result;
+
+        try {
+            result = await $.ajax({
+                url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/retrieve_selected_artworks/",
+                method: "POST",
+                // Type of data send to the server
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify(selection),
+                // Expected type of data received from server response
+                dataType: "json",
+                //Uncomment this for securized requests
+                // xhrFields: {
+                //     withCredentials: true,
+                // },
+            });
+
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export class ShoppingCartItem {
+    constructor() {}
+}
+export class ShoppingCartItemView {
+    constructor() {}
+}
+export class ShoppingCartItemController {
     constructor() {}
 }
 
@@ -540,4 +773,33 @@ export class PaymentManager {
             // TODO: Send form -> if succeed enable payment inputs
         });
     }
+}
+
+export class Order {}
+export class OrderView {}
+export class OrderController {}
+
+export function getCookie(cname) {
+    // Function from https://www.w3schools.com/js/js_cookies.asp
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+export function setCookie(cname, cvalue, exdays) {
+    // Function from https://www.w3schools.com/js/js_cookies.asp
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
