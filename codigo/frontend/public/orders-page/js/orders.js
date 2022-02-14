@@ -10,4 +10,12 @@ import {
     ShoppingCart,
 } from "../../app/app.js";
 
-$(document).ready(function() {});
+$(document).ready(function() {
+    // Load UI - Profile
+    let userData = UserController.getUserData();
+    if (userData) {
+        UserController.loadLoggedUIOrders(userData);
+    } else {
+        UserController.redirectHome();
+    }
+});

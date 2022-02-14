@@ -19,114 +19,17 @@
             <!-- TODO: Añadir navbar-toggler si hace falta -->
             <img src="../assets/logo-full.png" class="logo" alt="" srcset="">
 
-            <!-- Login button -->
-            <button id="loginButton" type="button" class="btn btn-outline-primary ms-auto me-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-person-fill"></i>
-                <p class="d-none d-md-inline-block m-0"> Iniciar Sesión</p>
-            </button>
-            <!-- Login Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Iniciar Sesión</h5>
-                            <button id="closeLoginModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="loginForm">
-                                <div class="mb-3">
-                                    <label for="loginInputEmail" class="form-label">Nombre de usuario</label>
-                                    <input type="email" class="form-control" id="loginInputEmail" aria-describedby="emailHelp" placeholder="example@domain.com">
-
-                                </div>
-                                <div class="mb-3">
-                                    <label for="loginInputPassword" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="loginInputPassword">
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMeCheck">
-                                    <label class="form-check-label" for="rememberMeCheck">Recuérdame</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary d-block mx-auto">Conectar</button>
-                                <p id="loginSucceedMessage" class="form-text text-center text-succeed"></p>
-                                <p id="loginErrorMessage" class="form-text text-center text-danger"></p>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <p class="form-text text-center"> ¿Todavía no tienes una cuenta?
-                                <a id="registerButtonLink" role="button">Registrate</a>
-                            </p>
-                            <p class="form-text text-center">
-                                No compartimos tus datos con nadie más, lee nuestra <a href="">políticia de
-                                    privacidad</a>
-                            </p>
-                            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Register button (must be always hide) -->
-            <button id="registerButton" type="button" class="btn btn-outline-primary ms-auto me-1 d-none" data-bs-toggle="modal" data-bs-target="#registerModal">
-                <i class="bi bi-person-fill"></i>
-                <p class="d-none d-md-inline-block m-0"> Registrarse </p>
-            </button>
-            <!-- Register Modal -->
-            <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Registrarse</h5>
-                            <button id="closeRegisterModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="registerForm">
-                                <div class="mb-3">
-                                    <label for="registerInputEmail" class="form-label">Nombre de usuario</label>
-                                    <input type="email" class="form-control" id="registerInputEmail" aria-describedby="emailHelp" placeholder="example@domain.com">
-
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="registerInputPassword1" placeholder="introduce tu contraseña">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="registerInputPassword2" placeholder="repite tu contraseña">
-                                </div>
-                                <button type="submit" class="btn btn-primary d-block mx-auto">Registrarse</button>
-                                <p id="registerSucceedMessage" class="form-text text-center text-succeed"></p>
-                                <p id="registerErrorMessage" class="form-text text-center text-danger"></p>
-                            </form>
-                        </div>
-                        <div class="modal-footer justify-content-center">
-                            <p class="form-text text-center"> ¿Ya tienes una cuenta?
-                                <a id="loginButtonLink" role="button">Inicia Sesión</a>
-                            </p>
-                            <p class="form-text text-center">
-                                No compartimos tus datos con nadie más, lee nuestra <a href="">políticia de
-                                    privacidad</a>
-                            </p>
-                            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- User navigation button -->
-            <div class="dropdown ms-auto me-1 d-none">
+            <div class="dropdown ms-auto me-1">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     placeholder@hotmail.com
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdownMenu">
-                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/index.html"><i class="bi bi-person me-2"></i> Mi
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../home-page/home.html"><i
+                                class="bi bi-shop me-2"></i>Tienda</a></li>
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/profile.html"><i class="bi bi-person me-2"></i> Mi
                             perfil</a></li>
-                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../orders-page/index.html"><i
-                                class="bi bi-list-ul me-2"></i> Mis
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../orders-page/orders.html"><i class="bi bi-list-ul me-2"></i> Mis
                             pedidos</a></li>
                     <li><a id="logoutButton" class="btn btn-outline-primary w-100 border-0 text-start" role="button"><i
                                 class="bi bi-box-arrow-left me-2"></i>
@@ -135,11 +38,15 @@
             </div>
 
             <!-- Cart button -->
-            <button type="button" class="btn btn-outline-primary me-2">
+            <a href="../shopping-cart-page/shopping-cart.html" class="btn btn-outline-primary me-2">
+
                 <i class="col-2 bi bi-cart"></i>
-                <a href="../shopping-cart-page/index.html" class="d-none d-md-inline-block m-0 text-decoration-none">
-                    Carrito</a>
-            </button>
+
+                <p class="d-none d-md-inline-block m-0 text-decoration-none">
+                    Carrito
+
+                </p>
+            </a>
         </div>
 
     </nav>
@@ -149,25 +56,13 @@
             <div class="row">
                 <div class="col-12 text-center">
 
-                    <div id="ordersCard" class="card d-none">
+                    <div id="ordersCard" class="card">
                         <div class="card-header">
                             <h1>Lista de pedidos</h1>
                         </div>
                         <div class="card-body">
                             <ul id="ordersList" class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div class="ms-2">
-                                        <div class="fw-bold">ID - 05 </div>
-                                        14/02/2022
-                                    </div>
-                                    <span class="status badge bg-success rounded-pill p-2">Pagada</span>
-                                    <div class="d-flex align-items-center">
-                                        <p class="d-inline-block m-0">645,38€</p>
-                                        <i class="bi bi-chevron-right"></i>
-                                    </div>
-
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <li class="order list-group-item d-flex justify-content-between align-items-center">
                                     <div class="ms-2">
                                         <div class="fw-bold">ID - 05 </div>
                                         14/02/2022
@@ -180,7 +75,7 @@
 
                                 </li>
 
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <li class="order list-group-item d-flex justify-content-between align-items-center">
                                     <div class="ms-2">
                                         <div class="fw-bold">ID - 05 </div>
                                         14/02/2022
@@ -193,8 +88,20 @@
 
                                 </li>
 
+                                <li class="order list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="ms-2">
+                                        <div class="fw-bold">ID - 05 </div>
+                                        14/02/2022
+                                    </div>
+                                    <span class="status badge bg-success rounded-pill p-2">Pagada</span>
+                                    <div class="d-flex align-items-center">
+                                        <p class="d-inline-block m-0">645,38€</p>
+                                        <i class="bi bi-chevron-right"></i>
+                                    </div>
 
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                </li>
+
+                                <li class="order list-group-item d-flex justify-content-between align-items-center">
                                     <div class="ms-2">
                                         <div class="fw-bold">ID - 05 </div>
                                         14/02/2022
@@ -210,9 +117,7 @@
                         </div>
                     </div>
 
-
-
-                    <div id="orderCard" class="card border-0 p-0">
+                    <div id="orderCard" class="card border-0 p-0 d-none">
                         <div class="card-header d-flex justify-content-start px-0 border-0">
                             <button class="ms-0 btn btn-outline-primary">
                                 <i class="bi bi-chevron-left"></i>
