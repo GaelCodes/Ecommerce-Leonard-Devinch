@@ -28,13 +28,28 @@
                     placeholder@hotmail.com
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdownMenu">
-                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/index.html"><i class="bi bi-person me-2"></i> Mi
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../home-page/home.html"><i
+                                class="bi bi-shop me-2"></i>Tienda</a></li>
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/profile.html"><i class="bi bi-person me-2"></i> Mi
                             perfil</a></li>
+                    <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../orders-page/orders.html"><i class="bi bi-list-ul me-2"></i> Mis
+                            pedidos</a></li>
                     <li><a id="logoutButton" class="btn btn-outline-primary w-100 border-0 text-start" role="button"><i
                                 class="bi bi-box-arrow-left me-2"></i>
                             Desconectar</a></li>
                 </ul>
             </div>
+
+            <!-- Cart button -->
+            <a href="../shopping-cart-page/shopping-cart.html" class="btn btn-outline-primary me-2">
+
+                <i class="col-2 bi bi-cart"></i>
+
+                <p class="d-none d-md-inline-block m-0 text-decoration-none">
+                    Carrito
+
+                </p>
+            </a>
         </div>
 
     </nav>
@@ -43,139 +58,45 @@
         <div class="container">
             <div class="row cards-container position-relative justify-content-center">
 
-                <div id="shoppingCartCard" class="card col-12 position-absolute text-center my-4 p-0">
+                <div id="shoppingCartCard" class="card col-12 position-absolute text-center p-0">
                     <div class="card-header">
                         <h1>Carrito de compras</h1>
                     </div>
                     <div class="card-body">
 
-                        <ul class="list-group">
-                            <li class="list-group-item shoppingCartItem border-0 d-flex flex-row justify-content-around align-items-center">
-                                <button type="button" class="btn btn-outline-danger border-0 me-2 h-25">
-                                    <i class="bi bi-x h2"></i>
-                                </button>
-
+                        <ul id="shoppingCartItemsContainer" class="list-group">
+                            <li id="shoppingCartItem-CardPrototype" class="list-group-item shoppingCartItem border-0 d-flex flex-row justify-content-around align-items-center d-none">
+                                <button type="button" class="deleteButton btn btn-outline-danger border-0 me-2 h-25"> <i
+                                        class="bi bi-x h2"></i> </button>
                                 <img class="artworkImage" src="http://dummyimage.com/176x100.png/dddddd/000000" alt="Not found" srcset="">
-
                                 <div class="artworkTitleAndArtworkArtist">
                                     <p class="artworkTitle">Mi super cuadro bonito</p>
                                     <p class="artworkArtist">Leonard Devinch</p>
                                 </div>
-
                                 <div class="artworkPriceDiv">
                                     <p>Precio por unidad</p>
                                     <p class="artworkPrice">1,65 €</p>
                                 </div>
-
                                 <div class="artworkQuantityDiv">
                                     <p>Cantidad</p>
                                     <div class="d-flex">
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-dash"></i>
-                                        </button>
-
+                                        <button type="button" class="modifyUnitsButton btn btn-outline-primary me-2" value="-"><i class="bi bi-dash"></i></button>
                                         <button type="button" class="btn btn-outline-primary border-0 me-2" disabled>
-                                            <p class="artworkQuantity m-0">2</p>
+                                            <p class="artworkUnits m-0">2</p>
                                         </button>
-
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
+                                        <button type="button" class="modifyUnitsButton btn btn-outline-primary me-2" value="+"><i class="bi bi-plus"></i></button>
                                     </div>
                                 </div>
-
                                 <div class="artworkTotalDiv">
                                     <p>Total</p>
                                     <p class="artworkTotal">6,00 €</p>
                                 </div>
                             </li>
-                            <li class="list-group-item shoppingCartItem border-0 d-flex flex-row justify-content-around align-items-center">
-                                <button type="button" class="btn btn-outline-danger border-0 me-2 h-25">
-                                    <i class="bi bi-x h2"></i>
-                                </button>
-
-                                <img class="artworkImage" src="http://dummyimage.com/176x100.png/dddddd/000000" alt="Not found" srcset="">
-
-                                <div class="artworkTitleAndArtworkArtist">
-                                    <p class="artworkTitle">Mi super cuadro bonito</p>
-                                    <p class="artworkArtist">Leonard Devinch</p>
-                                </div>
-
-                                <div class="artworkPriceDiv">
-                                    <p>Precio por unidad</p>
-                                    <p class="artworkPrice">1,65 €</p>
-                                </div>
-
-                                <div class="artworkQuantityDiv">
-                                    <p>Cantidad</p>
-                                    <div class="d-flex">
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-dash"></i>
-                                        </button>
-
-                                        <button type="button" class="btn btn-outline-primary border-0 me-2" disabled>
-                                            <p class="artworkQuantity m-0">2</p>
-                                        </button>
-
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="artworkTotalDiv">
-                                    <p>Total</p>
-                                    <p class="artworkTotal">6,00 €</p>
-                                </div>
-
-                            </li>
-                            <li class="list-group-item shoppingCartItem border-0 d-flex flex-row justify-content-around align-items-center">
-                                <button type="button" class="btn btn-outline-danger border-0 me-2 h-25">
-                                    <i class="bi bi-x h2"></i>
-                                </button>
-
-                                <img class="artworkImage" src="http://dummyimage.com/176x100.png/dddddd/000000" alt="Not found" srcset="">
-
-                                <div class="artworkTitleAndArtworkArtist">
-                                    <p class="artworkTitle">Mi super cuadro bonito</p>
-                                    <p class="artworkArtist">Leonard Devinch</p>
-                                </div>
-
-                                <div class="artworkPriceDiv">
-                                    <p>Precio por unidad</p>
-                                    <p class="artworkPrice">1,65 €</p>
-                                </div>
-
-                                <div class="artworkQuantityDiv">
-                                    <p>Cantidad</p>
-                                    <div class="d-flex">
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-dash"></i>
-                                        </button>
-
-                                        <button type="button" class="btn btn-outline-primary border-0 me-2" disabled>
-                                            <p class="artworkQuantity m-0">2</p>
-                                        </button>
-
-                                        <button type="button" class="btn btn-outline-primary me-2">
-                                            <i class="bi bi-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="artworkTotalDiv">
-                                    <p>Total</p>
-                                    <p class="artworkTotal">6,00 €</p>
-                                </div>
-                            </li>
-
-
-
                         </ul>
                     </div>
 
                     <div class="card-footer d-flex justify-content-end">
-                        <a href="../home-page/index.html" type="button" class="btn btn-outline-primary me-4">
+                        <a href="../home-page/home.html" type="button" class="btn btn-outline-primary me-4">
                             Seguir comprando
                         </a>
 
@@ -187,7 +108,7 @@
                     </div>
                 </div>
 
-                <div id="PaymentManagerCard" class="card col-12 position-absolute text-center my-4 p-0" style="display: none;">
+                <div id="PaymentManagerCard" class="card col-12 position-absolute text-center p-0" style="display: none;">
                     <div class="card-header">
                         <h1>Datos de pago</h1>
                     </div>
@@ -279,9 +200,16 @@
 
     </footer>
 
+    <!-- Jquery -->
     <script src="./js/jquery/jquery.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <!-- JQuery UI -->
     <script src="./js/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Stripe JS -->
     <script src="https://js.stripe.com/v3/"></script>
+
     <script src="./js/shopping-cart.js" type="module"></script>
 
 </body>

@@ -30,8 +30,13 @@ main .cards-container {
 
 /* Inicio shoppingCartCard */
 
-.cards-container .shoppingCartCard {
-    max-height: 100vh;
+.cards-container #shoppingCartCard {
+    height: 90%;
+}
+
+#shoppingCartCard .card-body {
+    height: 80%;
+    overflow-y: auto;
 }
 
 
