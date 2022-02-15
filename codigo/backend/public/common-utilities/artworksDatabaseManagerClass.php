@@ -29,7 +29,6 @@ class ArtworksDatabaseManager extends DatabaseManager
       $artworkArtist = $this->artistsDBM->selectArtistByEmail(
         $row["artist_email"]
       );
-      $artworkArtist = $artworkArtist->toArray();
 
       $artwork = new Artwork(
         $row["title"],
@@ -165,23 +164,27 @@ class ArtworksDatabaseManager extends DatabaseManager
 
   function selectArtworkByPK(string $title, string $artist_email): Artwork
   {
+    $title = $this->mysqli->real_escape_string($title);
+    $artist_email = $this->mysqli->real_escape_string($artist_email);
+
     $query =
       "SELECT * FROM ARTWORKS where title = '" .
       $title .
       "' AND artist_email = '" .
       $artist_email .
       "'";
+    error_log("QUERY: " . $query);
     $row = $this->mysqli->query($query);
 
     if ($row) {
       $data = $row->fetch_array(MYSQLI_ASSOC);
 
-      $data["artist"] = ["artist_email" => $data["artist_email"]];
+      $artist = $this->artistsDBM->selectArtistByEmail($data["artist_email"]);
 
       $artwork = new Artwork(
         $data["title"],
         $data["url"],
-        $data["artist"],
+        $artist,
         $data["topics"],
         $data["starting_date"],
         $data["ending_date"],
@@ -191,11 +194,11 @@ class ArtworksDatabaseManager extends DatabaseManager
         $data["dimension_y"],
         $data["price"]
       );
-    } else {
-      throw new Exception("Error selecting artwork by PK", 1);
-    }
 
-    return $artwork;
+      return $artwork;
+    } else {
+      throw new Exception("Error selecting artwork by PK");
+    }
   }
 
   public function updateArtwork(Artwork $artwork)

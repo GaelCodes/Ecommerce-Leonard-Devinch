@@ -17,7 +17,7 @@ class Artwork
   function __construct(
     string $title,
     string $url,
-    array $artist,
+    Artist $artist,
     string $topics,
     string $starting_date,
     string $ending_date,
@@ -194,7 +194,7 @@ class Artwork
     $artworkArray = [
       "title" => $this->title,
       "url" => $this->url,
-      "artist" => $this->artist,
+      "artist" => $this->artist->toArray(),
       "topics" => $this->topics,
       "starting_date" => $this->starting_date,
       "ending_date" => $this->ending_date,

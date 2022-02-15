@@ -16,6 +16,7 @@ class ArtistsDatabaseManager extends DatabaseManager
     $consultResult = $this->mysqli->query($sqlQuery);
     $consultResult->data_seek(0);
     $row = $consultResult->fetch_assoc();
+
     $artist = new Artist(
       $row["artist_email"],
       null,
