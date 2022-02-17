@@ -10,7 +10,7 @@ class PurchasedArtwork
 
   public function __construct(
     string $artwork_title,
-    string $artist_email,
+    ?string $artist_email,
     float $price_by_unit,
     int $units,
     int $order_id = null,

@@ -26,7 +26,7 @@ class PurchasedArtworksDatabaseManager extends DatabaseManager
     );
 
     $artwork_title = $purchasedArtwork->get_artwork_title();
-    $artist_email = $purchasedArtwork->get_artist_email();
+    $artist_email = $purchasedArtwork->get_artist()->get_artist_email();
     $order_id = $purchasedArtwork->get_order_id();
     $price_by_unit = $purchasedArtwork->get_price_by_unit();
     $units = $purchasedArtwork->get_units();

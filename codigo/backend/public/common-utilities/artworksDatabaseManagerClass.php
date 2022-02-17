@@ -65,7 +65,7 @@ class ArtworksDatabaseManager extends DatabaseManager
           $row["artist_email"]
         );
 
-        $artworkArtist = $artworkArtist->toArray();
+        $artworkArtist = $artworkArtist;
 
         $artwork = new Artwork(
           $row["title"],
@@ -81,7 +81,7 @@ class ArtworksDatabaseManager extends DatabaseManager
           $row["price"]
         );
 
-        $artworksArray[$num_row] = $artwork->toArray();
+        $artworksArray[$num_row] = $artwork;
       }
 
       return $artworksArray;
@@ -95,7 +95,7 @@ class ArtworksDatabaseManager extends DatabaseManager
     $query = "SELECT * FROM ARTWORKS WHERE ";
 
     if (isset($filters["title"])) {
-      $query .= " title LIKE '%" . $filters["title"] . "%' AND";
+      $query .= " title LIKE '%" . $filters["title"] . "%' AND ";
     }
 
     if (isset($filters["author"])) {
@@ -105,21 +105,8 @@ class ArtworksDatabaseManager extends DatabaseManager
         "%' ) AND ";
     }
 
-    if (isset($filters["ids"])) {
-      // Objective: "id IN ( 0, 1, 2...) AND "
-      $total_ids = count($filters["ids"]);
-      $query .= " id IN (";
-
-      for ($i = 0; $i < $total_ids; $i++) {
-        $query .= $filters["ids"][$i];
-
-        $last = $total_ids - $i == 1;
-        if (!$last) {
-          $query .= ",";
-        }
-      }
-
-      $query .= ") AND ";
+    if (isset($filters["artist_email"])) {
+      $query .= " artist_email ='" . $filters["artist_email"] . "' AND ";
     }
 
     if (isset($filters["topics"])) {
@@ -207,7 +194,7 @@ class ArtworksDatabaseManager extends DatabaseManager
       "UPDATE ARTWORKS SET title = ?, url = ?, artist_email = ?, topics = ?, starting_date = ?, ending_date = ?, available_quantity = ?, created_quantity = ?, dimension_x = ?, dimension_y = ?, price = ? WHERE  title = '" .
         $artwork->get_title() .
         "' AND artist_email = '" .
-        $artwork->get_artist()["artist_email"] .
+        $artwork->get_artist()->get_artist_email() .
         "'"
     );
 
@@ -228,7 +215,7 @@ class ArtworksDatabaseManager extends DatabaseManager
 
     $title = $artwork->get_title();
     $url = $artwork->get_url();
-    $artist_email = $artwork->get_artist()["artist_email"];
+    $artist_email = $artwork->get_artist()->get_artist_email();
     $topics = $artwork->get_topics();
     $starting_date = $artwork->get_starting_date();
     $ending_date = $artwork->get_ending_date();

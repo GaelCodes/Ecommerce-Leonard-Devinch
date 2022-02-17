@@ -112,12 +112,16 @@ abstract class ClientsAPI
 
       // Production Configuration
       // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      // $response->setHeader(
+      //   "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      // );
       $response->setHeader(
-        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+        "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
       );
       // Header for securized rutes
       $response->setHeader("Access-Control-Allow-Credentials: true");
       $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Expose-Headers: Set-Cookie");
       $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
 
       $response->setHeader("Content-type: application/json; charset=utf-8");
@@ -135,12 +139,21 @@ abstract class ClientsAPI
 
     if ($client) {
       $JWT = Client::generateJWT($client);
+
+      // setcookie("jwt-cookie", $JWT, [
+      //   "secure" => true,
+      //   "samesite" => "None",
+      //   "path" => "/",
+      //   // This parameter will depend if Remember me is set or not
+      //   //"expires" => time() + 60 * 60 * 24 * 30,
+      // ]);
       setcookie("jwt-cookie", $JWT, [
         "secure" => true,
-        "samesite" => "None",
+        "SameSite" => "None",
+        "domain" => "backend.ecommerce-leonard-devinch.abigaelheredia.es",
         "path" => "/",
         // This parameter will depend if Remember me is set or not
-        //"expires" => time() + 60 * 60 * 24 * 30,
+        "expires" => time() + 60 * 60 * 24 * 30,
       ]);
 
       $code = 200;
@@ -164,9 +177,16 @@ abstract class ClientsAPI
 
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    $response->setHeader(
+      "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+    );
     // Headers for securized rutes
     $response->setHeader("Access-Control-Allow-Credentials: true");
+    $response->setHeader("Access-Control-Expose-Headers: Set-Cookie");
+    header(
+      "Access-Control-Allow-Headers: Set-Cookie, Access-Control-Expose-Headers, Access-Control-Allow-Origin"
+    );
 
     $response->setHeader("Access-Control-Allow-Headers: Content-Type");
     $response->setHeader("Access-Control-Allow-Methods: POST");
@@ -225,11 +245,13 @@ abstract class ClientsAPI
   /*
   [
     { 
-      "id" : 1,
+      "artistEmail": "hola@asd.com",
+      "title" : "mi obra favorita",
       "units" : 10
     },
     { 
-      "id" : 2,
+      "artistEmail": "hola@asd.com",
+      "title" : "mi obra favorita",
       "units" : 5
     },
     ...
@@ -239,6 +261,24 @@ abstract class ClientsAPI
   {
     // Authentication required
     $request = new Request();
+    if ($request->getMethod() === "OPTIONS") {
+      $response = new Response();
+
+      // Production Configuration
+      // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      $response->setHeader(
+        "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+      );
+      // Header for securized rutes
+      $response->setHeader("Access-Control-Allow-Credentials: true");
+      $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+      $response->setHeader("Content-type: application/json; charset=utf-8");
+      $response->setCode(200);
+      $response->setContent('{"message" : "Message for preflights requests"}');
+      $response->send();
+    }
     ClientsAPI::authentication_process($request);
 
     // Data adquisition
@@ -247,14 +287,19 @@ abstract class ClientsAPI
     for ($i = 0; $i < count($purchasedArtworks); $i++) {
       $units = $purchasedArtworks[$i]["units"];
 
-      $filters["ids"][0] = $purchasedArtworks[$i]["id"];
+      $filters["title"] = $purchasedArtworks[$i]["title"];
+      $filters["artist_email"] = $purchasedArtworks[$i]["artistEmail"];
+
       $artwork = $artworksDBM->selectFilteredArtworks($filters)[0];
+      // TODO: Comprobrar que la artwork tiene suficientes units
 
       $purchasedArtworks[$i] = new PurchasedArtwork(
-        $artwork["title"],
-        $artwork["artist"]["artist_email"],
-        $artwork["price"],
-        $units
+        $artwork->get_title(),
+        null,
+        $artwork->get_price(),
+        $units,
+        null,
+        $artwork->get_artist()
       );
     }
 
@@ -294,10 +339,19 @@ abstract class ClientsAPI
     $message = json_encode($message);
 
     $response = new Response();
-    $response->setHeader("Content-Type: application/json; charset=utf-8");
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setHeader(
+      "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+    );
+    // Header for securized rutes
+    $response->setHeader("Access-Control-Allow-Credentials: true");
+
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
+
     $response->setCode($code);
     $response->setContent($message);
     $response->send();
@@ -314,10 +368,17 @@ abstract class ClientsAPI
     $message = '{ "message":  "Invalid credentials"}';
 
     $response = new Response();
-    $response->setHeader("Content-Type: application/json; charset=utf-8");
+
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: *");
+    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // Header for securized rutes
+    $response->setHeader("Access-Control-Allow-Credentials: true");
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
+
     $response->setCode($code);
     $response->setContent($message);
     $response->send();
@@ -326,12 +387,15 @@ abstract class ClientsAPI
   private static function authentication_process(Request $request = null)
   {
     $JWT = $request->getCookie("jwt-cookie");
+
     if (!$JWT) {
+      error_log("Usuario sin cookie");
       ClientsAPI::expulse_user();
     }
 
     $valid = Client::validate_JWT($JWT);
     if (!$valid) {
+      error_log("Usuario con cookie no valida");
       ClientsAPI::expulse_user();
     }
   }

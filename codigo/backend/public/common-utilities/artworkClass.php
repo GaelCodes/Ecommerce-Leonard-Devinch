@@ -50,12 +50,12 @@ class Artwork
     return $this->title;
   }
 
-  function set_artist(array $artist)
+  function set_artist(Artist $artist)
   {
     $this->artist = $artist;
   }
 
-  function get_artist(): array
+  function get_artist(): Artist
   {
     return $this->artist;
   }

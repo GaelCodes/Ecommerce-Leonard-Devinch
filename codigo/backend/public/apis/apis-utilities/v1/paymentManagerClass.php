@@ -25,16 +25,17 @@ class PaymentManager
 
   public function create_payment_intent(Client $client, Order $order)
   {
-    $this->$payment_intent = $this->stripe->paymentIntents->create([
+    $this->payment_intent = $this->stripe->paymentIntents->create([
       "customer" => $client->get_stripe_customer_id(),
       "currency" => "eur",
       "amount" => $order->get_total_charge_in_cents(),
+      "payment_method_types" => ["card"],
       "description" =>
         "Intento de pago para la orden con id: " . $order->get_order_id(),
       "metadata" => ["order_id" => $order->get_order_id()],
     ]);
 
-    $this->client_secret = $this->$payment_intent["client_secret"];
+    $this->client_secret = $this->payment_intent["client_secret"];
   }
 
   public function get_client_secret(): string

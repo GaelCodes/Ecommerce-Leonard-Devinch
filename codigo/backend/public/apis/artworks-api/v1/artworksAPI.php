@@ -24,8 +24,12 @@ abstract class ArtworksApi
 
       // Production Configuration
       // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      // $response->setHeader(
+      //   "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      // );
+
       $response->setHeader(
-        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+        "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
       );
 
       $response->setHeader("Access-Control-Allow-Headers: Content-Type");
@@ -43,7 +47,10 @@ abstract class ArtworksApi
     $response = new Response();
     // Production Configuration
     // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
-    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    $response->setHeader(
+      "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+    );
 
     $response->setHeader("Access-Control-Allow-Headers: Content-Type");
     $response->setHeader("Access-Control-Allow-Methods: POST");
@@ -129,8 +136,12 @@ abstract class ArtworksApi
 
       // Production Configuration
       // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      // $response->setHeader(
+      //   "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+      // );
+
       $response->setHeader(
-        "Access-Control-Allow-Origin: http://127.0.0.1:5500"
+        "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
       );
       // Header for securized rutes
       $response->setHeader("Access-Control-Allow-Credentials: true");
@@ -142,7 +153,6 @@ abstract class ArtworksApi
       $response->setContent('{"message" : "Message for preflights requests"}');
       $response->send();
     }
-
     $selections = json_decode($request->getContent(), true);
 
     // Retrieve artworks from DB
@@ -165,7 +175,10 @@ abstract class ArtworksApi
     $artworksJson = json_encode($artworksArray);
 
     $response = new Response();
-    $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    // $response->setHeader("Access-Control-Allow-Origin: http://127.0.0.1:5500");
+    $response->setHeader(
+      "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+    );
     $response->setHeader("Content-Type: application/json; charset=utf-8");
     $response->setHeader("Access-Control-Allow-Methods: POST");
     // Header for securized rutes
