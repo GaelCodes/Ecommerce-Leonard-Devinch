@@ -23,11 +23,11 @@ $(document).ready(function() {
 
         // Inicializa prototipos
         ShoppingCartItemView.init();
-        // Transforma las cookies en items del carrito
+        // Transforma el item shoppingCart del localStorage en ShoppingCartItems(MVC)
         ShoppingCart.init();
         // Establece los EventListeners de los eventos de los usuarios
         ShoppingCartController.init();
-        // Captura los eventos del usuario
+        // Inicializa Stripe, establece los EventListeners de los eventos de los usuarios
         PaymentManager.init();
     } else {
         UserController.redirectHome();

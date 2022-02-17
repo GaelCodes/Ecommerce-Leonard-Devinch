@@ -1,7 +1,5 @@
 export class User {
     constructor() {}
-
-    logIn() {}
 }
 
 export class UserController {
@@ -84,68 +82,116 @@ export class UserController {
             password: password,
         };
 
-        var request = $.ajax({
-            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/login/",
-            method: "POST",
-            // Type of data send to the server
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify(userData),
-            // Expected type of data received from server response
-            dataType: "json",
+        // LOGIN CON FETCH
 
-            // Uncomment this for securized requests
-            // xhrFields: {
-            //     withCredentials: true,
-            // },
-        });
+        fetch(
+                "https://backend.ecommerce-leonard-devinch.abigaelheredia.es:443/apis/clients-api/v1/login/", {
+                    method: "POST",
+                    headers: {
+                        // Type of data send to the server
+                        "Content-Type": "application/json; charset=UTF-8",
+                    },
 
-        request.done((data, textStatus) => {
-            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Logueado en verde
-            // TODO: Después de ~1s de cambiar a logueado, Cerrar login modal
-            // Animation -> when end -> $("#closeLoginModalButton").click();
-            let messageSucceed = data.message;
-            $("#loginSucceedMessage").text(textStatus + " : " + messageSucceed);
-            $("#closeLoginModalButton").click();
+                    body: JSON.stringify(userData),
 
-            // Save userData
-            let userData = data.userData;
-            UserController.saveUserData(userData);
+                    // Expected type of data received from server response
+                    dataType: "json",
+                    credentials: "include",
+                    redirect: "follow",
+                }
+            )
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                //console.log(response.headers.get("Set-Cookie")); // undefined
 
-            // LoadLoggedUIHome
-            UserController.loadLoggedUIHome(userData);
-        });
+                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Logueado en verde
+                // TODO: Después de ~1s de cambiar a logueado, Cerrar login modal
+                // Animation -> when end -> $("#closeLoginModalButton").click();
 
-        request.fail((data, textStatus) => {
-            // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Incorrecto en rojo
-            let messageError = data.responseJSON.message;
-            $("#loginErrorMessage").text(textStatus + " : " + messageError);
-        });
-    }
+                let messageSucceed = res.message;
+                $("#loginSucceedMessage").text("Succeed" + " : " + messageSucceed);
+                $("#closeLoginModalButton").click();
 
-    static sendLogout() {
-        // TODO: Solicitar borrado de cookie al backend
+                // Save userData
+
+                let userData = res.userData;
+                UserController.saveUserData(userData);
+
+                // LoadLoggedUIHome
+
+                UserController.loadLoggedUIHome(userData);
+            })
+            .catch((error) => {
+                // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Incorrecto en rojo
+                console.log(error);
+                let messageError = error;
+                $("#loginErrorMessage").text(textStatus + " : " + messageError);
+            });
+
+        // LOGIN CON AJAX
+
         // var request = $.ajax({
-        //     url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout/",
+        //     url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es:443/apis/clients-api/v1/login/",
         //     method: "POST",
+        //     // Type of data send to the server
+        //     contentType: "application/json; charset=UTF-8",
+        //     data: JSON.stringify(userData),
         //     // Expected type of data received from server response
         //     dataType: "json",
+
         //     // Uncomment this for securized requests
         //     xhrFields: {
         //         withCredentials: true,
+        //         credentials: "include",
         //     },
         // });
+
         // request.done((data, textStatus) => {
-        //     // TODO: Borrar los datos del localStorage
-        //     localStorage.removeItem("userData");
-        //     alert("Sesión cerrada correctamente");
-        //     // LoadNotLoggedUIHome
-        //     UserController.loadNotLoggedUIHome();
-        // });
-        // request.fail((data, textStatus) => {
-        //     alert("No se ha podido cerrar sesión correctamente");
+        //     // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Logueado en verde
+        //     // TODO: Después de ~1s de cambiar a logueado, Cerrar login modal
+        //     // Animation -> when end -> $("#closeLoginModalButton").click();
+        //     let messageSucceed = data.message;
+        //     $("#loginSucceedMessage").text(textStatus + " : " + messageSucceed);
+        //     $("#closeLoginModalButton").click();
+
+        //     // Save userData
+        //     let userData = data.userData;
+        //     UserController.saveUserData(userData);
+
+        //     // LoadLoggedUIHome
+        //     UserController.loadLoggedUIHome(userData);
         // });
 
-        UserController.redirectHome();
+        // request.fail((data, textStatus) => {
+        //     // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Incorrecto en rojo
+        //     let messageError = data.responseJSON.message;
+        //     $("#loginErrorMessage").text(textStatus + " : " + messageError);
+        // });
+    }
+
+    static sendLogout() {
+        // Solicitar borrado de cookie al backend
+        var request = $.ajax({
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout/",
+            method: "POST",
+            // Expected type of data received from server response
+            dataType: "json",
+            // Uncomment this for securized requests
+            xhrFields: {
+                withCredentials: true,
+            },
+        });
+        request.done((data, textStatus) => {
+            // TODO: Borrar los datos del localStorage
+            localStorage.removeItem("userData");
+            alert("Sesión cerrada correctamente");
+            // LoadNotLoggedUIHome
+            UserController.redirectHome();
+        });
+        request.fail((data, textStatus) => {
+            alert("No se ha podido cerrar sesión correctamente");
+        });
     }
 
     static saveUserData(userData) {
@@ -489,11 +535,12 @@ export class ArtworkController {
 
         // Convertir la cookie actual a objeto
 
-        let shoppingCartCookie = getCookie("shoppingCart");
-        shoppingCartCookie =
-            shoppingCartCookie === "" ? [] : JSON.parse(shoppingCartCookie);
+        let shoppingCartStorage = localStorage.getItem("shoppingCart");
+        console.log("Carrito sin iniciar:", shoppingCartStorage);
+        shoppingCartStorage =
+            shoppingCartStorage === null ? [] : JSON.parse(shoppingCartStorage);
 
-        // ShoppingCartCookie is an array with data like this =
+        // shoppingCartStorage is an array with data like this =
         //
         // [
         //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
@@ -501,7 +548,7 @@ export class ArtworkController {
         // ];
 
         // Comprobar si ya estaba añadida
-        let artworkIndex = shoppingCartCookie.findIndex((selectedArtwork) => {
+        let artworkIndex = shoppingCartStorage.findIndex((selectedArtwork) => {
             return (
                 selectedArtwork.title == this.artwork.title &&
                 selectedArtwork.artistEmail == this.artwork.artistEmail
@@ -509,13 +556,13 @@ export class ArtworkController {
         });
 
         if (artworkIndex === -1) {
-            shoppingCartCookie.push({
+            shoppingCartStorage.push({
                 artistEmail: this.artwork.artist.artist_email,
                 title: this.artwork.title,
                 units: 1,
             });
 
-            setCookie("shoppingCart", JSON.stringify(shoppingCartCookie), 7);
+            localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
         }
     }
 }
@@ -592,8 +639,8 @@ export class ShoppingCart {
     static async init() {
         ShoppingCart.items = [];
 
-        let shoppingCartCookie = getCookie("shoppingCart");
-        shoppingCartCookie = JSON.parse(shoppingCartCookie);
+        let shoppingCartStorage = localStorage.getItem("shoppingCart");
+        shoppingCartStorage = JSON.parse(shoppingCartStorage);
 
         // ShoppingCartCookie is an array with data like this =
         //
@@ -603,7 +650,8 @@ export class ShoppingCart {
         // ];
 
         // Obtener la info de las obras de arte desde el backend
-        let selection = shoppingCartCookie;
+        let selection = shoppingCartStorage;
+
         let artworks = await ShoppingCartController.retrieveShoppingCartArtworks(
             selection
         );
@@ -617,7 +665,7 @@ export class ShoppingCart {
             let selectionIndex = selection.findIndex((selectedArtwork) => {
                 return (
                     selectedArtwork.title == artworkData.title &&
-                    selectedArtwork.artistEmail == selectedArtwork.artistEmail
+                    selectedArtwork.artistEmail == artworkData.artist.artist_email
                 );
             });
 
@@ -673,33 +721,44 @@ export class ShoppingCartController {
         });
     }
 
-    static sendOrder(orderData = "") {
-        let succeed = true;
-        if (succeed) {
-            // TODO: if succeed enable payment inputs
-        } else {
-            // TODO: if not succeed inform error
-        }
+    static sendOrder() {
+        let orderData = localStorage.getItem("shoppingCart");
 
-        // var request = $.ajax({
-        //     url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/make_order/",
-        //     method: "POST",
-        //     // Type of data send to the server
-        //     contentType: "application/json; charset=UTF-8",
-        //     data: JSON.stringify(orderData),
-        //     // Expected type of data received from server response
-        //     dataType: "json",
-        //     //Uncomment this for securized requests
-        //     xhrFields: {
-        //         withCredentials: true,
-        //     },
-        // });
-        // request.done((data, textStatus) => {
-        //     // TODO: if succeed enable payment inputs
-        // });
-        // request.fail((data, textStatus) => {
-        //     // TODO: if not succeed inform error
-        // });
+        var request = $.ajax({
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/make_order/",
+            method: "POST",
+            // Type of data send to the server
+            contentType: "application/json; charset=UTF-8",
+            data: orderData,
+            // Expected type of data received from server response
+            dataType: "json",
+
+            // Uncomment this for securized requests
+            xhrFields: {
+                withCredentials: true,
+            },
+        });
+
+        request.done((data, textStatus) => {
+            // TODO: if succeed enable payment inputs
+            let messageSucceed = data.message;
+            console.log(messageSucceed, textStatus);
+
+            console.log("Secreto del client: ", data.client_secret);
+            PaymentManager.createPaymentElements(data.client_secret);
+            //$("#updateSuccedMessage").text(textStatus + " : " + messageSucceed);
+        });
+
+        request.fail((data, textStatus) => {
+            // TODO: if not succeed inform error
+            let messageError = data.responseJSON.message;
+
+            // if (messageError === "Invalid credentials") {
+            //     UserController.redirectHome();
+            // }
+            console.log(messageError, textStatus);
+            //$("#updateErrorMessage").text(textStatus + " : " + messageError);
+        });
     }
 
     static async retrieveShoppingCartArtworks(selection) {
@@ -712,10 +771,10 @@ export class ShoppingCartController {
                 data: JSON.stringify(selection),
                 // Expected type of data received from server response
                 dataType: "json",
-                //Uncomment this for securized requests
-                // xhrFields: {
-                //     withCredentials: true,
-                // },
+                // Uncomment this for securized requests
+                xhrFields: {
+                    withCredentials: true,
+                },
             });
 
             return result;
@@ -748,6 +807,7 @@ export class ShoppingCartItem {
     }
 
     set units(units) {
+        // TODO: Update corresponding cookie units
         this._units = units;
         this.notifyAll();
     }
@@ -779,7 +839,6 @@ export class ShoppingCartItem {
     }
 
     notifyAll() {
-        console.log("Notificando...");
         for (let index = 0; index < this.observers.length; index++) {
             const observer = this.observers[index];
 
@@ -787,6 +846,7 @@ export class ShoppingCartItem {
         }
     }
 }
+
 export class ShoppingCartItemView {
     constructor() {
         this.card = ShoppingCartItemView.cardPrototype.cloneNode(true);
@@ -840,6 +900,7 @@ export class ShoppingCartItemView {
             .text(total + " €");
     }
 }
+
 export class ShoppingCartItemController {
     constructor(shoppingCartItem, shoppingCartItemView) {
         this.shoppingCartItem = shoppingCartItem;
@@ -864,9 +925,8 @@ export class ShoppingCartItemController {
     }
 
     deleteShoppingCartItem() {
-        console.log("Trying to deletee");
-        let shoppingCartCookie = getCookie("shoppingCart");
-        shoppingCartCookie = JSON.parse(shoppingCartCookie);
+        let shoppingCartStorage = localStorage.getItem("shoppingCart");
+        shoppingCartStorage = JSON.parse(shoppingCartStorage);
 
         // ShoppingCartCookie is an array with data like this =
         //
@@ -876,15 +936,15 @@ export class ShoppingCartItemController {
         // ];
 
         // Comprobar si ya estaba añadida
-        let artworkIndex = shoppingCartCookie.findIndex((selectedArtwork) => {
+        let artworkIndex = shoppingCartStorage.findIndex((selectedArtwork) => {
             return (
                 selectedArtwork.title == this.shoppingCartItem.title &&
-                selectedArtwork.artistEmail == this.shoppingCartItem.artistEmail
+                selectedArtwork.artistEmail == this.shoppingCartItem.artist.artist_email
             );
         });
 
-        shoppingCartCookie.splice(artworkIndex, 1);
-        setCookie("shoppingCart", JSON.stringify(shoppingCartCookie), 7);
+        shoppingCartStorage.splice(artworkIndex, 1);
+        localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
 
         delete this.shoppingCartItem;
         this.shoppingCartItemView.card.remove();
@@ -915,12 +975,30 @@ export class PaymentManager {
     static init() {
         // Set your publishable key: remember to change this to your live publishable key in production
         // See your keys here: https://dashboard.stripe.com/apikeys
-        var stripe = Stripe(
+        PaymentManager.stripe = Stripe(
             "pk_test_51Jz75mCaANM1wgcDUugV3UxjJ8q2uwoygyEiV2eMZ357KYWytnXd6Pat0CrI2nbGYDyw7H5rPMy3it84kGC2Q3Op00H1iIkGfC"
         );
 
+        $("#backToShoppingCartButton").click(() => {
+            // TODO: Entra carrito desde la derecha
+            $("#shoppingCartCard").toggle("slide");
+            // TODO: Sale Payment manager hacia la derecha
+            $("#PaymentManagerCard").toggle("slide", { direction: "right" });
+            // TODO: Send form -> if succeed enable payment inputs
+        });
+
+        $("#payment-form").submit((event) => {
+            event.preventDefault();
+            PaymentManager.sendConfirmPayment();
+        });
+    }
+
+    static createPaymentElements(clientSecret) {
         // Set up Stripe.js and Elements to use in checkout form
-        var elements = stripe.elements();
+        PaymentManager.elements = PaymentManager.stripe.elements({
+            clientSecret: clientSecret,
+        });
+
         var style = {
             base: {
                 iconColor: "#c4f0ff",
@@ -942,21 +1020,38 @@ export class PaymentManager {
             },
         };
 
-        var card = elements.create("card", { style });
-        card.mount("#card-element");
+        PaymentManager.paymentElement = PaymentManager.elements.create("payment");
+        PaymentManager.paymentElement.mount("#payment-element");
 
-        $("#backToShoppingCartButton").click(() => {
-            // TODO: Entra carrito desde la derecha
-            $("#shoppingCartCard").toggle("slide");
-            // TODO: Sale Payment manager hacia la derecha
-            $("#PaymentManagerCard").toggle("slide", { direction: "right" });
-            // TODO: Send form -> if succeed enable payment inputs
+        $("#submit").prop("disabled", false);
+    }
+
+    static async sendConfirmPayment() {
+        const { error } = await PaymentManager.stripe.confirmPayment({
+            elements: PaymentManager.elements,
+            confirmParams: {
+                return_url: "https://ecommerce-leonard-devinch.abigaelheredia.es/payment-succeed-page/payment-succeed.html",
+            },
         });
+
+        if (error) {
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Show error to your customer (for example, payment
+            // details incomplete)
+            const messageContainer = document.querySelector("#error-message");
+            messageContainer.textContent = error.message;
+        } else {
+            // Your customer will be redirected to your `return_url`. For some payment
+            // methods like iDEAL, your customer will be redirected to an intermediate
+            // site first to authorize the payment, then redirected to the `return_url`.
+        }
     }
 }
 
 export class Order {}
+
 export class OrderView {}
+
 export class OrderController {}
 
 export function getCookie(cname) {
