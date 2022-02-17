@@ -67,3 +67,4 @@ node_modules/
 vendor
 codigo/backend/public/stripe-webhooks/webhooks-utilities/tmp-files/order-generator
 private
+codigo/backend/.vscode/settings.json
