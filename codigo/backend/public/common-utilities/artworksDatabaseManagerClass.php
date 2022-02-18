@@ -160,7 +160,6 @@ class ArtworksDatabaseManager extends DatabaseManager
       "' AND artist_email = '" .
       $artist_email .
       "'";
-    error_log("QUERY: " . $query);
     $row = $this->mysqli->query($query);
 
     if ($row) {
