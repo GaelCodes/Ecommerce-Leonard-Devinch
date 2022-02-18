@@ -63,4 +63,15 @@ class PurchasedArtwork
   {
     return $this->order_id;
   }
+
+  public function to_array(): array
+  {
+    return [
+      "artwork_title" => $this->artwork_title,
+      "artist_full_name" => $this->artist->get_full_name(),
+      "order_id" => $this->order_id,
+      "price_by_unit" => $this->price_by_unit,
+      "units" => $this->units,
+    ];
+  }
 }

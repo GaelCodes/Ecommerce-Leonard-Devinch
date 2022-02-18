@@ -12,8 +12,12 @@ class FirebaseStorageManager
   public function __construct()
   {
     $projectId = "ecommerce-leonard-devinch";
-    $keyFilePath = $_ENV["STORAGE_SERVICE_ACCOUNT_KEY_FILE_PATH"];
+    $keyFilePath = __DIR__ . $_ENV["STORAGE_SERVICE_ACCOUNT_KEY_FILE_PATH"];
     $keyFilePath = realpath($keyFilePath);
+
+    error_log("INICIO ARCHIVO KEYPATH");
+    error_log($keyFilePath);
+    error_log("INICIO ARCHIVO KEYPATH");
 
     $this->storage_client = new StorageClient([
       "projectId" => $projectId,
@@ -40,15 +44,15 @@ class FirebaseStorageManager
 
   public function download_pdf(Client $client, Order $order): string
   {
-    $storage_object_path = "/{$client->get_client_email()}/{$order->get_order_id()}.pdf";
+    $client_email = $client->get_client_email();
+    $order_id = $order->get_order_id();
+
+    $storage_object_path = "users/{$client_email}/order-{$order_id}.pdf";
     $object = $this->bucket->object($storage_object_path);
 
-    $file_path = __DIR__ . "/tmp-files/${$order->get_order_id()}.pdf";
-    $stream = $object->downloadToFile($file_path);
+    $file_path = __DIR__ . "/tmp-files/order-{$order_id}.pdf";
+    $object->downloadToFile($file_path);
 
-    // Se podrían hacer cosas interesantes con el objeto devuelto
-    // $stream Psr\Http\Message\StreamInterface
-
-    return $file_path;
+    return realpath($file_path);
   }
 }

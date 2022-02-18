@@ -12,19 +12,36 @@ class Order
 
   public function __construct(
     Client $client,
-    array $purchasedArtworks,
+    ?array $purchasedArtworks,
     int $order_id = null,
-    string $status = null
+    string $status = null,
+    string $order_date = null,
+    int $total_artworks_adquired = null,
+    float $total_charge = null
   ) {
-    $this->client_email = $client->get_client_email();
-    $this->purchasedArtworks = $purchasedArtworks;
-    $this->order_date = date("Y-m-d");
-    $this->total_artworks_adquired = count($purchasedArtworks);
+    if ($purchasedArtworks) {
+      // Constructor with purchasedArtworks data
+      $this->client_email = $client->get_client_email();
+      $this->purchasedArtworks = $purchasedArtworks;
+      $this->order_date = $order_date ? $order_date : date("Y-m-d");
 
-    $this->calculate_total_charge($purchasedArtworks);
+      $this->total_artworks_adquired = count($purchasedArtworks);
+      $this->calculate_total_charge($purchasedArtworks);
 
-    $this->order_id = $order_id;
-    $this->status = $status;
+      $this->order_id = $order_id;
+      $this->status = $status;
+    } else {
+      // Constructor without purchasedArtworks data
+      $this->client_email = $client->get_client_email();
+      $this->purchasedArtworks = $purchasedArtworks;
+      $this->order_date = $order_date ? $order_date : date("Y-m-d");
+
+      $this->total_artworks_adquired = $total_artworks_adquired;
+      $this->total_charge = $total_charge;
+
+      $this->order_id = $order_id;
+      $this->status = $status;
+    }
   }
 
   private function calculate_total_charge(array $purchasedArtworks)
@@ -82,5 +99,26 @@ class Order
   public function get_total_artworks_adquired(): int
   {
     return $this->total_artworks_adquired;
+  }
+
+  public function to_array(): array
+  {
+    $purchased_artworks_as_array = [];
+
+    for ($i = 0; $i < count($this->purchasedArtworks); $i++) {
+      $purchased_artworks_as_array[$i] = $this->purchasedArtworks[
+        $i
+      ]->to_array();
+    }
+
+    return [
+      "order_id" => $this->order_id,
+      "purchased_artworks" => $purchased_artworks_as_array,
+      "client_email" => $this->client_email,
+      "total_charge" => $this->total_charge,
+      "order_date" => $this->order_date,
+      "total_artworks_adquired" => $this->total_artworks_adquired,
+      "status" => $this->status,
+    ];
   }
 }

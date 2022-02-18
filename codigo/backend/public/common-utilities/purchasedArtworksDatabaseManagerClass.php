@@ -37,6 +37,13 @@ class PurchasedArtworksDatabaseManager extends DatabaseManager
     return $result;
   }
 
+  public function select_purchased_artworks_by_order_id(string $order_id): array
+  {
+    $filters = [];
+    $filters["order_id"] = $order_id;
+    return $this->select_filtered_purchased_artworks($filters);
+  }
+
   function select_filtered_purchased_artworks($filters): array
   {
     $query = $this->prepare_filtered_query($filters);

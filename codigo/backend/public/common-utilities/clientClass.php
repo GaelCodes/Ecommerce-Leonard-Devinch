@@ -35,6 +35,11 @@ class Client
     return $this->client_email;
   }
 
+  public function set_full_name(string $full_name)
+  {
+    $this->full_name = $full_name;
+  }
+
   public function get_full_name(): ?string
   {
     return $this->full_name;
@@ -45,9 +50,19 @@ class Client
     return $this->password;
   }
 
+  public function set_telephone_number(float $telephone_number)
+  {
+    $this->telephone_number = $telephone_number;
+  }
+
   public function get_telephone_number(): ?float
   {
     return $this->telephone_number;
+  }
+
+  public function set_shipping_address(string $shipping_address)
+  {
+    $this->shipping_address = $shipping_address;
   }
 
   public function get_shipping_address(): ?string

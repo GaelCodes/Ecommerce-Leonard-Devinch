@@ -58,21 +58,73 @@ class ordersDatabaseManager extends DatabaseManager
     }
   }
 
+  public function select_orders_by_client(Client $client): array
+  {
+    $consultResult = $this->mysqli->query(
+      "SELECT * FROM ORDERS WHERE client_email ='" .
+        $client->get_client_email() .
+        "'"
+    );
+
+    $ordersArray = [];
+    for ($num_row = 0; $num_row < $consultResult->num_rows; $num_row++) {
+      $consultResult->data_seek($num_row);
+      $row = $consultResult->fetch_assoc();
+
+      $purchasedArtworksDBM = new PurchasedArtworksDatabaseManager();
+      $purchasedArtworks = $purchasedArtworksDBM->select_purchased_artworks_by_order_id(
+        $row["order_id"]
+      );
+
+      $order = new Order(
+        $client,
+        $purchasedArtworks,
+        $row["order_id"],
+        $row["status"],
+        $row["order_date"]
+      );
+
+      $ordersArray[$num_row] = $order;
+    }
+
+    return $ordersArray;
+  }
+
   /*
     Probably useful function in a future
     can delete if not
   */
 
-  // public function select_order_by_id(string $order_id): Order
-  // {
-  //   $query = "SELECT * FROM ORDERS WHERE order_id = " . $order_id;
+  public function select_order_by_client_and_id(
+    Client $client,
+    string $order_id
+  ): Order {
+    $row = $this->mysqli->query(
+      "SELECT * FROM ORDERS WHERE client_email ='" .
+        $client->get_client_email() .
+        "' AND order_id=" .
+        $order_id
+    );
 
-  //   $row = $this->mysqli->query($query);
+    if ($row) {
+      $data = $row->fetch_array(MYSQLI_ASSOC);
 
-  //   if ($row) {
-  //     $data = $row->fetch_array(MYSQLI_ASSOC);
+      // This function wont recover purchasedArtworks data
+      $order = new Order(
+        $client,
+        null,
+        $data["order_id"],
+        $data["status"],
+        $data["order_date"],
+        $data["total_artworks_adquired"],
+        $data["total_charge"]
+      );
 
-  //     $order = new Order($data[""], $data[""], $data[""], $data[""], $data[""]);
-  //   }
-  // }
+      return $order;
+    } else {
+      throw new Exception(
+        "Error selecting order IN: select_order_by_client_and_id, no one found"
+      );
+    }
+  }
 }
