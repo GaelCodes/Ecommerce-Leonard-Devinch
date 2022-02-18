@@ -17,11 +17,17 @@
 /* Inicio main */
 
 main {
-    min-height: 100vh;
+    height: 100vh;
     background-color: #f8f8f7;
 }
 
-main #ordersCard {}
+main #ordersCard {
+    height: 80vh;
+}
+
+#ordersCard .card-body {
+    overflow-y: auto;
+}
 
 #ordersCard #ordersList {}
 
@@ -34,10 +40,15 @@ main #ordersCard {}
 
 main #orderCard {
     background-color: #f8f8f7;
+    height: 80vh;
 }
 
 #orderCard .card-header {
     background-color: #f8f8f7;
+}
+
+#orderCard .card-body {
+    overflow-y: auto;
 }
 
 #orderCard .orderDetails {

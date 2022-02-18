@@ -183,6 +183,8 @@ export class UserController {
             },
         });
         request.done((data, textStatus) => {
+            console.log(data);
+            console.log(textStatus);
             // TODO: Borrar los datos del localStorage
             localStorage.removeItem("userData");
             alert("Sesión cerrada correctamente");
@@ -190,6 +192,8 @@ export class UserController {
             UserController.redirectHome();
         });
         request.fail((data, textStatus) => {
+            console.log(data);
+            console.log(textStatus);
             alert("No se ha podido cerrar sesión correctamente");
         });
     }
@@ -281,14 +285,18 @@ export class UserController {
 
         // EventListener actualizar datos de usuario
 
-        $("#updateProfileButton").click(() => {
+        $("#updateProfileButton").click((e) => {
             let profileData = {
-                fullName: $("#inputFullName").val(),
-                telephoneNumber: $("#inputTelephoneNumber").val(),
-                shippingAddress: $("#inputShippingAddress").val(),
+                full_name: $("#inputFullName").val(),
+                telephone_number: $("#inputTelephoneNumber").val(),
+                shipping_address: $("#inputShippingAddress").val(),
             };
-            UserController.validateProfileForm(profileData);
-            UserController.sendUpdateProfileForm(profileData);
+
+            if (UserController.validateProfileForm(profileData)) {
+                UserController.sendUpdateProfileForm(profileData);
+            } else {
+                // TODO: Alert user that input data is not valid
+            }
         });
     }
 
@@ -339,10 +347,12 @@ export class UserController {
             },
         });
 
-        request.beforeSend(() => {
+        request.beforeSend = () => {
+            console.log("Hello ...");
+            // Reset possible existing updates messages
             $("#updateSuccedMessage").val("");
             $("#updateErrorMessage").val("");
-        });
+        };
 
         request.done((data, textStatus) => {
             // TODO: Crear animación de carga (Spinner en botón de enviar) -> cambia a Actualizado en verde
@@ -352,8 +362,8 @@ export class UserController {
             $("#updateSuccedMessage").text(textStatus + " : " + messageSucceed);
 
             // Save userData
-            let userData = data.userData;
-            UserController.saveUserData(userData);
+            let userData = profileData;
+            UserController.saveUserData(profileData);
         });
 
         request.fail((data, textStatus) => {
@@ -363,7 +373,9 @@ export class UserController {
         });
     }
 
-    static validateProfileForm(profileData) {}
+    static validateProfileForm(profileData) {
+        return true;
+    }
 
     static redirectHome() {
         location = "../home-page/home.html";
@@ -1048,12 +1060,261 @@ export class PaymentManager {
     }
 }
 
-export class Order {}
+export class Order {
+    constructor(purchased_artworks, order_date, order_id, status, total_charge) {
+        this.observers = [];
+        this.order_date = order_date;
+        this.order_id = order_id;
+        this.status = status;
+        this.total_charge = total_charge;
+        this.purchased_artworks = purchased_artworks;
+    }
 
-export class OrderView {}
+    registerObserver(observer) {
+        this.observers.push(observer);
+    }
 
-export class OrderController {}
+    unRegisterObserver(observer) {
+        let observerIndex = this.observers.indexOf(observer);
 
+        this.observers.splice(observerIndex, 1);
+    }
+
+    copy() {
+        return {
+            order_date: this.order_date,
+            order_id: this.order_id,
+            status: this.status,
+            total_charge: this.total_charge,
+        };
+    }
+}
+
+export class OrderView {
+    constructor() {
+        this.card = OrderView.cardPrototype.cloneNode(true);
+    }
+    static init() {
+        console.log("Iniciando vista de orderView");
+        OrderView.cardPrototype = document.getElementById("orderViewCardPrototype");
+    }
+
+    populate(orderData) {
+        $(this.card).find(".orderID").text(`ID - ${orderData.order_id}`);
+        $(this.card).find(".orderDate").text(`${orderData.order_date}`);
+        // TODO: Change status badge color depending of status
+        $(this.card).find(".status").text(`${orderData.status}`);
+
+        $(this.card).find(".orderTotalCharge").text(`${orderData.total_charge} €`);
+
+        $("#ordersList").append(this.card);
+    }
+}
+
+export class OrderController {
+    constructor(order, orderView) {
+        this.order = order;
+        this.orderView = orderView;
+
+        this.order.registerObserver(orderView);
+        this.orderView.populate(this.order.copy());
+
+        // Add EventsListeners
+        $(this.orderView.card).click(() => {
+            console.log(
+                "Mostando detalles de la orden con ID: ",
+                this.order.order_id
+            );
+
+            this.showOrderDetails();
+            OrderView.showingDetails = this.orderView;
+        });
+
+        $("#downloadOrderButton").click(() => {
+            if (OrderView.showingDetails === this.orderView) {
+                this.sendDownloadOrderRequest();
+            }
+        });
+    }
+
+    showOrderDetails() {
+        $("#orderCard").find(".orderDate").text(`${this.order.order_date}`);
+        $("#orderCard").find(".orderId").text(`${this.order.order_id}`);
+        $("#orderCard").find(".totalCharge").text(`${this.order.total_charge} €`);
+        // TODO: Change status badge color depending of status
+        $("#orderCard").find(".status").text(`${this.order.status}`);
+
+        // Sale ordersCard hacia la izquierda
+        $("#ordersCard").toggle("slide");
+        // Entra orderCard por la derecha
+        $("#orderCard").toggle("slide", { direction: "right" });
+
+        // TODO: Fullfill products resume
+
+        for (let i = 0; i < this.order.purchased_artworks.length; i++) {
+            const purchased_artwork_data = this.order.purchased_artworks[i];
+            let purchasedArtworkNode = $("#purchasedArtwork-CardPrototype").clone();
+
+            $(purchasedArtworkNode)
+                .find(".artworkImage")
+                .attr("src", "purchased_artwork_data.url");
+
+            $(purchasedArtworkNode)
+                .find(".artworkTitle")
+                .text(purchased_artwork_data.artwork_title);
+
+            $(purchasedArtworkNode)
+                .find(".artworkArtist")
+                .text(purchased_artwork_data.artist_full_name);
+
+            $(purchasedArtworkNode)
+                .find(".artworkPrice")
+                .text(`${purchased_artwork_data.price_by_unit} €`);
+
+            $(purchasedArtworkNode)
+                .find(".artworkUnits")
+                .text(purchased_artwork_data.units);
+
+            let total =
+                purchased_artwork_data.price_by_unit * purchased_artwork_data.units;
+            $(purchasedArtworkNode).find(".artworkTotal").text(`${total} €`);
+
+            $(purchasedArtworkNode).appendTo("#purchasedArtworksContainer");
+        }
+    }
+
+    static hideOrderDetails() {
+        // TODO: Sale ordersCard hacia la izquierda
+        $("#ordersCard").toggle("slide");
+        // TODO: Sale orderCard por la derecha
+        $("#orderCard").toggle("slide", { direction: "right" });
+    }
+
+    static async init() {
+        let orders = await OrderController.sendGetOrdersRequest();
+
+        let ordersData = orders.ordersData;
+        console.log("Ordenes obtenidos: ", orders);
+        for (let i = 0; i < ordersData.length; i++) {
+            const orderData = ordersData[i];
+
+            let dateFragments = orderData.order_date.split("-");
+            let yyyy = dateFragments[0];
+            let mm = dateFragments[1];
+            let dd = dateFragments[2];
+            let formatedDate = dd + "/" + mm + "/" + yyyy;
+
+            let order = new Order(
+                orderData.purchased_artworks,
+                formatedDate,
+                orderData.order_id,
+                orderData.status,
+                orderData.total_charge
+            );
+            let orderView = new OrderView();
+            let orderController = new OrderController(order, orderView);
+        }
+
+        // Add EventListener to #orderCard for orders details
+
+        $("#backToOrdersButton").click(() => {
+            OrderController.hideOrderDetails();
+        });
+    }
+
+    static async sendGetOrdersRequest() {
+        try {
+            let result = await $.ajax({
+                url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/consult_orders/",
+                method: "POST",
+                // Expected type of data received from server response
+                dataType: "json",
+
+                // Uncomment this for securized requests
+                xhrFields: {
+                    withCredentials: true,
+                },
+            });
+
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    sendDownloadOrderRequest() {
+        let orderData = {
+            order_id: this.order.order_id,
+        };
+
+        // jQuery ajax
+        var request = $.ajax({
+            method: "POST",
+            url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/download_order/",
+            data: JSON.stringify(orderData),
+            xhrFields: {
+                withCredentials: true,
+                responseType: "blob",
+            },
+        });
+
+        request.done((data, textStatus, jqXHR) => {
+            // First of all be sure the backend allow you read response headers "Content-Disposition" and "Content-Type",
+            // this can be done setting the header
+            // PHP eg:
+            // header("Access-Control-Expose-Headers: Content-Type,Content-Disposition");
+
+            // check for a filename
+            var filename = "";
+            var disposition = jqXHR.getResponseHeader("Content-Disposition");
+            if (disposition && disposition.indexOf("attachment") !== -1) {
+                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1])
+                    filename = matches[1].replace(/['"]/g, "");
+            }
+
+            var type = jqXHR.getResponseHeader("Content-Type");
+            var blob = new Blob([data], { type: type });
+
+            if (typeof window.navigator.msSaveBlob !== "undefined") {
+                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+
+                if (filename) {
+                    // use HTML5 a[download] attribute to specify filename
+                    var a = document.createElement("a");
+                    // safari doesn't support this yet
+                    if (typeof a.download === "undefined") {
+                        window.location = downloadUrl;
+                    } else {
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                } else {
+                    window.location = downloadUrl;
+                }
+
+                setTimeout(function() {
+                    URL.revokeObjectURL(downloadUrl);
+                }, 100); // cleanup
+            }
+        });
+
+        request.fail((jqXHR, textStatus, errorThrown) => {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log("Error :", errorThrown);
+        });
+    }
+}
+
+// DELETE THIS IF NEVER CALLED
 export function getCookie(cname) {
     // Function from https://www.w3schools.com/js/js_cookies.asp
     let name = cname + "=";
