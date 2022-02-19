@@ -1,0 +1,90 @@
+/* Inicio screens < 576px */
+
+
+/* Inicio body */
+
+
+/* Inicio header */
+
+.logo {
+    width: 8em;
+}
+
+
+/* Fin header */
+
+
+/* Inicio main */
+
+main .succeed-card {
+    border-color: black;
+    box-shadow: 6px 4px 2px 0px #0000003a;
+}
+
+
+/* Fin main */
+
+
+/* Inicio footer */
+
+footer {
+    background-color: rgba(0, 0, 0, 0.678);
+    padding: 2em 0px;
+    color: rgba(219, 219, 219, 0.932);
+}
+
+.my-social-items {
+    font-size: 34px;
+}
+
+.my-social-items li {
+    margin: 0px 10px;
+}
+
+.my-social-items a:visited {
+    color: #157ca1;
+}
+
+.my-social-items a:link {
+    color: #157ca1;
+}
+
+.my-politics a:visited,
+.my-politics a:link {
+    text-decoration: none;
+    color: white;
+}
+
+
+/* Fin footer */
+
+
+/* Fin body */
+
+
+/* Fin screens < 576px */
+
+
+/* Inicio screens > 768px */
+
+@media only screen and (min-width:768px) {}
+
+
+/* Fin screens > 1200px */
+
+
+/* Inicio screens > 1200px */
+
+@media only screen and (min-width:1200px) {
+    /* Inicio body */
+    /* Inicio header */
+    /* Fin header */
+    /* Inicio main */
+    /* Fin main */
+    /* Inicio footer */
+    /* Fin footer */
+    /* Fin body */
+}
+
+
+/* Fin screens > 1200px */
