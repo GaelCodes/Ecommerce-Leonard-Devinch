@@ -5,8 +5,6 @@ export class User {
 export class UserController {
     constructor() {}
 
-    static init() {}
-
     static validateRegisterForm(email, password1, password2) {
         if (
             UserController.emailPattern.test(email) &&
@@ -183,23 +181,31 @@ export class UserController {
             },
         });
         request.done((data, textStatus) => {
-            console.log(data);
-            console.log(textStatus);
-            // TODO: Borrar los datos del localStorage
+
+            // Borrar los datos del localStorage
             localStorage.removeItem("userData");
             alert("Sesión cerrada correctamente");
+
             // LoadNotLoggedUIHome
-            UserController.redirectHome();
+            Guard.redirectHome();
         });
         request.fail((data, textStatus) => {
-            console.log(data);
-            console.log(textStatus);
             alert("No se ha podido cerrar sesión correctamente");
         });
     }
 
     static saveUserData(userData) {
         localStorage.setItem("userData", JSON.stringify(userData));
+    }
+
+    static getUserData() {
+        let userData = localStorage.getItem("userData");
+        userData = JSON.parse(userData);
+        return userData;
+    }
+
+    static deleteUserData() {
+        localStorage.removeItem("userData");
     }
 
     static loadNotLoggedUIHome() {
@@ -252,6 +258,12 @@ export class UserController {
         });
     }
 
+    static preloadLoggedUIHome(userData) {
+        // Preload and load functions make the same thing
+        // but in different time
+        UserController.loadLoggedUIHome(userData);
+    }
+
     static loadLoggedUIHome(userData) {
         // Ocultar boton inicio de sesión
         $("#loginButton").addClass("d-none");
@@ -266,6 +278,11 @@ export class UserController {
         $("#logoutButton").click(() => {
             UserController.sendLogout();
         });
+    }
+
+
+    static preloadLoggedUIProfile(userData) {
+        UserController.loadLoggedUIProfile(userData);
     }
 
     static loadLoggedUIProfile(userData) {
@@ -300,6 +317,24 @@ export class UserController {
         });
     }
 
+    static preloadLoggedUIPaymentSucceed(userData) {
+        UserController.loadLoggedUIPaymentSucceed(userData);
+    }
+
+    static loadLoggedUIPaymentSucceed(userData) {
+        // Rellenar botón user email dropdown
+        $("#userDropdownMenu").text(userData.email);
+
+        // EventListener Send logout request
+        $("#logoutButton").click(() => {
+            UserController.sendLogout();
+        });
+    }
+
+    static preloadLoggedUIOrders(userData) {
+        UserController.loadLoggedUIOrders(userData);
+    }
+
     static loadLoggedUIOrders(userData) {
         // Rellenar botón user email dropdown
         $("#userDropdownMenu").text(userData.email);
@@ -308,11 +343,10 @@ export class UserController {
         $("#logoutButton").click(() => {
             UserController.sendLogout();
         });
+    }
 
-        // TODO: Recuperar lista de pedidos
-        //let orders = OrdersController.getOrders();
-        // TODO: Mostrar Lista de pedidos
-        //OrdersController.showOrders(orders);
+    static preloadLoggedUIShoppingCart(userData) {
+        UserController.loadLoggedUIShoppingCart(userData);
     }
 
     static loadLoggedUIShoppingCart(userData) {
@@ -323,12 +357,6 @@ export class UserController {
         $("#logoutButton").click(() => {
             UserController.sendLogout();
         });
-    }
-
-    static getUserData() {
-        let userData = localStorage.getItem("userData");
-        userData = JSON.parse(userData);
-        return userData;
     }
 
     static sendUpdateProfileForm(profileData) {
@@ -375,6 +403,246 @@ export class UserController {
 
     static validateProfileForm(profileData) {
         return true;
+    }
+}
+
+export class Guard {
+
+    static async init(page, autorizationRequired) {
+        // This algorithm have a explanation diagram in
+        // \documentación\documentación del producto\documentación del sistema\documentación diseño\Diagrama de flujo - Carga de Páginas.drawio
+
+        // LocalStorage have userData?
+        let userData = UserController.getUserData();
+        if (userData) {
+            // localStorage HAVE userData
+
+            // Preload logged UI
+            switch (page) {
+                case "home":
+                    UserController.preloadLoggedUIHome(userData);
+
+                    break;
+                case "shopping-cart":
+                    UserController.preloadLoggedUIShoppingCart(userData);
+
+                    break;
+                case "profile":
+                    UserController.preloadLoggedUIProfile(userData);
+
+                    break;
+                case "orders":
+                    UserController.preloadLoggedUIOrders(userData);
+
+                    break;
+                case "payment-succeed":
+                    UserController.preloadLoggedUIProfile(userData);
+
+                    break;
+                default:
+                    break;
+            }
+
+            // Verify JWT
+            let verifyResult = await Guard.verifyJWT();
+
+
+            // Need autorization?
+            if (autorizationRequired) {
+                // Autorization requeired
+
+
+                if (verifyResult.status === "correct") {
+                    // JWT valid
+
+                    // Set localStorage userData
+                    UserController.saveUserData(verifyResult.userData);
+
+                    // Load loggedUI
+                    switch (page) {
+                        case "home":
+                            UserController.loadLoggedUIHome(verifyResult.userData);
+
+                            break;
+                        case "shopping-cart":
+                            UserController.loadLoggedUIShoppingCart(verifyResult.userData);
+
+                            break;
+                        case "profile":
+                            UserController.loadLoggedUIProfile(verifyResult.userData);
+
+                            break;
+                        case "orders":
+                            UserController.loadLoggedUIOrders(verifyResult.userData);
+
+                            break;
+                        case "payment-succeed":
+                            UserController.loadLoggedUIPaymentSucceed(verifyResult.userData);
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                } else {
+                    // JWT not valid (JWT will be removed by backend)
+
+                    // Delete localStorage userData
+                    UserController.deleteUserData();
+
+                    // Redirect Home
+                    Guard.redirectHome();
+
+                }
+
+            } else {
+                // Autorization not requeired
+
+                if (verifyResult.status === "correct") {
+                    // JWT valid
+
+                    // Save localStorage userData
+                    UserController.saveUserData(verifyResult.userData);
+
+                    // Load loggedUI
+                    switch (page) {
+                        case "home":
+                            UserController.loadLoggedUIHome(verifyResult.userData);
+
+                            break;
+                        case "shopping-cart":
+                            UserController.loadLoggedUIShoppingCart(verifyResult.userData);
+
+                            break;
+                        case "profile":
+                            UserController.loadLoggedUIProfile(verifyResult.userData);
+
+                            break;
+                        case "orders":
+                            UserController.loadLoggedUIOrders(verifyResult.userData);
+
+                            break;
+                        case "payment-succeed":
+                            UserController.loadLoggedUIPaymentSucceed(verifyResult.userData);
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                } else {
+                    // JWT not valid (JWT will be removed by backend)
+
+                    // Delete localStorage userData
+                    UserController.deleteUserData();
+
+                    // Load not loggedUI
+                    switch (page) {
+                        case "home":
+                            UserController.loadNotLoggedUIHome();
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+
+            }
+
+        } else {
+            // localStorage DON'T HAVE userData
+
+            // Need autorization?
+            if (autorizationRequired) {
+                // Autorization required
+
+                // Verify JWT
+                let verifyResult = await Guard.verifyJWT();
+                if (verifyResult.status === "correct") {
+                    // JWT valid
+
+                    // Set localStorage userData
+                    UserController.saveUserData(verifyResult.userData);
+
+                    // Load logged UI
+                    switch (page) {
+                        case "home":
+                            UserController.loadLoggedUIHome(verifyResult.userData);
+
+                            break;
+                        case "shopping-cart":
+                            UserController.loadLoggedUIShoppingCart(verifyResult.userData);
+
+                            break;
+                        case "profile":
+                            UserController.loadLoggedUIProfile(verifyResult.userData);
+
+                            break;
+                        case "orders":
+                            UserController.loadLoggedUIOrders(verifyResult.userData);
+
+                            break;
+                        case "payment-succeed":
+                            UserController.loadLoggedUIProfile(verifyResult.userData);
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                } else {
+                    // JWT not valid (JWT will be removed by backend)
+
+                    // Redirect Home
+                    Guard.redirectHome();
+
+                }
+
+            } else {
+                // Autorization not requeired
+
+                // Load not logged UI
+                switch (page) {
+                    case "home":
+                        UserController.loadNotLoggedUIHome();
+
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+        }
+    }
+
+    static async verifyJWT() {
+        try {
+            var result = await $.ajax({
+                url: "https://backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/verify_jwt/",
+                method: "POST",
+                // Type of data send to the server
+                contentType: "application/json; charset=UTF-8",
+                // Expected type of data received from server response
+                dataType: "json",
+
+                // Uncomment this for securized requests
+                xhrFields: {
+                    withCredentials: true,
+                },
+            });
+
+            return result;
+        } catch (error) {
+
+            let verifyResult = {
+                status: "incorrect"
+            }
+
+            return verifyResult;
+        }
+
     }
 
     static redirectHome() {
@@ -433,6 +701,7 @@ export class Artwork {
         };
     }
 }
+
 export class ArtworkView {
     constructor() {
         this.card = ArtworkView.cardPrototype.cloneNode(true);
@@ -526,6 +795,7 @@ export class ArtworkView {
         $(this.card).find(".price").text(artworkData.price);
     }
 }
+
 export class ArtworkController {
     constructor(artwork, artworkView) {
         this.artwork = artwork;
@@ -626,6 +896,7 @@ export class Filter {
         throw new Error("Can't instantiate abstract class!");
     }
 }
+
 export class FilterView {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
@@ -639,6 +910,7 @@ export class FilterView {
         $("#expandFilterButton").click(FilterView.toggleFilterSidebar);
     }
 }
+
 export class FilterController {
     constructor() {
         throw new Error("Can't instantiate abstract class!");
@@ -710,6 +982,7 @@ export class ShoppingCart {
         });
     }
 }
+
 export class ShoppingCartController {
     constructor() {}
 
@@ -1312,30 +1585,4 @@ export class OrderController {
             console.log("Error :", errorThrown);
         });
     }
-}
-
-// DELETE THIS IF NEVER CALLED
-export function getCookie(cname) {
-    // Function from https://www.w3schools.com/js/js_cookies.asp
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == " ") {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-export function setCookie(cname, cvalue, exdays) {
-    // Function from https://www.w3schools.com/js/js_cookies.asp
-    const d = new Date();
-    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

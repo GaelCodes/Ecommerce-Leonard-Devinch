@@ -1,26 +1,27 @@
 import {
-    User,
+    Guard,
     UserController,
-    Artwork,
     ArtworkView,
-    ArtworkController,
     Catalogue,
-    FilterController,
     FilterView,
+    FilterController,
+    User,
+    Artwork,
+    ArtworkController,
     ShoppingCart,
 } from "../../app/app.js";
 
 $(document).ready(function() {
+    // Inicializa prototipos
     ArtworkView.init();
+    // Inicializa prototipos
     FilterView.init();
+    // Solicita datos, presenta datos
     Catalogue.init();
-    UserController.init();
 
-    // Load UIHome
-    let userData = UserController.getUserData();
-    if (userData) {
-        UserController.loadLoggedUIHome(userData);
-    } else {
-        UserController.loadNotLoggedUIHome();
-    }
+    // Controla acceso y carga UI
+    // dependiendo del estado del usuario (logged/notLogged)
+    let page = "home";
+    let autorizationRequired = false;
+    Guard.init(page, autorizationRequired);
 });

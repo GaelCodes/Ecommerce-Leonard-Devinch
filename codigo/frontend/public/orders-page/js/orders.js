@@ -1,6 +1,7 @@
 import {
     User,
     UserController,
+    Guard,
     Artwork,
     ArtworkView,
     ArtworkController,
@@ -13,16 +14,14 @@ import {
 } from "../../app/app.js";
 
 $(document).ready(function() {
-    // Load UI - Profile
-    let userData = UserController.getUserData();
-    if (userData) {
-        // Carga la barra de navegación
-        UserController.loadLoggedUIOrders(userData);
-        // Inicializa variables
-        OrderView.init();
-        // Solicita las orders y las muestra
-        OrderController.init();
-    } else {
-        UserController.redirectHome();
-    }
+    // Controla acceso y carga UI
+    // dependiendo del estado del usuario (logged/notLogged)
+    let page = "orders";
+    let autorizationRequired = true;
+    Guard.init(page, autorizationRequired);
+
+    // Inicializa variables
+    OrderView.init();
+    // Solicita las orders y las muestra
+    OrderController.init();
 });

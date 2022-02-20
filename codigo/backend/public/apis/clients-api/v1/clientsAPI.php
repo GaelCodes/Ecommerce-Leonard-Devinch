@@ -139,13 +139,6 @@ abstract class ClientsAPI
     if ($client) {
       $JWT = Client::generateJWT($client);
 
-      // setcookie("jwt-cookie", $JWT, [
-      //   "secure" => true,
-      //   "samesite" => "None",
-      //   "path" => "/",
-      //   // This parameter will depend if Remember me is set or not
-      //   //"expires" => time() + 60 * 60 * 24 * 30,
-      // ]);
       setcookie("jwt-cookie", $JWT, [
         "secure" => true,
         "SameSite" => "None",
@@ -245,6 +238,68 @@ abstract class ClientsAPI
     $response->setHeader("Content-type: application/json; charset=utf-8");
     $response->setCode(200);
     $response->setContent('{"message" : "Logged out succeessfully"}');
+    $response->send();
+  }
+
+  public static function verify_jwt()
+  {
+    $request = new Request();
+
+    if ($request->getMethod() === "OPTIONS") {
+      $response = new Response();
+
+      // Production Configuration
+      // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+      $response->setHeader(
+        "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+      );
+      // Header for securized rutes
+      $response->setHeader("Access-Control-Allow-Credentials: true");
+      $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+      $response->setHeader("Access-Control-Allow-Methods: POST,OPTIONS");
+
+      $response->setHeader("Content-type: application/json; charset=utf-8");
+      $response->setCode(200);
+      $response->setContent('{"message" : "Message for preflights requests"}');
+      $response->send();
+    }
+    ClientsAPI::authentication_process($request);
+
+    // Retrieve client from DDBB
+    $JWT = Client::decodeJWT($request->getCookie("jwt-cookie"));
+    $client_id = $JWT["payload"]["client_id"];
+
+    $clientDBM = new ClientsDatabaseManager();
+    $client = $clientDBM->select_client_by_id($client_id);
+
+    $message = [
+      "status" => "correct",
+      "userData" => [
+        "email" => $client->get_client_email(),
+        "fullName" => $client->get_full_name(),
+        "shippingAddress" => $client->get_shipping_address(),
+        "telephoneNumber" => $client->get_telephone_number(),
+      ],
+    ];
+
+    $message = json_encode($message);
+
+    $response = new Response();
+
+    // Production Configuration
+    // $response->setHeader('Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.web.app');
+    $response->setHeader(
+      "Access-Control-Allow-Origin: https://ecommerce-leonard-devinch.abigaelheredia.es"
+    );
+    // Headers for securized rutes
+    $response->setHeader("Access-Control-Allow-Credentials: true");
+
+    $response->setHeader("Access-Control-Allow-Headers: Content-Type");
+    $response->setHeader("Access-Control-Allow-Methods: POST");
+
+    $response->setHeader("Content-type: application/json; charset=utf-8");
+    $response->setCode(200);
+    $response->setContent($message);
     $response->send();
   }
 
@@ -639,6 +694,17 @@ abstract class ClientsAPI
     $valid = Client::validate_JWT($JWT);
     if (!$valid) {
       error_log("Usuario con cookie no valida");
+
+      // Quitar cookie
+      setcookie("jwt-cookie", "", [
+        "secure" => true,
+        "SameSite" => "None",
+        "domain" => "backend.ecommerce-leonard-devinch.abigaelheredia.es",
+        "path" => "/",
+        // This parameter will depend if Remember me is set or not
+        "expires" => time() - 60 * 60 * 24 * 30,
+      ]);
+
       ClientsAPI::expulse_user();
     }
   }
