@@ -41,3 +41,4 @@ jobs:
         port: 21
         local-dir: ./codigo/backend/
         security: loose
+        dry-run: true
