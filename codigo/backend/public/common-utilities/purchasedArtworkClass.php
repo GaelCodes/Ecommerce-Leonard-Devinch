@@ -7,6 +7,7 @@ class PurchasedArtwork
   private $price_by_unit;
   private $units;
   private $order_id;
+  private $url = null;
 
   public function __construct(
     string $artwork_title,
@@ -63,6 +64,15 @@ class PurchasedArtwork
   {
     return $this->order_id;
   }
+  public function set_url(string $url)
+  {
+    $this->url = $url;
+  }
+
+  public function get_url(): string
+  {
+    return $this->url;
+  }
 
   public function to_array(): array
   {
@@ -72,6 +82,7 @@ class PurchasedArtwork
       "order_id" => $this->order_id,
       "price_by_unit" => $this->price_by_unit,
       "units" => $this->units,
+      "url" => $this->url,
     ];
   }
 }

@@ -1,14 +1,5 @@
 import {
-    User,
-    UserController,
-    Guard,
-    Artwork,
-    ArtworkView,
-    ArtworkController,
-    Catalogue,
-    FilterController,
-    FilterView,
-    ShoppingCart,
+    Guard
 } from "../../app/app.js";
 
 $(document).ready(function() {

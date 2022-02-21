@@ -1,17 +1,7 @@
 import {
-    User,
-    UserController,
     Guard,
-    Artwork,
-    ArtworkView,
-    ArtworkController,
-    Catalogue,
-    FilterController,
-    FilterView,
     ShoppingCart,
-    ShoppingCartItem,
     ShoppingCartItemView,
-    ShoppingCartItemController,
     PaymentManager,
     ShoppingCartController,
 } from "../../app/app.js";

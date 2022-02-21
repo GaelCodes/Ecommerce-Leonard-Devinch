@@ -1,5 +1,6 @@
 <?php
 include_once "databaseManagerClass.php";
+require_once "ArtworksDatabaseManagerClass.php";
 
 class ordersDatabaseManager extends DatabaseManager
 {
@@ -75,6 +76,19 @@ class ordersDatabaseManager extends DatabaseManager
       $purchasedArtworks = $purchasedArtworksDBM->select_purchased_artworks_by_order_id(
         $row["order_id"]
       );
+
+      // La URL es necesaria porque en el frontend se necesita
+      for ($i = 0; $i < count($purchasedArtworks); $i++) {
+        $purchasedArtwork = &$purchasedArtworks[$i];
+
+        $artworksDBM = new ArtworksDatabaseManager();
+        $artwork = $artworksDBM->selectArtworkByPK(
+          $purchasedArtwork->get_artwork_title(),
+          $purchasedArtwork->get_artist_email()
+        );
+
+        $purchasedArtwork->set_url($artwork->get_url());
+      }
 
       $order = new Order(
         $client,

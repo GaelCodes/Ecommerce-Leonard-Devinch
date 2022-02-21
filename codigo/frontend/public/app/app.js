@@ -329,6 +329,9 @@ export class UserController {
         $("#logoutButton").click(() => {
             UserController.sendLogout();
         });
+
+        // Reset shoppingCart
+        localStorage.removeItem("shoppingCart");
     }
 
     static preloadLoggedUIOrders(userData) {
@@ -924,62 +927,68 @@ export class ShoppingCart {
         ShoppingCart.items = [];
 
         let shoppingCartStorage = localStorage.getItem("shoppingCart");
-        shoppingCartStorage = JSON.parse(shoppingCartStorage);
+        if (shoppingCartStorage) {
 
-        // ShoppingCartCookie is an array with data like this =
-        //
-        // [
-        //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
-        //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
-        // ];
+            shoppingCartStorage = JSON.parse(shoppingCartStorage);
 
-        // Obtener la info de las obras de arte desde el backend
-        let selection = shoppingCartStorage;
+            // ShoppingCartCookie is an array with data like this =
+            //
+            // [
+            //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+            //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+            // ];
 
-        let artworks = await ShoppingCartController.retrieveShoppingCartArtworks(
-            selection
-        );
+            // Obtener la info de las obras de arte desde el backend
+            let selection = shoppingCartStorage;
 
-        // Resetear el container
-        $("#shoppingCartItemsContainer").html("");
 
-        // Crear los shoppingCartItems
-        artworks.forEach((artworkData) => {
-            // Aquí busco y asocio obras de arte con unidades
-            let selectionIndex = selection.findIndex((selectedArtwork) => {
-                return (
-                    selectedArtwork.title == artworkData.title &&
-                    selectedArtwork.artistEmail == artworkData.artist.artist_email
+
+            let artworks = await ShoppingCartController.retrieveShoppingCartArtworks(
+                selection
+            );
+
+            // Resetear el container
+            $("#shoppingCartItemsContainer").html("");
+
+            // Crear los shoppingCartItems
+            artworks.forEach((artworkData) => {
+                // Aquí busco y asocio obras de arte con unidades
+                let selectionIndex = selection.findIndex((selectedArtwork) => {
+                    return (
+                        selectedArtwork.title == artworkData.title &&
+                        selectedArtwork.artistEmail == artworkData.artist.artist_email
+                    );
+                });
+
+                artworkData.units = selection[selectionIndex].units;
+
+                let shoppingCartItem = new ShoppingCartItem(
+                    artworkData.title,
+                    artworkData.artist,
+                    artworkData.price,
+                    artworkData.units,
+                    artworkData.available_quantity,
+                    artworkData.url,
+                    artworkData.dimension_x,
+                    artworkData.dimension_y
                 );
+
+                let shoppingCartItemView = new ShoppingCartItemView();
+
+                // TODO: Mostrar shoppingCartItem en el populate del view
+                let shoppingCartItemController = new ShoppingCartItemController(
+                    shoppingCartItem,
+                    shoppingCartItemView
+                );
+
+                ShoppingCart.items.push({
+                    model: shoppingCartItem,
+                    view: shoppingCartItemView,
+                    controller: shoppingCartItemController,
+                });
             });
 
-            artworkData.units = selection[selectionIndex].units;
-
-            let shoppingCartItem = new ShoppingCartItem(
-                artworkData.title,
-                artworkData.artist,
-                artworkData.price,
-                artworkData.units,
-                artworkData.available_quantity,
-                artworkData.url,
-                artworkData.dimension_x,
-                artworkData.dimension_y
-            );
-
-            let shoppingCartItemView = new ShoppingCartItemView();
-
-            // TODO: Mostrar shoppingCartItem en el populate del view
-            let shoppingCartItemController = new ShoppingCartItemController(
-                shoppingCartItem,
-                shoppingCartItemView
-            );
-
-            ShoppingCart.items.push({
-                model: shoppingCartItem,
-                view: shoppingCartItemView,
-                controller: shoppingCartItemController,
-            });
-        });
+        }
     }
 }
 
@@ -1246,8 +1255,33 @@ export class ShoppingCartItemController {
             updatedUnits <= this.shoppingCartItem.available_quantity
         ) {
             console.log("Nuevo valor: ", updatedUnits);
+
+            // Modify units in localStorage and shoppingCartItem
+            let shoppingCartItemsLS = localStorage.getItem("shoppingCart");
+
+            shoppingCartItemsLS = JSON.parse(shoppingCartItemsLS);
+
+            let searchElement = {
+                artistEmail: this.shoppingCartItem.artist.artist_email,
+                title: this.shoppingCartItem.title,
+            }
+
+            let itemIndex = shoppingCartItemsLS.findIndex((element) => {
+                return (element.title === searchElement.title && element.artistEmail === searchElement.artistEmail);
+            });
+
             this.shoppingCartItem.units = updatedUnits;
+
+            shoppingCartItemsLS[itemIndex] = {
+                artistEmail: this.shoppingCartItem.artist.artist_email,
+                title: this.shoppingCartItem.title,
+                units: this.shoppingCartItem.units
+            }
+
+            localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartItemsLS));
+
         } else {
+
             console.log("Quieres : ", updatedUnits);
             console.log("Hay : ", this.shoppingCartItem.available_quantity);
         }
@@ -1368,7 +1402,6 @@ export class OrderView {
         this.card = OrderView.cardPrototype.cloneNode(true);
     }
     static init() {
-        console.log("Iniciando vista de orderView");
         OrderView.cardPrototype = document.getElementById("orderViewCardPrototype");
     }
 
@@ -1380,6 +1413,7 @@ export class OrderView {
 
         $(this.card).find(".orderTotalCharge").text(`${orderData.total_charge} €`);
 
+        $(this.card).removeClass("d-none");
         $("#ordersList").append(this.card);
     }
 }
@@ -1394,10 +1428,6 @@ export class OrderController {
 
         // Add EventsListeners
         $(this.orderView.card).click(() => {
-            console.log(
-                "Mostando detalles de la orden con ID: ",
-                this.order.order_id
-            );
 
             this.showOrderDetails();
             OrderView.showingDetails = this.orderView;
@@ -1430,7 +1460,7 @@ export class OrderController {
 
             $(purchasedArtworkNode)
                 .find(".artworkImage")
-                .attr("src", "purchased_artwork_data.url");
+                .attr("src", purchased_artwork_data.url);
 
             $(purchasedArtworkNode)
                 .find(".artworkTitle")
@@ -1452,6 +1482,7 @@ export class OrderController {
                 purchased_artwork_data.price_by_unit * purchased_artwork_data.units;
             $(purchasedArtworkNode).find(".artworkTotal").text(`${total} €`);
 
+            $(purchasedArtworkNode).removeClass("d-none");
             $(purchasedArtworkNode).appendTo("#purchasedArtworksContainer");
         }
     }
@@ -1467,7 +1498,6 @@ export class OrderController {
         let orders = await OrderController.sendGetOrdersRequest();
 
         let ordersData = orders.ordersData;
-        console.log("Ordenes obtenidos: ", orders);
         for (let i = 0; i < ordersData.length; i++) {
             const orderData = ordersData[i];
 

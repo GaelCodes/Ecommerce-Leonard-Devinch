@@ -521,7 +521,6 @@ abstract class ClientsAPI
     // Retrieve data from DDBB
     $ordersDBM = new OrdersDatabaseManager();
 
-    // TODO: Develop select_orders....
     $client_orders = $ordersDBM->select_orders_by_client($client);
 
     // Format data
