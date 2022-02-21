@@ -38,4 +38,4 @@ jobs:
         password: ${{ secrets.ECOMMERCE_LEONARD_DEVINCH_FTP_PASSWORD }}
         protocol: ftps
         port: 21
-        local-dir: ./codigo/backend/
+        local-dir: /codigo/backend/
