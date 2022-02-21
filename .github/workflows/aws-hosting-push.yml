@@ -30,6 +30,7 @@ jobs:
       uses: actions/checkout@v2
     
     # Uses a third party Github Action (SamKirkland/FTP-Deploy-Action@4.3.0) with parameters
+    # testing change
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
