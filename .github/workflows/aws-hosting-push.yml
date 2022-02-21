@@ -31,7 +31,7 @@ jobs:
     
     # Uses a third party Github Action (SamKirkland/FTP-Deploy-Action@4.3.0) with parameters
     - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         # Last try, make sure firewall configuration allow connection 
         # through the control port and the data port
@@ -41,5 +41,4 @@ jobs:
         protocol: ftps
         port: 21
         local-dir: ./codigo/backend/
-        security: strict
         log-level: verbose
