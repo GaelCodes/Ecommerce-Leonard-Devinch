@@ -4,9 +4,15 @@ Resultant urls to consume apis:
     artworks-api:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/select_artworks
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/select_filtered_artworks
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/retrieve_selected_artworks
     clients-api:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/register
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/login
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/logout
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/update_profile
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/verify_jwt
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/make_order
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/consult_orders
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/download_order
     artists-api:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artists-api/v1
