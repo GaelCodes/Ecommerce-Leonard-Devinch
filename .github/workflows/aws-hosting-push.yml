@@ -34,5 +34,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: b4ck3nd-s3rv3r.duckdns.org
-        username: galletas
-        password: ${{ secrets.galletas_ftp_password }}
+        username: ${{ secrets.ecommerce-leonard-devinch_ftp_user }}
+        password: ${{ secrets.ecommerce-leonard-devinch_ftp_password }}
+        protocol: ftps
+        port: 21
