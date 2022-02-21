@@ -39,3 +39,4 @@ jobs:
         protocol: ftps
         port: 21
         local-dir: ./codigo/backend/
+        security: loose
