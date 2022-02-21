@@ -33,6 +33,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ftp.samkirkland.com
+        server: b4ck3nd-s3rv3r.duckdns.org
         username: galletas
         password: ${{ secrets.galletas_ftp_password }}
