@@ -33,9 +33,12 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
+        # Last try, make sure firewall configuration allow connection 
+        # through the control port and the data port
         server: ${{ secrets.ECOMMERCE_LEONARD_DEVINCH_FTP_SERVER }}
         username: ${{ secrets.ECOMMERCE_LEONARD_DEVINCH_FTP_USER }}
         password: ${{ secrets.ECOMMERCE_LEONARD_DEVINCH_FTP_PASSWORD }}
         protocol: ftps
         port: 21
-        local-dir: /codigo/backend/
+        local-dir: ./codigo/backend/
+        log-level: verbose
