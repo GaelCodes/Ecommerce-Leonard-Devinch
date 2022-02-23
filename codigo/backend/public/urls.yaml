@@ -1,6 +1,6 @@
 
 Backend Server Adress: backend.ecommerce-leonard-devinch.abigaelheredia.es
-Resultant urls to consume apis:
+Urls to consume apis:
     artworks-api:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/select_artworks
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artworks-api/v1/select_filtered_artworks
@@ -16,3 +16,7 @@ Resultant urls to consume apis:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/clients-api/v1/download_order
     artists-api:
         - backend.ecommerce-leonard-devinch.abigaelheredia.es/apis/artists-api/v1
+
+Urls webhooks Stripe Events:
+    stripe-payments:
+        - backend.ecommerce-leonard-devinch.abigaelheredia.es/stripe-webhooks/payments/events-distributor.php
