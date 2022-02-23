@@ -45,13 +45,23 @@ class PdfsManager
     /* 
      El directorio del wkhtmltopdf debe ser referenciado con un variable de
      entorno porque en windows y linux la extensión del programa
-     no es la misma.
+     no es la misma. De hecho, en windows se llama a través del .exe, mientras
+     que en linux se llama con el commando "wkhtmltopdf"
     */
 
     //
-    $bin_path = realpath(
-      __DIR__ . $_ENV["DIR_OF_WKHTMLTOPDF_FROM_WEBHOOK_UTILITIES"]
-    );
+
+    if ($_ENV["OS"] === "LINUX") {
+      // This will add the name to call the app in linux
+      $app_command = "wkhtmltopdf";
+      $bin_path = $app_command;
+    } elseif ($_ENV["OS"] === "WINDOWS") {
+      // This will add the directory to .exe file in windows
+      $bin_path = realpath(
+        __DIR__ . $_ENV["DIR_OF_WKHTMLTOPDF_FROM_WEBHOOK_UTILITIES"]
+      );
+    }
+
     $cmd =
       "\"" .
       $bin_path .
@@ -65,9 +75,12 @@ class PdfsManager
 
     /*
      Objective:
-    
+     WINDOWS
      " "webhooks-utilities/tmp-files/order-generator/bin/wkhtmltopdf.exe"
        "generated.html" "generated.pdf" "
+
+     LINUX
+     " "wkhtmltopdf" "generated.html" "generated.pdf" "
     */
 
     exec($cmd);

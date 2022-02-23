@@ -1,6 +1,6 @@
 <?php
 include_once "databaseManagerClass.php";
-require_once "ArtworksDatabaseManagerClass.php";
+require_once "artworksDatabaseManagerClass.php";
 
 class ordersDatabaseManager extends DatabaseManager
 {
