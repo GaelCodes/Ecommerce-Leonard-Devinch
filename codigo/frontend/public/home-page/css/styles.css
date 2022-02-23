@@ -1,13 +1,105 @@
-/* Inicio screens < 576px */
+/* Inicio screens menores a 576px */
 
 
 /* Inicio body */
 
+* {
+    box-sizing: border-box;
+}
+
+.icon-sm {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 20px;
+}
+
+.icon-xs,
+.icon-sm,
+.icon-md,
+.icon-lg {
+    display: inline-block;
+    text-align: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
 
 /* Inicio header */
 
-.logo {
-    width: 8em;
+nav {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.432);
+}
+
+nav .logo-container {}
+
+.logo-container .logo {
+    width: 9em;
+    margin-right: auto;
+}
+
+nav .search-container {
+    padding: 1em 0;
+    margin: 0 auto;
+}
+
+nav .widgets-wrap {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 1em 0;
+}
+
+.widgets-wrap button {
+    background: none;
+    color: gray;
+}
+
+.widgets-wrap button:hover {
+    color: #3167eb !important;
+}
+
+.widgets-wrap .shopping-cart-widget {
+    padding: 0.2em;
+    position: relative;
+    width: fit-content;
+}
+
+.shopping-cart-widget a {
+    color: gray;
+}
+
+.shopping-cart-widget a:hover {
+    color: #3167eb !important;
+}
+
+.shopping-cart-widget #shopping-cart-number {
+    position: absolute;
+    top: -3px;
+    right: -5px;
+}
+
+.widgets-wrap .user-widget {}
+
+.user-widget .logged-user-widget {
+    padding: 0.2em;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.logged-user-widget .sign-in-And-register-buttons {
+    /* display: inline-block; */
+    color: black;
+}
+
+.sign-in-And-register-buttons button {
+    background: none;
+    border: 0;
+}
+
+.user-widget .notLogged-user-widget {
+    padding: 0.2em;
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 
@@ -181,12 +273,23 @@ footer {
 /* Fin body */
 
 
-/* Fin screens < 576px */
+/* Fin screens menores a 576px */
 
 
-/* Inicio screens > 768px */
+/* Inicio screens a partir de 576px */
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width:576px) {
+    /* Inicio header */
+    nav .widgets-wrap {
+        display: flex;
+        flex-flow: row nowrap;
+        padding: 1em 0;
+    }
+    /* Fin header */
+    /* Inicio body */
+    /* Fin body */
+    /* Inicio footer */
+    /* Fin footer */
     main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -231,7 +334,23 @@ footer {
 }
 
 
-/* Fin screens > 1200px */
+/* Fin screens a partir de 576px */
+
+
+/* Inicio screens a partir de 768px */
+
+@media only screen and (min-width:576px) {
+    /* Inicio header */
+    nav .widgets-wrap {
+        display: flex;
+        flex-flow: row nowrap;
+        padding: 1em 0;
+        justify-content: flex-end;
+    }
+}
+
+
+/* Fin screens a partir de 768px */
 
 
 /* Inicio screens > 1200px */
