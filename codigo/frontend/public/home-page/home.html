@@ -175,127 +175,377 @@
     </nav>
 
     <main>
-        <section class="searcher">
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" placeholder="Búsqueda por título o artista" aria-label="Search" aria-describedby="search-addon" />
-                <span class="input-group-text border-0" id="search-addon">
-                    <i class="bi bi-search"></i>
-                </span>
-            </div>
-        </section>
-        <section class="filter">
+        <div class="container">
+            <div class="row">
+                <aside class="col-lg-3 col-8 filter d-none d-lg-inline-block">
+                    <div id="filterSidebar" class="d-xl-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                        <h1 class="text-center h5 text-muted mb-4">Filtros</h1>
+                        <div class="list-group list-group-flush border-bottom scrollarea">
+                            <div class="filterCard card mb-3">
+                                <div class="card-body">
 
-            <button id="expandFilterButton" type="button" class="d-xl-none btn btn-outline-primary">
-                <i class="bi bi-funnel-fill"></i>
-                <p class=" d-inline-block m-0"> Filtrar</p>
-            </button>
-            <div id="filterSidebar" class="d-xl-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                <h1 class="text-center h5 text-muted mb-4">Filtros</h1>
-                <div class="list-group list-group-flush border-bottom scrollarea">
-                    <div class="filterCard card mb-3">
-                        <div class="card-body">
+                                    <h5 class="card-title">Precio</h5>
 
-                            <h5 class="card-title">Precio</h5>
+                                    <input type="range" class="custom-range" min="0" max="100" name="">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Min</label>
+                                            <input class="form-control" placeholder="$0" type="number">
+                                        </div>
+                                        <div class="form-group text-right col-md-6">
+                                            <label>Max</label>
+                                            <input class="form-control" placeholder="$1,0000" type="number">
+                                        </div>
+                                    </div>
 
-                            <input type="range" class="custom-range" min="0" max="100" name="">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label>Min</label>
-                                    <input class="form-control" placeholder="$0" type="number">
-                                </div>
-                                <div class="form-group text-right col-md-6">
-                                    <label>Max</label>
-                                    <input class="form-control" placeholder="$1,0000" type="number">
+                                    <button class="btn d-block btn-primary mx-auto mt-2">Apply</button>
+
                                 </div>
                             </div>
 
-                            <button class="btn d-block btn-primary mx-auto mt-2">Apply</button>
+                            <div class="filterCard card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Dimensiones</h5>
 
+
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light"> 140x100 </span>
+                                    </label>
+
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light"> 100x100 </span>
+                                    </label>
+
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light"> 180x100 </span>
+                                    </label>
+
+                                    <label class="checkbox-btn">
+                                        <input type="checkbox">
+                                        <span class="btn btn-light"> 290x150 </span>
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="filterCard card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Temática</h5>
+
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" checked="" class="custom-control-input">
+                                        <div class="custom-control-label">Mercedes <b
+                                                class="badge badge-pill badge-light float-right">120</b> </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" checked="" class="custom-control-input">
+                                        <div class="custom-control-label">Toyota <b
+                                                class="badge badge-pill badge-light float-right">15</b> </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" checked="" class="custom-control-input">
+                                        <div class="custom-control-label">Mitsubishi <b
+                                                class="badge badge-pill badge-light float-right">35</b> </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" checked="" class="custom-control-input">
+                                        <div class="custom-control-label">Nissan <b
+                                                class="badge badge-pill badge-light float-right">89</b> </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <div class="custom-control-label">Honda <b
+                                                class="badge badge-pill badge-light float-right">30</b> </div>
+                                    </label>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="filterCard card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Dimensiones</h5>
+                </aside>
+
+                <section class="artworks-section col-lg-9 col-12">
+                    <header class="col-lg-9 col-12 border-bottom mb-4 p-2">
+                        <!-- Searcher -->
+                        <div class="searcher py-2">
+                            <div class="input-group rounded">
+                                <input type="search" class="form-control rounded" placeholder="Búsqueda por título o artista" aria-label="Search" aria-describedby="search-addon" />
+                                <span class="input-group-text border-0" id="search-addon">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <span class="me-auto">32 Items found </span>
+
+                            <select class="me-2 form-control w-auto">
+                                <option>Antiguos primero</option>
+                                <option>Recientes primero</option>
+                                <option>Precio ascendente</option>
+                                <option>Precio descendente</option>
+                            </select>
 
 
-                            <label class="checkbox-btn">
-                                <input type="checkbox">
-                                <span class="btn btn-light"> 140x100 </span>
-                            </label>
+                            <div class="btn-group">
+                                <button id="expandFilterButton" type="button" class="d-xl-none btn btn-outline-primary">
+                                    <i class="bi bi-funnel-fill"></i>
+                                    <p class=" d-inline-block m-0"> Filtrar</p>
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="artworks">
+                        <div class="card d-inline-flex p-2">
 
-                            <label class="checkbox-btn">
-                                <input type="checkbox">
-                                <span class="btn btn-light"> 100x100 </span>
-                            </label>
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
 
-                            <label class="checkbox-btn">
-                                <input type="checkbox">
-                                <span class="btn btn-light"> 180x100 </span>
-                            </label>
+                            <div class="card-body artworkBody d-flex flex-wrap">
 
-                            <label class="checkbox-btn">
-                                <input type="checkbox">
-                                <span class="btn btn-light"> 290x150 </span>
-                            </label>
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card d-inline-flex p-2">
+
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
+
+                            <div class="card-body artworkBody d-flex flex-wrap">
+
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card d-inline-flex p-2">
+
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
+
+                            <div class="card-body artworkBody d-flex flex-wrap">
+
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card d-inline-flex p-2">
+
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
+
+                            <div class="card-body artworkBody d-flex flex-wrap">
+
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card d-inline-flex p-2">
+
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
+
+                            <div class="card-body artworkBody d-flex flex-wrap">
+
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card d-inline-flex p-2">
+
+                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
+
+                            <div class="card-body artworkBody d-flex flex-wrap">
+
+                                <div class="artworkDimensions w-50">
+                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
+                                    <p>alto: <span class="dimensionY">25cm</span> </p>
+                                </div>
+
+                                <div class="artworkStockAndDate w-50">
+                                    <div class="artworkDate">
+                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                    </div>
+                                    <div class="artworkStock">
+                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
+                                </div>
+
+                                <div class="artworkArtist">Nathalie Lynock</div>
+
+                                <button type="button" class="artworkCartButton">
+                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
+                                    <i class="bi bi-cart"></i>
+                                </button>
+
+                            </div>
 
                         </div>
                     </div>
-
-                    <div class="filterCard card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Temática</h5>
-
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" checked="" class="custom-control-input">
-                                <div class="custom-control-label">Mercedes <b
-                                        class="badge badge-pill badge-light float-right">120</b> </div>
-                            </label>
-
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" checked="" class="custom-control-input">
-                                <div class="custom-control-label">Toyota <b
-                                        class="badge badge-pill badge-light float-right">15</b> </div>
-                            </label>
-
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" checked="" class="custom-control-input">
-                                <div class="custom-control-label">Mitsubishi <b
-                                        class="badge badge-pill badge-light float-right">35</b> </div>
-                            </label>
-
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" checked="" class="custom-control-input">
-                                <div class="custom-control-label">Nissan <b
-                                        class="badge badge-pill badge-light float-right">89</b> </div>
-                            </label>
-
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input">
-                                <div class="custom-control-label">Honda <b
-                                        class="badge badge-pill badge-light float-right">30</b> </div>
-                            </label>
-
-                        </div>
-                    </div>
-                </div>
+                    <nav class="mt-4 mx-auto" aria-label="Page navigation sample">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </section>
             </div>
-
-        </section>
-        <section class="orderBy">
-            <div class="dropdown w-100">
-                <button class="btn btn-outline-primary w-100 dropdown-toggle" id="orderByDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Ordenar por
-                </button>
-                <ul class="dropdown-menu w-100" aria-labelledby="orderByDropdown">
-                    <li><a class="dropdown-item" href="#">Antiguos primero</a></li>
-                    <li><a class="dropdown-item" href="#">Recientes primero</a></li>
-                    <li><a class="dropdown-item" href="#">Precio ascendente</a></li>
-                    <li><a class="dropdown-item" href="#">Precio descendente</a></li>
-                </ul>
-            </div>
-        </section>
-        <section class="artworks"></section>
+        </div>
     </main>
 
     <footer class="row justify-content-end text-center mt-5 pt-5">
