@@ -6,10 +6,6 @@
 
 /* Inicio header */
 
-.logo {
-    width: 8em;
-}
-
 
 /* Fin header */
 
@@ -41,6 +37,7 @@ main #ordersCard {
 main #orderCard {
     background-color: #f8f8f7;
     height: 80vh;
+    width: 100%;
 }
 
 #orderCard .card-header {
