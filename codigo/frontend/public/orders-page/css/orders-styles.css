@@ -84,34 +84,6 @@ main #orderCard {
 
 /* Inicio footer */
 
-footer {
-    background-color: rgba(0, 0, 0, 0.678);
-    padding: 2em 0px;
-    color: rgba(219, 219, 219, 0.932);
-}
-
-.my-social-items {
-    font-size: 34px;
-}
-
-.my-social-items li {
-    margin: 0px 10px;
-}
-
-.my-social-items a:visited {
-    color: #157ca1;
-}
-
-.my-social-items a:link {
-    color: #157ca1;
-}
-
-.my-politics a:visited,
-.my-politics a:link {
-    text-decoration: none;
-    color: white;
-}
-
 
 /* Fin footer */
 

@@ -214,13 +214,15 @@ export class UserController {
         UserController.passwordPattern = /.{5,16}/;
 
         // Mostrar boton inicio de sesión
-        $("#loginButton").removeClass("d-none");
+        $("#notLogged-user-widget").removeClass("d-none");
 
         // Resetear botón user email dropdown
-        $("#userDropdownMenu").text("example@hotmail.com");
+        $("#userDropdownMenuButton").text("example@hotmail.com");
 
+        // notLogged-user-widget
+        // logged-user-widget
         // Ocultar boton user email dropdown
-        $("#userDropdownMenu").parent().addClass("d-none");
+        $("#logged-user-widget").addClass("d-none");
 
         // EventListener Register and login modals controls link
         $("#registerButtonLink").click((e) => {
@@ -266,33 +268,31 @@ export class UserController {
 
     static loadLoggedUIHome(userData) {
         // Ocultar boton inicio de sesión
-        $("#loginButton").addClass("d-none");
+        $("#notLogged-user-widget").addClass("d-none");
+        UserController.loadLoggedUINavbar(userData);
+    }
+
+    static loadLoggedUINavbar(userData) {
 
         // Rellenar botón user email dropdown
-        $("#userDropdownMenu").text(userData.email);
+        $("#userDropdownMenuButton").text(userData.email);
 
         // Mostrar boton user email dropdown
-        $("#userDropdownMenu").parent().removeClass("d-none");
+        $("#logged-user-widget").removeClass("d-none");
 
         // EventListener Send logout request
         $("#logoutButton").click(() => {
             UserController.sendLogout();
         });
     }
-
 
     static preloadLoggedUIProfile(userData) {
         UserController.loadLoggedUIProfile(userData);
     }
 
     static loadLoggedUIProfile(userData) {
-        // Rellenar botón user email dropdown
-        $("#userDropdownMenu").text(userData.email);
 
-        // EventListener Send logout request
-        $("#logoutButton").click(() => {
-            UserController.sendLogout();
-        });
+        UserController.loadLoggedUINavbar(userData);
 
         // Mostrar datos del usuario
         $("#inputUserEmail").val(userData.email);
@@ -335,17 +335,12 @@ export class UserController {
     }
 
     static preloadLoggedUIOrders(userData) {
+
         UserController.loadLoggedUIOrders(userData);
     }
 
     static loadLoggedUIOrders(userData) {
-        // Rellenar botón user email dropdown
-        $("#userDropdownMenu").text(userData.email);
-
-        // EventListener Send logout request
-        $("#logoutButton").click(() => {
-            UserController.sendLogout();
-        });
+        UserController.loadLoggedUINavbar(userData);
     }
 
     static preloadLoggedUIShoppingCart(userData) {
@@ -353,13 +348,7 @@ export class UserController {
     }
 
     static loadLoggedUIShoppingCart(userData) {
-        // Rellenar botón user email dropdown
-        $("#userDropdownMenu").text(userData.email);
-
-        // EventListener Send logout request
-        $("#logoutButton").click(() => {
-            UserController.sendLogout();
-        });
+        UserController.loadLoggedUINavbar(userData);
     }
 
     static sendUpdateProfileForm(profileData) {
@@ -707,55 +696,10 @@ export class Artwork {
 
 export class ArtworkView {
     constructor() {
-        this.card = ArtworkView.cardPrototype.cloneNode(true);
+        this.card = $('#artworkCard-Prototype').clone();
+        $(this.card).removeAttr("id");
+        $(this.card).removeClass("d-none");
         this.addCartButton = $(this.card).find(".artworkCartButton");
-    }
-
-    static init() {
-        ArtworkView.cardPrototype = document.createElement("div");
-        ArtworkView.cardPrototype.classList.add(
-            "card",
-            "d-inline-flex",
-            "col-12",
-            "col-md-6",
-            "col-lg-4",
-            "my-4",
-            "border-0",
-            "p-3"
-        );
-
-        $(ArtworkView.cardPrototype).html(`
-
-        <img src="https://dummyimage.com/176x100.png/dddddd/000000" class="artworkImage" alt="Cuadro no encontrado">
-
-        <div class="card-body artworkBody">
-
-            <div class="artworkDimensions">
-                <p>ancho: <span class="dimensionX"></span> </p>
-                <p>alto: <span class="dimensionY"></span> </p>
-            </div>
-
-            <div class="artworkDate">
-                <p> Fecha: <span class="date"></span></p>
-            </div>
-
-            <div class="artworkStockAndCartButton">
-                <button type="button" class="artworkCartButton btn btn-outline-primary">
-                    <p> <span class="price"></span>€</p>
-                    <i class="bi bi-cart"></i>
-                </button>
-                <div class="artworkStock">
-                    <p>stock: <span class="availableStock"></span> / <span class="createdQuantity"></span></p>
-                </div>      
-            </div>
-
-            <div class="artworkTitle"></div>
-
-            <div class="artworkArtist"></div>
-
-        </div>     
-
-        `);
     }
 
     populate(artworkData) {
@@ -858,7 +802,7 @@ export class Catalogue {
     }
 
     static init() {
-        Catalogue.artworksSection = $("section.artworks");
+        Catalogue.artworksContainer = $("section.artworks-section .artworks");
         Catalogue.artworks = [];
         Catalogue.filteredArtworks = [];
         Catalogue.filter = FilterController;
@@ -889,7 +833,7 @@ export class Catalogue {
 
     static showAllArtworks() {
         Catalogue.artworks.forEach((artwork) => {
-            Catalogue.artworksSection.append(artwork.view.card);
+            Catalogue.artworksContainer.append(artwork.view.card);
         });
     }
 }
@@ -906,6 +850,29 @@ export class FilterView {
     }
 
     static toggleFilterSidebar() {
+
+        // Obtener vw
+        let vw = $(window).width();
+
+        // Obtener separación top and left
+        let filterButtonPosition = $("#expandFilterButton").offset();
+
+        // Calcular separación right
+        let filterButtonWidth = $("#expandFilterButton").width();
+        filterButtonPosition.right = vw - (filterButtonPosition.left + filterButtonWidth);
+
+        // Calcular separación top del filterSideBar (separación top botón + alto boton)
+        let filterButtonHeight = $("#expandFilterButton").height();
+        let offSetTop = filterButtonPosition.top + filterButtonHeight;
+
+        // Posicionar (separación top + alto boton + ~padding boton) (separación right)
+
+        $("#filterSidebar").css({
+            position: 'absolute',
+            top: (offSetTop + 20) + "px",
+            right: 0,
+        })
+
         $("#filterSidebar").slideToggle("slow");
     }
 

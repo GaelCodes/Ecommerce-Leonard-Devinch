@@ -5,16 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to Firebase Hosting</title>
+
+    <!-- Bootstraps Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Common Pages - Styles -->
+    <link rel="stylesheet" href="../commons/css/common-styles.css">
+
+    <!-- Fontawesome kit -->
+    <script src="https://kit.fontawesome.com/b17881c574.js" crossorigin="anonymous"></script>
+
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/b17881c574.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg">
 
-        <div class="container justify-content-between justify-content-md-around">
+        <div class="container justify-content-between">
             <!-- Logo -->
             <div class="logo-container col-lg-3 col-md-6 col-12">
                 <img src="../assets/logo-full5.png" class="logo" alt="" srcset="">
@@ -24,33 +34,35 @@
             <div class="col-lg-4 col-md-6 col-12 order-lg-3">
                 <div class="widgets-wrap">
                     <div class="shopping-cart-widget">
-                        <a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></a>
+                        <a href="../shopping-cart-page/shopping-cart.html" class="icon icon-sm rounded-circle border"><i
+                                class="fa fa-shopping-cart"></i></a>
                         <span id="shopping-cart-number" class="badge rounded-pill bg-danger notify">0</span>
                     </div>
                     <div class="user-widget">
                         <!-- Not logged user-widget -->
-                        <div class="notLogged-user-widget d-none">
-                            <button id="userAvatarButton" type="button" class="icon icon-sm rounded-circle border" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <div id="notLogged-user-widget">
+                            <button id="userAvatarButton" type="button" class="icon icon-sm rounded-circle border" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="fa fa-user"></i>
                             </button>
                             <div class="text">
                                 <span class="text-muted">¡Bienvenid@!</span>
 
                                 <div class="sign-in-And-register-buttons">
-                                    <button id="loginButton" type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Sign in
+                                    <button id="loginButton" type="button" class="" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                        Iniciar sesión
                                     </button> |
                                     <button id="registerButton" type="button" class="" data-bs-toggle="modal" data-bs-target="#registerModal">
-                                        Register
+                                        Registrarse
                                     </button>
 
                                     <!-- Login Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Iniciar Sesión</h5>
-                                                    <button id="closeLoginModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                                                    <button id="closeLoginModalButton" type="button" class="btn-close h4" data-bs-dismiss="modal" aria-label="Close"><i
+                                                            class="fa-solid fa-circle-xmark"></i></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form id="loginForm">
@@ -68,7 +80,7 @@
                                                             <input type="checkbox" class="form-check-input" id="rememberMeCheck">
                                                             <label class="form-check-label" for="rememberMeCheck">Recuérdame</label>
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary d-block mx-auto">Conectar</button>
+                                                        <button id="sendLoginButton" type="submit" class="btn d-block mx-auto">Conectar</button>
                                                         <p id="loginSucceedMessage" class="form-text text-center text-succeed"></p>
                                                         <p id="loginErrorMessage" class="form-text text-center text-danger">
                                                         </p>
@@ -77,7 +89,7 @@
                                                 </div>
                                                 <div class="modal-footer justify-content-center">
                                                     <p class="form-text text-center"> ¿Todavía no tienes una cuenta?
-                                                        <a id="registerButtonLink" role="button">Registrate</a>
+                                                        <a id="registerButtonLink" class="text-decoration-underline text-primary" role="button">Registrate</a>
                                                     </p>
                                                     <p class="form-text text-center">
                                                         No compartimos tus datos con nadie más, lee nuestra <a href="">políticia de
@@ -92,12 +104,13 @@
 
 
                                     <!-- Register Modal -->
-                                    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Registrarse</h5>
-                                                    <button id="closeRegisterModalButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
+                                                    <button id="closeRegisterModalButton" type="button" class="btn-close h4" data-bs-dismiss="modal" aria-label="Close"><i
+                                                            class="fa-solid fa-circle-xmark"></i></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form id="registerForm">
@@ -108,21 +121,20 @@
 
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                                                            <label for="registerInputPassword1" class="form-label">Contraseña</label>
                                                             <input type="password" class="form-control" id="registerInputPassword1" placeholder="introduce tu contraseña">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
                                                             <input type="password" class="form-control" id="registerInputPassword2" placeholder="repite tu contraseña">
                                                         </div>
-                                                        <button type="submit" class="btn btn-primary d-block mx-auto">Registrarse</button>
+                                                        <button id="sendRegisterButton" type="submit" class="btn d-block mx-auto">Registrarse</button>
                                                         <p id="registerSucceedMessage" class="form-text text-center text-succeed"></p>
                                                         <p id="registerErrorMessage" class="form-text text-center text-danger"></p>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer justify-content-center">
                                                     <p class="form-text text-center"> ¿Ya tienes una cuenta?
-                                                        <a id="loginButtonLink" role="button">Inicia Sesión</a>
+                                                        <a id="loginButtonLink" class="text-decoration-underline text-primary" role="button">Inicia Sesión</a>
                                                     </p>
                                                     <p class="form-text text-center">
                                                         No compartimos tus datos con nadie más, lee nuestra <a href="">políticia de
@@ -140,18 +152,18 @@
                         </div>
 
                         <!-- logged user-widget -->
-                        <div class="logged-user-widget">
-                            <a href="../profile-page/profile.html" id="userAvatarButton" type="button" class="icon icon-sm rounded-circle border" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <div id="logged-user-widget" class="d-none">
+                            <a href="../profile-page/profile.html" id="userAvatarButton" type="button" class="icon icon-sm rounded-circle border">
                                 <i class="fa fa-user"></i>
                             </a>
                             <div class="text">
                                 <span class="text-muted">¡Hola!</span>
 
                                 <div class="dropdown">
-                                    <button class="dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="dropdown-toggle border-0" type="button" id="userDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                         placeholder@hotmail.com
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="userDropdownMenu">
+                                    <ul class="dropdown-menu" aria-labelledby="userDropdownMenuButton">
                                         <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../home-page/home.html"><i class="bi bi-shop me-2"></i>Tienda</a>
                                         </li>
                                         <li><a class="btn btn-outline-primary w-100 border-0 text-start" href="../profile-page/profile.html"><i class="bi bi-person me-2"></i> Mi
@@ -175,10 +187,10 @@
     </nav>
 
     <main>
-        <div class="container">
+        <div class="container py-5">
             <div class="row">
-                <aside class="col-lg-3 col-8 filter d-none d-lg-inline-block">
-                    <div id="filterSidebar" class="d-xl-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                <aside id="filterSidebar" class="col-lg-3 col-8 filter d-lg-inline-block">
+                    <div class="d-xl-flex d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                         <h1 class="text-center h5 text-muted mb-4">Filtros</h1>
                         <div class="list-group list-group-flush border-bottom scrollarea">
                             <div class="filterCard card mb-3">
@@ -269,11 +281,10 @@
                             </div>
                         </div>
                     </div>
-
                 </aside>
 
                 <section class="artworks-section col-lg-9 col-12">
-                    <header class="col-lg-9 col-12 border-bottom mb-4 p-2">
+                    <header class="col-12 border-bottom mb-4 p-2">
                         <!-- Searcher -->
                         <div class="searcher py-2">
                             <div class="input-group rounded">
@@ -287,6 +298,7 @@
                         <div class="d-flex align-items-center">
                             <span class="me-auto">32 Items found </span>
 
+                            <!-- Order by -->
                             <select class="me-2 form-control w-auto">
                                 <option>Antiguos primero</option>
                                 <option>Recientes primero</option>
@@ -294,8 +306,8 @@
                                 <option>Precio descendente</option>
                             </select>
 
-
-                            <div class="btn-group">
+                            <!-- Filter button -->
+                            <div class="btn-group d-lg-none">
                                 <button id="expandFilterButton" type="button" class="d-xl-none btn btn-outline-primary">
                                     <i class="bi bi-funnel-fill"></i>
                                     <p class=" d-inline-block m-0"> Filtrar</p>
@@ -304,7 +316,7 @@
                         </div>
                     </header>
                     <div class="artworks">
-                        <div class="card d-inline-flex p-2">
+                        <div id="artworkCard-Prototype" class="card d-inline-flex p-2 d-none">
 
                             <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
 
@@ -317,7 +329,7 @@
 
                                 <div class="artworkStockAndDate w-50">
                                     <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
+                                        <p> Fecha:<span class="date"> 23/02/2022 </span></p>
                                     </div>
                                     <div class="artworkStock">
                                         <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
@@ -341,198 +353,6 @@
 
                         </div>
 
-
-                        <div class="card d-inline-flex p-2">
-
-                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
-
-                            <div class="card-body artworkBody d-flex flex-wrap">
-
-                                <div class="artworkDimensions w-50">
-                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
-                                    <p>alto: <span class="dimensionY">25cm</span> </p>
-                                </div>
-
-                                <div class="artworkStockAndDate w-50">
-                                    <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
-                                    </div>
-                                    <div class="artworkStock">
-                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
-                                </div>
-
-                                <div class="artworkArtist">Nathalie Lynock</div>
-
-                                <button type="button" class="artworkCartButton">
-                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
-                                    <i class="bi bi-cart"></i>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="card d-inline-flex p-2">
-
-                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
-
-                            <div class="card-body artworkBody d-flex flex-wrap">
-
-                                <div class="artworkDimensions w-50">
-                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
-                                    <p>alto: <span class="dimensionY">25cm</span> </p>
-                                </div>
-
-                                <div class="artworkStockAndDate w-50">
-                                    <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
-                                    </div>
-                                    <div class="artworkStock">
-                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
-                                </div>
-
-                                <div class="artworkArtist">Nathalie Lynock</div>
-
-                                <button type="button" class="artworkCartButton">
-                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
-                                    <i class="bi bi-cart"></i>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="card d-inline-flex p-2">
-
-                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
-
-                            <div class="card-body artworkBody d-flex flex-wrap">
-
-                                <div class="artworkDimensions w-50">
-                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
-                                    <p>alto: <span class="dimensionY">25cm</span> </p>
-                                </div>
-
-                                <div class="artworkStockAndDate w-50">
-                                    <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
-                                    </div>
-                                    <div class="artworkStock">
-                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
-                                </div>
-
-                                <div class="artworkArtist">Nathalie Lynock</div>
-
-                                <button type="button" class="artworkCartButton">
-                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
-                                    <i class="bi bi-cart"></i>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="card d-inline-flex p-2">
-
-                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
-
-                            <div class="card-body artworkBody d-flex flex-wrap">
-
-                                <div class="artworkDimensions w-50">
-                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
-                                    <p>alto: <span class="dimensionY">25cm</span> </p>
-                                </div>
-
-                                <div class="artworkStockAndDate w-50">
-                                    <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
-                                    </div>
-                                    <div class="artworkStock">
-                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
-                                </div>
-
-                                <div class="artworkArtist">Nathalie Lynock</div>
-
-                                <button type="button" class="artworkCartButton">
-                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
-                                    <i class="bi bi-cart"></i>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card d-inline-flex p-2">
-
-                            <img src="https://dummyimage.com/127x100.png/ff4444/ffffff" class="artworkImage" alt="Cuadro no encontrado" width="60">
-
-                            <div class="card-body artworkBody d-flex flex-wrap">
-
-                                <div class="artworkDimensions w-50">
-                                    <p>ancho: <span class="dimensionX">60cm</span> </p>
-                                    <p>alto: <span class="dimensionY">25cm</span> </p>
-                                </div>
-
-                                <div class="artworkStockAndDate w-50">
-                                    <div class="artworkDate">
-                                        <p class="text-nowrap"> Fecha:<span class="date"> 23/02/2022 </span></p>
-                                    </div>
-                                    <div class="artworkStock">
-                                        <p>stock: <span class="availableStock">89</span> / <span class="createdQuantity">81</span></p>
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="artworkTitle w-100 text-center">3 Holiday Tails (Golden Christmas 2: The Second Tail, A)
-                                </div>
-
-                                <div class="artworkArtist">Nathalie Lynock</div>
-
-                                <button type="button" class="artworkCartButton">
-                                    <p class="d-inline-block m-0"> <span class="price">63.02</span>€</p>
-                                    <i class="bi bi-cart"></i>
-                                </button>
-
-                            </div>
-
-                        </div>
                     </div>
                     <nav class="mt-4 mx-auto" aria-label="Page navigation sample">
                         <ul class="pagination justify-content-center">
@@ -548,47 +368,53 @@
         </div>
     </main>
 
-    <footer class="row justify-content-end text-center mt-5 pt-5">
-        <!-- Copyright -->
-        <section class="col-12 col-md-4 order-md-2">
-            <p class="mb-0 mb-md-2">Desarrollado por</p>
-            <p>&#169; 2021 <b>Abigael Heredia Feliz</b> - Todos los derechos reservados</p>
-        </section>
+    <footer>
+        <div class="container">
 
-        <!-- Redes sociales -->
-        <section class="col-12 col-md-4 order-md-3 mb-4 mb-md-0 text-center">
-            <p class="h6">Redes sociales</p>
-            <ul class="my-social-items list-group list-unstyled inline-list list-group-horizontal justify-content-center">
-                <li>
-                    <a href="https://github.com/GaelCodes" target="_blank" rel="noopener noreferrer" aria-label="Link to my Github profile">
-                        <i class="bi bi-github"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/gael_codes/" target="_blank" rel="noopener noreferrer" aria-label="Link to my Instagram profile">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://twitter.com/gaelcodes" target="_blank" rel="noopener noreferrer" aria-label="Link to my Twitter profile">
-                        <i class="bi bi-twitter"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.linkedin.com/in/abigael-heredia/" target="_blank" rel="noopener noreferrer" aria-label="Link to my LinkedIn profile">
-                        <i class="bi bi-linkedin"></i>
-                    </a>
-                </li>
-            </ul>
-        </section>
+            <div class="row justify-content-end text-center py-5">
+                <!-- Copyright -->
+                <section class="col-12 col-md-4 order-md-2">
+                    <p class="mb-0 mb-md-2">Desarrollado por</p>
+                    <p>&#169; 2022 <b>Abigael Heredia Feliz</b> - Todos los derechos reservados</p>
+                </section>
 
-        <!-- Términos y licencias -->
-        <section class="my-politics col-12 col-md-4 d-flex flex-column mb-4">
-            <a href="licenses/privacidad.html" class="mb-4" target="_blank" rel="noopener noreferrer">Política de
-                privacidad</a>
-            <a href="licenses/licenses.html" target="_blank" rel="noopener noreferrer">Terminos y Licencias de
-                terceros</a>
-        </section>
+                <!-- Redes sociales -->
+                <section class="col-12 col-md-4 order-md-3 mb-4 mb-md-0 text-center">
+                    <p class="">Redes sociales</p>
+                    <ul class="my-social-items list-group list-unstyled inline-list list-group-horizontal justify-content-center">
+                        <li>
+                            <a href="https://github.com/GaelCodes" target="_blank" rel="noopener noreferrer" aria-label="Link to my Github profile">
+                                <i class="bi bi-github"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/gael_codes/" target="_blank" rel="noopener noreferrer" aria-label="Link to my Instagram profile">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/gaelcodes" target="_blank" rel="noopener noreferrer" aria-label="Link to my Twitter profile">
+                                <i class="bi bi-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/abigael-heredia/" target="_blank" rel="noopener noreferrer" aria-label="Link to my LinkedIn profile">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Términos y licencias -->
+                <section class="my-politics col-12 col-md-4 d-flex flex-column justify-content-around">
+                    <a href="licenses/privacidad.html" target="_blank" rel="noopener noreferrer">Política de
+                        privacidad</a>
+                    <a href="licenses/licenses.html" target="_blank" rel="noopener noreferrer">Terminos y Licencias de
+                        terceros</a>
+                </section>
+            </div>
+
+        </div>
     </footer>
 
 

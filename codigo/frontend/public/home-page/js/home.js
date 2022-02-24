@@ -7,8 +7,6 @@ import {
 
 $(document).ready(function() {
     // Inicializa prototipos
-    ArtworkView.init();
-    // Inicializa prototipos
     FilterView.init();
     // Solicita datos, presenta datos
     Catalogue.init();

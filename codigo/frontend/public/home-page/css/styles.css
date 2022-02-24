@@ -31,62 +31,21 @@ nav {
     border-bottom: 1px solid rgba(128, 128, 128, 0.432);
 }
 
-nav .logo-container {}
-
-.logo-container .logo {
-    width: 9em;
-    margin-right: auto;
-}
-
-nav .search-container {
-    padding: 1em 0;
-    margin: 0 auto;
-}
-
 nav .widgets-wrap {
     display: flex;
     flex-flow: column nowrap;
     padding: 1em 0;
 }
 
-.widgets-wrap button {
-    background: none;
-    color: gray;
-}
-
-.widgets-wrap button:hover {
-    color: #3167eb !important;
-}
-
-.widgets-wrap .shopping-cart-widget {
-    padding: 0.2em;
-    position: relative;
-    width: fit-content;
-}
-
-.shopping-cart-widget a {
-    color: gray;
-}
-
-.shopping-cart-widget a:hover {
-    color: #3167eb !important;
-}
-
-.shopping-cart-widget #shopping-cart-number {
-    position: absolute;
-    top: -3px;
-    right: -5px;
-}
-
 .widgets-wrap .user-widget {}
 
-.user-widget .logged-user-widget {
+.user-widget #notLogged-user-widget {
     padding: 0.2em;
     display: flex;
     flex-flow: row nowrap;
 }
 
-.logged-user-widget .sign-in-And-register-buttons {
+#notLogged-user-widget .sign-in-And-register-buttons {
     /* display: inline-block; */
     color: black;
 }
@@ -96,10 +55,30 @@ nav .widgets-wrap {
     border: 0;
 }
 
-.user-widget .notLogged-user-widget {
-    padding: 0.2em;
-    display: flex;
-    flex-flow: row nowrap;
+#notLogged-user-widget #loginModal {}
+
+#loginModal #sendLoginButton {
+    background: #015b9bb7;
+    color: white;
+    font-weight: bold;
+}
+
+#loginModal #sendLoginButton:hover {
+    background: #015b9b;
+    color: white !important;
+}
+
+#notLogged-user-widget #registerModal {}
+
+#registerModal #sendRegisterButton {
+    background: #015b9bb7;
+    color: white;
+    font-weight: bold;
+}
+
+#registerModal #sendRegisterButton:hover {
+    background: #015b9b;
+    color: white !important;
 }
 
 
@@ -109,10 +88,36 @@ nav .widgets-wrap {
 /* Inicio main */
 
 
+/* Inicio filter */
+
+#filterSidebar {
+    background-color: white;
+    display: none;
+    position: relative;
+    max-width: 80vw;
+    z-index: 10;
+}
+
+#filterSidebar .scrollarea {
+    overflow-y: auto;
+    max-height: 60vh !important;
+    padding-bottom: 5em;
+}
+
+#filterSidebar .filterCard {
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+
+/* Fin filter */
+
+
 /* Inicio artworkCard */
 
 .artworks-section .artworks {
     display: grid;
+    align-items: start;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     gap: 12px 12px;
@@ -121,10 +126,12 @@ nav .widgets-wrap {
 }
 
 .artworks .card {
+    height: fit-content;
     border: 1px solid rgba(128, 128, 128, 0.349);
 }
 
 .artworks .artworkImage {
+    margin-top: auto;
     width: 100%;
 }
 
@@ -142,6 +149,7 @@ nav .widgets-wrap {
 
 .artworks .artworkCartButton {
     width: 100%;
+    height: fit-content;
     white-space: nowrap;
     padding: 0.8em 0;
     margin-top: 0.8em;
@@ -160,34 +168,6 @@ nav .widgets-wrap {
 
 
 /* Inicio footer */
-
-footer {
-    background-color: rgba(0, 0, 0, 0.678);
-    padding: 2em 0px;
-    color: rgba(219, 219, 219, 0.932);
-}
-
-.my-social-items {
-    font-size: 34px;
-}
-
-.my-social-items li {
-    margin: 0px 10px;
-}
-
-.my-social-items a:visited {
-    color: #157ca1;
-}
-
-.my-social-items a:link {
-    color: #157ca1;
-}
-
-.my-politics a:visited,
-.my-politics a:link {
-    text-decoration: none;
-    color: white;
-}
 
 
 /* Fin footer */
@@ -266,6 +246,17 @@ footer {
     /* Inicio header */
     /* Fin header */
     /* Inicio body */
+    /* Inicio filter */
+    #filterSidebar {
+        position: sticky !important;
+        top: 0;
+        overflow-y: auto;
+        max-height: 90vh;
+    }
+    #filterSidebar .scrollarea {
+        max-height: none !important;
+    }
+    /* Fin filter */
     /* Inicio artworkCard */
     .artworks-section .artworks {
         display: grid;
