@@ -29,6 +29,8 @@
 
 nav {
     border-bottom: 1px solid rgba(128, 128, 128, 0.432);
+    -webkit-box-shadow: 0px 4px 12px 1px rgba(0, 0, 0, 0.41);
+    box-shadow: 0px 4px 12px 1px rgba(0, 0, 0, 0.41);
 }
 
 nav .logo-container {}
