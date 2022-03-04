@@ -19,29 +19,32 @@ El producto que se venderá en el ecommerce serán obras creadas por ilustres ar
 
 ### <p align="center"> Técnica de Análisis 2 - Brainstorming </p>
 
-En una sesión con todos los integrantes del equipo de desarrollo se realizó una tormenta de ideas para determinar las características del proyecto:
-Aquí se abarcaron 2 puntos; los requisitos que la solución debe cumplir y las soluciones propuestas por los desarrolladores para cubrir cada requisito.
+En una sesión con todos los integrantes del equipo de desarrollo se realizó una tormenta de ideas para determinar las características del proyecto.
+Cada punto de la sesión se divide en 2 partes, los requisitos que la solución debe cumplir y las soluciones propuestas por los desarrolladores para cubrir cada requisito.
 
 - Debe funcionar sobre protocolos seguros:
   - soluciones propuestas
 
-    - Developer1: "Desarrollemoslo en firebase, provee certificados https automáticos, gratuitos y con implementación automática."
+    - Developer1: " Desarrollemoslo en firebase, provee certificados https automáticos, gratuitos y con implementación automática. "
 
-    - DeveloperX: "Firebase no cuenta con BBDDs relacionales, tampoco hay nadie en el equipo que domine node para el backend, si usamos 
-    firebase para el frontend y desplegamos el backend en otro servidor/alojamiento que ejecute PHP y además tenga BBDDs relacionales podremos cubrir todos los requisitos aplicandole HTTPS tanto a las comunicaciones del frontend con el backend como a la interacción de los usuarios con el frontend"
+    - DeveloperX: " Firebase no cuenta con BBDDs relacionales, tampoco hay nadie en el equipo que domine node para el backend, si usamos 
+    firebase para el frontend y desplegamos el backend en otro servidor/alojamiento que ejecute PHP y además tenga BBDDs relacionales podremos cubrir todos los requisitos aplicandole HTTPS tanto a las comunicaciones del frontend con el backend como a la interacción de los usuarios con el frontend. "
 
 - Debe tener autenticación de usuarios:
   - soluciones propuestas
     
-    - Developer1: "TODO"
+    - Developer1: " Podríamos usar el típico control de usuarios mediante sesiones, formularios de login y validación de los datos introducidos por los usuarios. "
 
-    - DeveloperX: "TODO"
+    - Developer2: " Habría que tener en cuenta que gestionar el estado de un usuario usando sesiones supondría una carga extra para el servidor, por mínima que fuera. Desde mi punto de vista, podríamos dar un mejor uso a los recursos del servidor de backend si dejamos que sea el frontend que almacene toda la información posible. De tal forma, la concurrencia masiva de usuarios no amenazaría nuestra alta disponibilidad. Por lo tanto, propongo que optemos por un método de autenticación basado en tokens o cookies, concretamente JWT (Json Web Token). "
+
+    - Developer1: " Tienes razón es un planteamiento mucho mejor, hagamoslo así. "
 
 - Debe tener un rendimiento óptimo:
   - soluciones propuestas
 
-    - Developer1: "TODO"
-    - DeveloperX: "TODO"
+    - Developer1: " Siguiendo por este punto, sería considerable plantearse un sistema con una arquitectura basada en el modelo API REST para las comunicaciones cliente-servidor. Esto nos permitiría cubrir aspectos importantes en el producto como pueden ser; la escalabilidad, la independencia en el proceso de desarrollo, independencia en las tecnologías de backend y frontend además de que supondría una mejora en el rendimiento general de la aplicación, puesto que en cada petición no se transmiten más datos de los necesarios (uso optimizado del ancho de bando). "
+
+    - Developer3: " Yo lo veo. "
 
 
 Tras la aplicación de las sucesivas técnicas de análisis se han concretado los requisitos funcionales y no funcionales del software.
@@ -53,49 +56,24 @@ Estos vienen adecuadamente recogidos en el Documento de Especificación de Requi
 
 
 ### <p align="left"> Diseño de la topología de Red del sistema </p>
-```json
-   "TODO": "Crear esquema de la topología de red del sistema"
-```
-Para realizar el diseño de la topología de Red del sistema se ha tenido en cuenta los datos recopilados durante el análisis. Esto ha resultado en el [Esquema Topológico de la red del Sistema.pdf]()
-
-
+Para realizar el diseño de la topología de Red del sistema se ha tenido en cuenta los datos recopilados durante el análisis. Esto ha resultado en el [Diagrama de Esquema de red.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\Diagrama%20de%20esquema%20de%20red.pdf)
 
 
 ### <p align="left"> Diseño de la BBDD </p>
-Para realizar el diseño de la BBDD se ha tenido en cuenta los datos recopilados durante el análisis. Esto ha resultado en el [Diagrama entidad-relación.pdf]() y en su respectivo [Modelo relacional.pdf]().
-
-
-
-
+Para realizar el diseño de la BBDD se ha tenido en cuenta los datos recopilados durante el análisis. Esto ha resultado en el [Diagrama entidad-relación.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20entidad-realación.pdf) y en su respectivo [Diagrama del Modelo relacional.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20modelo%20relacional.pdf).
 
 
 ### <p align="left"> Diseño del código Backend </p>
-Para realizar el diseño del código del Backend se ha tenido en cuenta los datos recopilados durante el análisis y los [diagramas de secuencia]() proporcionados por los ingenieros. Esto ha resultado en el [Diagrama de clases del backend.pdf]()
-
-
-
+Para realizar el diseño del código del Backend se ha tenido en cuenta los datos recopilados durante el análisis y el [Diagrama de secuencia - proceso de compra.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20secuencia%20-%20proceso%20de%20compra.pdf) proporcionados por los ingenieros. Esto ha resultado en el [Diagrama de clases del backend.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20clases%20del%20backend.pdf).
 
 
 ### <p align="left"> Diseño del código Frontend </p>
-Para realizar el diseño del código del Frontend se ha tenido en cuenta los datos recopilados durante el análisis y los [diagramas de casos de uso]() proporcionados por los ingenieros. Esto ha resultado en el [Diagrama de clases del frontend.pdf](), en el cual se implementa el patrón de diseño X(eg. MVC) en el componente YYYY(eg. chat).
+Para realizar el diseño del código del Frontend se ha tenido en cuenta los datos recopilados durante el análisis y los diagramas de casos de uso; [Diagramas de casos de uso - usuarios autentificados.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20casos%20de%20uso%20-%20usuarios%20autentificados.pdf) y [Diagramas de casos de uso - usuarios no autentificados.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20casos%20de%20uso%20-%20usuarios%20no%20autentificados.pdf) proporcionados por los ingenieros. También se ha adjuntado un [Diagrama de flujo - Carga de Páginas.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\Diagrama%20de%20flujo%20-%20Carga%20de%20Páginas.pdf) que describe el proceso que cargan todas las páginas cada vez que un usuario las solicita, en él se describen los pasos que optimizan la carga de la UI y la comprobación de autorización de un usuario para navegar a través de las distintas partes de la aplicación. Esto ha resultado en el [Diagrama de clases del frontend.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20clases%20del%20frontend.pdf), en el cual se implementa el patrón de diseño MVC en varios componentes, como pueden ser las Artworks o los ShoppingCartItems.
 
 
 #### <p align="left"> Diseño UI </p>
-```json
-   "TODO": "Adjuntar UI que se han tenido como ejemplo"
-```
-Para el desarrollo de la UI se han tenido en cuento los [diseños proporcionados por el diseñador.](https://genuine-lamps.com/es/android/1254-the-8-best-texting-apps-for-android.html)
 
-<div align="center">
-    <img align="center" src="https://user-images.githubusercontent.com/59183512/144725133-8de7a385-947a-461f-ab3e-17b8f08d39f3.png" width="250">
-    <img align="center" src="https://user-images.githubusercontent.com/59183512/144725133-8de7a385-947a-461f-ab3e-17b8f08d39f3.png" width="250">
-    <img align="center" src="https://user-images.githubusercontent.com/59183512/144725133-8de7a385-947a-461f-ab3e-17b8f08d39f3.png" width="250">
-    <img align="center" src="https://user-images.githubusercontent.com/59183512/144725133-8de7a385-947a-461f-ab3e-17b8f08d39f3.png" width="250">
-</div>
-
-<p align="center">Diseños UI</p>
-
-
+Para el desarrollo de la UI se han tenido en cuenta los [diseños proporcionados por el diseñador](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diseño%20UI). También se han obtenido diseños sencillos de las facturas de los pedidos ubicadas en el mismo directorio.
 
 ## <p align="center"> Código </p>
 
@@ -115,6 +93,16 @@ La documentación de este proyecto tiene la siguiente estructura:
             - [ERS.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20análisis\ERS.pdf)
         - [documentación del diseño](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño)
 
+          - [Diagrama de casos de uso - usuarios autentificados.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20casos%20de%20uso%20-%20usuarios%20autentificados.pdf)
+          - [Diagrama de casos de uso - usuarios no autentificados.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20casos%20de%20uso%20-%20usuarios%20no%20autentificados.pdf)
+          - [Diagrama de clases del backend.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20clases%20del%20backend.pdf)
+          - [Diagrama de clases del frontend.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20clases%20del%20frontend.pdf)
+          - [Diagrama de Esquema de red.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\Diagrama%20de%20esquema%20de%20red.pdf)
+          - [Diagrama de flujo - Carga de Páginas.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\Diagrama%20de%20flujo%20-%20Carga%20de%20Páginas.pdf)
+          - [Diagrama de secuencia - proceso de compra.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20secuencia%20-%20proceso%20de%20compra.pdf)
+          - [Diagrama entidad-relación.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20de%20entidad-realación.pdf)
+          - [Diagrama del Modelo relacional.pdf](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20diseño\diagrama%20modelo%20relacional.pdf)
+          
         - [documentación del código](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20del%20código)
         
         - [documentación de las pruebas](documentación\documentación%20del%20producto\documentación%20del%20sistema\documentación%20de%20las%20pruebas)
