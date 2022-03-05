@@ -399,6 +399,22 @@ export class UserController {
     static validateProfileForm(profileData) {
         return true;
     }
+
+    static showAlertMessage(message, alertType) {
+        $("#alertsContainer").addClass(alertType);
+        $("#alertsContainer").text(message);
+
+        $("#alertsContainer").show(250, () => {
+            setTimeout(
+                () => {
+                    $("#alertsContainer").hide(250);
+                },
+                1000
+            );
+        });
+
+
+    }
 }
 
 export class Guard {
@@ -448,6 +464,8 @@ export class Guard {
 
 
                 if (verifyResult.status === "correct") {
+                    Guard.userStatus = "logged";
+
                     // JWT valid
 
                     // Set localStorage userData
@@ -494,6 +512,8 @@ export class Guard {
                 // Autorization not requeired
 
                 if (verifyResult.status === "correct") {
+                    Guard.userStatus = "logged";
+
                     // JWT valid
 
                     // Save localStorage userData
@@ -546,6 +566,7 @@ export class Guard {
             }
 
         } else {
+            Guard.userStatus = "notLogged";
             // localStorage DON'T HAVE userData
 
             // Need autorization?
@@ -762,40 +783,53 @@ export class ArtworkController {
     }
 
     addToShoppingCart() {
-        let shoppingCartStorage = localStorage.getItem("shoppingCart");
-        shoppingCartStorage =
-            shoppingCartStorage === null ? [] : JSON.parse(shoppingCartStorage);
-
-        // shoppingCartStorage is an array with data like this =
-        //
-        // [
-        //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
-        //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
-        // ];
-
-        // Comprobar si ya estaba añadida
-        let artworkIndex = shoppingCartStorage.findIndex((selectedArtwork) => {
-
-            return (
-                selectedArtwork.title == this.artwork.title &&
-                selectedArtwork.artistEmail == this.artwork.artist.artist_email
-            );
-        });
 
         // Si todavía no esta en el carrito se añadirá
-        if (artworkIndex === -1) {
+        if (Guard.userStatus === "logged") {
 
-            shoppingCartStorage.push({
-                artistEmail: this.artwork.artist.artist_email,
-                title: this.artwork.title,
-                units: 1,
+            console.log("Fin añadido articulo al carrito");
+            let shoppingCartStorage = localStorage.getItem("shoppingCart");
+            shoppingCartStorage =
+                shoppingCartStorage === null ? [] : JSON.parse(shoppingCartStorage);
+
+            // shoppingCartStorage is an array with data like this =
+            //
+            // [
+            //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
+            //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
+            // ];
+
+            // Comprobar si ya estaba añadida
+            let artworkIndex = shoppingCartStorage.findIndex((selectedArtwork) => {
+
+                return (
+                    selectedArtwork.title == this.artwork.title &&
+                    selectedArtwork.artistEmail == this.artwork.artist.artist_email
+                );
             });
 
-            localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
 
-            // Update number of items in shoppingCartBadge
+            if (artworkIndex === -1) {
 
-            ShoppingCartController.updateShoppingCartBadgeNumber();
+                shoppingCartStorage.push({
+                    artistEmail: this.artwork.artist.artist_email,
+                    title: this.artwork.title,
+                    units: 1,
+                });
+
+                localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
+
+
+                // Update number of items in shoppingCartBadge
+                ShoppingCartController.updateShoppingCartBadgeNumber();
+            }
+
+
+
+            UserController.showAlertMessage('Artículo añadido al carrito', 'alert-success');
+
+        } else if (Guard.userStatus === "notLogged") {
+            $("#loginButton").click();
         }
     }
 }
