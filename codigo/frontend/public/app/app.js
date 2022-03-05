@@ -280,6 +280,9 @@ export class UserController {
         // Mostrar boton user email dropdown
         $("#logged-user-widget").removeClass("d-none");
 
+        // Establecer el número de articles en el carrito
+        ShoppingCartController.updateShoppingCartBadgeNumber();
+
         // EventListener Send logout request
         $("#logoutButton").click(() => {
             UserController.sendLogout();
@@ -759,13 +762,7 @@ export class ArtworkController {
     }
 
     addToShoppingCart() {
-        // TODO: ¿Seria más conveniente usar cookies o localstorage?
-        // Creo que sería mejor usar localStorage, más capacidad, y no se envían con cada petición
-
-        // Convertir la cookie actual a objeto
-
         let shoppingCartStorage = localStorage.getItem("shoppingCart");
-        console.log("Carrito sin iniciar:", shoppingCartStorage);
         shoppingCartStorage =
             shoppingCartStorage === null ? [] : JSON.parse(shoppingCartStorage);
 
@@ -778,13 +775,16 @@ export class ArtworkController {
 
         // Comprobar si ya estaba añadida
         let artworkIndex = shoppingCartStorage.findIndex((selectedArtwork) => {
+
             return (
                 selectedArtwork.title == this.artwork.title &&
-                selectedArtwork.artistEmail == this.artwork.artistEmail
+                selectedArtwork.artistEmail == this.artwork.artist.artist_email
             );
         });
 
+        // Si todavía no esta en el carrito se añadirá
         if (artworkIndex === -1) {
+
             shoppingCartStorage.push({
                 artistEmail: this.artwork.artist.artist_email,
                 title: this.artwork.title,
@@ -792,6 +792,10 @@ export class ArtworkController {
             });
 
             localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
+
+            // Update number of items in shoppingCartBadge
+
+            ShoppingCartController.updateShoppingCartBadgeNumber();
         }
     }
 }
@@ -898,7 +902,7 @@ export class ShoppingCart {
 
             shoppingCartStorage = JSON.parse(shoppingCartStorage);
 
-            // ShoppingCartCookie is an array with data like this =
+            // shoppingCartStorage is an array with data like this =
             //
             // [
             //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
@@ -1041,6 +1045,27 @@ export class ShoppingCartController {
             return result;
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    static updateShoppingCartBadgeNumber() {
+        let shoppingCartStorage = localStorage.getItem("shoppingCart");
+        if (shoppingCartStorage) {
+
+            shoppingCartStorage = JSON.parse(shoppingCartStorage);
+
+            // shoppingCartStorage is an array with data like this =
+            //
+            // [
+            //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+            //     { artist_email: "hola@asds.com", title: "Hola mundo", units: 21 },
+            // ];
+
+            // Establecer la cantidad de articles en el badge
+            let articlesQuantity = shoppingCartStorage.length;
+            $('#shopping-cart-number').text(articlesQuantity);
+
+
         }
     }
 }
@@ -1189,7 +1214,7 @@ export class ShoppingCartItemController {
         let shoppingCartStorage = localStorage.getItem("shoppingCart");
         shoppingCartStorage = JSON.parse(shoppingCartStorage);
 
-        // ShoppingCartCookie is an array with data like this =
+        // shoppingCartStorage is an array with data like this =
         //
         // [
         //     { artistEmail: "hola@asds.com", title: "Hola mundo", units: 21 },
@@ -1207,6 +1232,10 @@ export class ShoppingCartItemController {
         shoppingCartStorage.splice(artworkIndex, 1);
         localStorage.setItem("shoppingCart", JSON.stringify(shoppingCartStorage));
 
+        // Update number of items in shoppingCartBadge
+        ShoppingCartController.updateShoppingCartBadgeNumber();
+
+        // Trying to manage memory
         delete this.shoppingCartItem;
         this.shoppingCartItemView.card.remove();
         delete this;
