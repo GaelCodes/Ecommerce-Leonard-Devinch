@@ -13,7 +13,7 @@
 
     <header>
         <div class="entreprise-info">
-            <img class="logo" src="logo.png" alt="Imagen logo not found" srcset="">
+            <img class="logo" src="ecommerce-leonard-devinch-Logo.png" alt="Imagen logo not found" srcset="">
             <p class="entreprise-name">Ecommerce Leonard Devinch</p>
             <p class="entreprise-location">Carrretera Inventada 38 </p>
             <p class="entreprise-postal-code">55641 Pronvicia, Y Ciudad Inventada</p>
