@@ -9,5 +9,5 @@
 // Enviroment variables
 
 require_once('vendor/autoload.php');
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/../private/");
 $dotenv->load();
