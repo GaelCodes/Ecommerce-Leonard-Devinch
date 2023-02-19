@@ -7,5 +7,5 @@
 require_once "vendor/autoload.php";
 
 // Initialize enviroment variables
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable("./../../../private/",".env.payments");
 $dotenv->load();

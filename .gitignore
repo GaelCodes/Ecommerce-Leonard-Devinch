@@ -64,8 +64,13 @@ node_modules/
 
 # dotenv environment variables file
 .env
+.env.payments
 vendor
 codigo/backend/public/stripe-webhooks/webhooks-utilities/tmp-files/order-generator
-private
 codigo/backend/.vscode/settings.json
 .vscode/settings.json
+codigo/backend/private/ecommerce-leonard-devinch-8381bafb3053.json
+codigo/backend/private/server.crt
+codigo/backend/private/server.key
+codigo/frontend/private/server.crt
+codigo/frontend/private/server.key
