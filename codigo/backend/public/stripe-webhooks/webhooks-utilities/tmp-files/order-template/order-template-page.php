@@ -88,7 +88,8 @@
               $price_by_unit = number_format(
                 $purchased_artwork->get_price_by_unit(),
                 2,
-                ","
+                ",",
+                "."
               );
               $units = $purchased_artwork->get_units();
 
@@ -96,7 +97,7 @@
                 $purchased_artwork->get_units() *
                 $purchased_artwork->get_price_by_unit();
 
-              $total_by_artwork = number_format($total_by_artwork, 2, ",");
+              $total_by_artwork = number_format($total_by_artwork, 2, ",", ".");
 
               echo "           
             <tr>
@@ -127,7 +128,8 @@
                                 <td><?php echo number_format(
                                   $order->get_total_charge(),
                                   2,
-                                  ","
+                                  ",",
+                                  "."
                                 ) . " €"; ?></td>
                             </tr>
                             <tr>
@@ -139,7 +141,8 @@
                                 <td><?php echo number_format(
                                   $order->get_total_charge(),
                                   2,
-                                  ","
+                                  ",",
+                                  "."
                                 ) . " €"; ?></td>
                             </tr>
 
